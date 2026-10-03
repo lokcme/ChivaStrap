@@ -1,0 +1,30 @@
+﻿<Project>
+
+	<PropertyGroup Condition="'$(MSBuildRuntimeType)' == 'Full'">
+		<AlwaysCompileMarkupFilesInSeparateDomain>true</AlwaysCompileMarkupFilesInSeparateDomain>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(EnableDefaultItems)' != 'false'">
+		<Compile Remove="obj/**/*AssemblyInfo.cs" />
+		<Compile Remove="obj/**/*AssemblyAttributes.cs" />
+		<Compile Remove="obj-*/**/*AssemblyInfo.cs" />
+		<Compile Remove="obj-*/**/*AssemblyAttributes.cs" />
+	</ItemGroup>
+
+	<PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux')) And '$(ChivasLinuxPackagingRoot)' != ''">
+		<ProGpuWpfEnableWin32CompatShim>false</ProGpuWpfEnableWin32CompatShim>
+	</PropertyGroup>
+
+	<Target Name="BuildLinuxWin32Compatibility" BeforeTargets="CoreCompile" Condition="$(RuntimeIdentifier.StartsWith('linux')) And $([MSBuild]::IsOSPlatform('Linux')) And '$(ProGpuWpfUsePortableFrameworkReferences)' == 'true' And Exists('$(_ProGpuWpfWin32CompatSource)')">
+		<PropertyGroup>
+			<_ChivasWin32CompatDirectory>$(BaseIntermediateOutputPath)win32compat/$(RuntimeIdentifier)/</_ChivasWin32CompatDirectory>
+			<_ChivasWin32CompatLibrary>$(_ChivasWin32CompatDirectory)libwin32compat.so</_ChivasWin32CompatLibrary>
+		</PropertyGroup>
+		<Exec Command="bash &quot;$(MSBuildThisFileDirectory)build/Packaging/Linux/build-native-compat.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(_ChivasWin32CompatLibrary)&quot; &quot;$(_ProGpuWpfWin32CompatSource)&quot;" />
+		<ItemGroup>
+			<_ChivasWin32CompatAlias Include="kernel32.dll.so;libkernel32.dll.so;user32.dll.so;libuser32.dll.so;gdi32.dll.so;libgdi32.dll.so;dwmapi.dll.so;libdwmapi.dll.so;uxtheme.dll.so;libuxtheme.dll.so;shell32.dll.so;libshell32.dll.so;gdiplus.dll.so;libgdiplus.dll.so;comdlg32.dll.so;libcomdlg32.dll.so" />
+		</ItemGroup>
+		<Copy SourceFiles="@(_ChivasWin32CompatAlias->'$(_ChivasWin32CompatLibrary)')" DestinationFiles="@(_ChivasWin32CompatAlias->'$(TargetDir)%(Identity)')" SkipUnchangedFiles="true" />
+	</Target>
+
+</Project>

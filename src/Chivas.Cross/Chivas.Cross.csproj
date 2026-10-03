@@ -1,0 +1,324 @@
+﻿<Project Sdk="LibreWPF.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<OutputType>WinExe</OutputType>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<PublishTrimmed>false</PublishTrimmed>
+		<SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
+		<BaseOutputPath Condition="'$(RuntimeIdentifier)' != '' And '$(ChivasLinuxPackagingRoot)' == ''">bin-$(RuntimeIdentifier)\</BaseOutputPath>
+		<AssemblyName>Chivas</AssemblyName>
+		<RootNamespace>Chivas</RootNamespace>
+		<EnableDefaultItems>false</EnableDefaultItems>
+		<DefineConstants>$(DefineConstants);CROSSPLAT</DefineConstants>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<ProGpuWpfUsePortableFrameworkReferences>true</ProGpuWpfUsePortableFrameworkReferences>
+		<ProGpuWpfSystemSecurityCryptographyXmlVersion>10.0.11</ProGpuWpfSystemSecurityCryptographyXmlVersion>
+		<ProGpuWpfUsePortableWinFormsCompat>false</ProGpuWpfUsePortableWinFormsCompat>
+		<ProGpuWpfUseLibreWinForms>false</ProGpuWpfUseLibreWinForms>
+		<NoWarn>$(NoWarn);CS8305</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<PublishSingleFile>true</PublishSingleFile>
+		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+		<EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+		<PublishReadyToRun Condition="'$(PublishReadyToRun)' == ''">true</PublishReadyToRun>
+		<TieredPGO>false</TieredPGO>
+		<LinuxProGpuWpfAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\ProGPU.Wpf.dll</LinuxProGpuWpfAssembly>
+		<LinuxPresentationCoreAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\PresentationCore.dll</LinuxPresentationCoreAssembly>
+		<LinuxPresentationFrameworkAssembly>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\PresentationFramework.dll</LinuxPresentationFrameworkAssembly>
+		<LinuxWgpuLibrary>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libwgpu_native.so</LinuxWgpuLibrary>
+		<LinuxGlfwLibrary>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libglfw.so.3</LinuxGlfwLibrary>
+	</PropertyGroup>
+
+	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) And Exists('$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libwgpu_native_gl.so')">
+		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\$(RuntimeIdentifier)\libwgpu_native_gl.so">
+			<Link>libwgpu_native_gl.so</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
+
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<LinuxEditorCompatLibrary>$(MSBuildProjectDirectory)\..\..\external\LibreWPF\libchivaseditorcompat.so</LinuxEditorCompatLibrary>
+		<LinuxEditorCompatLibrary Condition="$(RuntimeIdentifier.EndsWith('-arm64'))">$(MSBuildProjectDirectory)\..\..\external\LibreWPF\linux-arm64\libchivaseditorcompat.so</LinuxEditorCompatLibrary>
+		<LinuxEditorCompatLibrary Condition="$([MSBuild]::IsOSPlatform('Linux'))">$(BaseIntermediateOutputPath)editorcompat/$(RuntimeIdentifier)/libchivaseditorcompat.so</LinuxEditorCompatLibrary>
+	</PropertyGroup>
+
+	<Target Name="BuildLinuxEditorCompat" BeforeTargets="PrepareForBuild" Condition="$(RuntimeIdentifier.StartsWith('linux')) And $([MSBuild]::IsOSPlatform('Linux'))" Inputs="$(MSBuildProjectDirectory)/../../build/Packaging/Linux/editor-compat.c;$(MSBuildProjectDirectory)/../../build/Packaging/Linux/build-native-compat.sh" Outputs="$(LinuxEditorCompatLibrary)">
+		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/Linux/build-native-compat.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(LinuxEditorCompatLibrary)&quot;" />
+	</Target>
+
+	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\GLFW-LICENSE.txt" Condition="Exists('$(LinuxGlfwLibrary)')">
+			<Link>GLFW-LICENSE.txt</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+		<None Include="$(LinuxEditorCompatLibrary)">
+			<Link>libchivaseditorcompat.so</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\System.Windows.Forms.dll">
+			<Link>System.Windows.Forms.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
+
+	<Target Name="BundleManagedTransportAssets" BeforeTargets="_ComputeFilesToBundle" DependsOnTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="'$(PublishSingleFile)' == 'true'" />
+
+	<ItemGroup>
+		<TrimmerRootAssembly Include="Chivas" />
+		<TrimmerRootAssembly Include="PresentationFramework" />
+		<TrimmerRootAssembly Include="PresentationCore" />
+		<TrimmerRootAssembly Include="PresentationUI" />
+		<TrimmerRootAssembly Include="WindowsBase" />
+		<TrimmerRootAssembly Include="System.Xaml" />
+		<TrimmerRootAssembly Include="UIAutomationProvider" />
+		<TrimmerRootAssembly Include="UIAutomationTypes" />
+		<TrimmerRootAssembly Include="Wpf.Ui" />
+		<TrimmerRootAssembly Include="Newtonsoft.Json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="*.cs" />
+		<Compile Visible="false" Include="..\Chivas.App\**\*.cs" Exclude="..\Chivas.App\obj\**;..\Chivas.App\obj-*\**;..\Chivas.App\bin\**;..\Chivas.App\bin-*\**;..\Chivas.App\UI\Elements\RobloxWeb\**;..\Chivas.App\UI\Elements\Controls\InlineVideoPlayer.xaml.cs;..\Chivas.App\UI\Elements\Bootstrapper\ProgressDialog*.cs;..\Chivas.App\UI\Elements\Bootstrapper\LegacyDialog*.cs;..\Chivas.App\UI\Elements\Bootstrapper\VistaDialog*.cs;..\Chivas.App\UI\Elements\Bootstrapper\Base\WinFormsDialogBase.cs;..\Chivas.App\Integrations\RiShade\RiShadeWgc.cs;..\Chivas.App\Integrations\RiShade\RiShadeWinRtStubs*.cs" />
+		<Page Visible="false" Include="..\Chivas.App\**\*.xaml" Exclude="..\Chivas.App\obj\**;..\Chivas.App\obj-*\**;..\Chivas.App\bin\**;..\Chivas.App\bin-*\**;..\Chivas.App\App.xaml;..\Chivas.App\UI\Elements\RobloxWeb\**;..\Chivas.App\UI\Elements\Controls\InlineVideoPlayer.xaml;..\Chivas.App\UI\Elements\About\MainWindow.xaml;..\Chivas.App\UI\Elements\Installer\MainWindow.xaml" />
+		<Page Remove="..\Chivas.App\UI\Elements\Installer\Pages\ChannelPage.xaml" />
+		<Page Include="Xaml\AboutMainWindow.xaml" />
+		<Page Include="Xaml\InstallerMainWindow.xaml" Condition="!$(RuntimeIdentifier.StartsWith('linux'))" />
+		<Page Include="Xaml\InstallerMainWindow.Linux.xaml" Condition="$(RuntimeIdentifier.StartsWith('linux'))" />
+		<Page Include="Xaml\InstallerChannelPage.xaml" Condition="!$(RuntimeIdentifier.StartsWith('linux'))" />
+		<Page Include="Xaml\InstallerChannelPage.Linux.xaml" Condition="$(RuntimeIdentifier.StartsWith('linux'))" />
+		<ApplicationDefinition Visible="false" Include="..\Chivas.App\App.xaml">
+			<Link>App.xaml</Link>
+		</ApplicationDefinition>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Visible="false" Include="..\Chivas.App\Resources\**\*" Exclude="..\Chivas.App\Resources\**\*.cs;..\Chivas.App\Resources\**\*.ico;..\Chivas.App\Resources\**\*.jpg;..\Chivas.App\Resources\**\*.png;..\Chivas.App\Resources\Fonts\Montserrat-*.ttf;..\Chivas.App\Resources\Fonts\NotoSansThai-*.ttf;..\Chivas.App\Resources\Fonts\Rubik-*.ttf">
+			<Link>Resources\%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</EmbeddedResource>
+		<EmbeddedResource Visible="false" Include="..\Chivas.App\Resources\Mods\Cursor\**\*.png">
+			<Link>Resources\Mods\Cursor\%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</EmbeddedResource>
+		<EmbeddedResource Visible="false" Include="..\Chivas.App\Properties\*.resx">
+			<Link>Properties\%(Filename)%(Extension)</Link>
+		</EmbeddedResource>
+		<EmbeddedResource Visible="false" Include="..\Chivas.App\UI\Style\*.xshd">
+			<Link>UI\Style\%(Filename)%(Extension)</Link>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Visible="false" Include="..\Chivas.App\Chivas.ico">
+			<Link>Chivas.ico</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Chivas.App\Chivas.png">
+			<Link>Chivas.png</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Chivas.App\Resources\RobloxVngIcon.png">
+			<Link>Resources\RobloxVngIcon.png</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Chivas.App\Resources\Checkmark.ico;..\Chivas.App\Resources\CrossMark.ico;..\Chivas.App\Resources\Icon2008.ico;..\Chivas.App\Resources\Icon2011.ico;..\Chivas.App\Resources\Icon2017.ico;..\Chivas.App\Resources\Icon2019.ico;..\Chivas.App\Resources\Icon2022.ico;..\Chivas.App\Resources\IconEarly2015.ico;..\Chivas.App\Resources\IconLate2015.ico;..\Chivas.App\Resources\IconChivas.ico;..\Chivas.App\Resources\Erik.png;..\Chivas.App\Resources\RobloxFace.png;..\Chivas.App\Resources\RobloxPlayerIcon.png;..\Chivas.App\Resources\RobloxStudioIcon.png;..\Chivas.App\Resources\SoberIcon.png;..\Chivas.App\Resources\VinegarIcon.png">
+			<Link>Resources\%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Chivas.App\Resources\BootstrapperStyles\ByfronDialog\ByfronLogoDark.jpg;..\Chivas.App\Resources\BootstrapperStyles\ByfronDialog\ByfronLogoLight.jpg;..\Chivas.App\Resources\BootstrapperStyles\ByfronDialog\Matt.png">
+			<Link>Resources\BootstrapperStyles\ByfronDialog\%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Chivas.App\Resources\CommunityMods\*.png">
+			<Link>Resources\CommunityMods\%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Chivas.App\Resources\Fonts\NotoSansThai-VariableFont_wdth,wght.ttf;..\Chivas.App\Resources\Fonts\Rubik-VariableFont_wght.ttf">
+			<Link>Resources\Fonts\%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\..\external\wpfui\src\Wpf.Ui\Fonts\Source\FluentSystemIcons-Regular.ttf">
+			<Link>Resources\Fonts\SymbolIcons\FluentSystemIcons-Regular.ttf</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Chivas.App\Resources\MessageBox\Error.png;..\Chivas.App\Resources\MessageBox\Information.png;..\Chivas.App\Resources\MessageBox\Question.png;..\Chivas.App\Resources\MessageBox\Warning.png">
+			<Link>Resources\MessageBox\%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Chivas.App\Resources\Flags\*.png">
+			<Link>Resources\Flags\%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Chivas.App\Resources\Mods\Cursor\**\*.png">
+			<Link>Resources\Mods\Cursor\%(RecursiveDir)%(Filename)%(Extension)</Link>
+		</Resource>
+		<Resource Visible="false" Include="..\Chivas.App\Resources\AppImages\*.png">
+			<Link>Resources\AppImages\%(Filename)%(Extension)</Link>
+		</Resource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<RuntimeHostConfigurationOption Include="System.Globalization.AppLocalIcu" Value="72.1.0.3" Condition="'$(RuntimeIdentifier)' == 'linux-x64' Or '$(RuntimeIdentifier)' == 'linux-arm64'" />
+		<RuntimeHostConfigurationOption Include="Switch.System.Windows.Controls.Text.UseAdornerForTextboxSelectionRendering" Value="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+		<PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
+		<PackageReference Include="Markdig" Version="1.4.0" />
+		<PackageReference Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" Condition="'$(RuntimeIdentifier)' == 'linux-x64' Or '$(RuntimeIdentifier)' == 'linux-arm64'" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.12" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.12" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.12" />
+		<PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.30.0" />
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.335">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="NAudio" Version="3.1.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+		<PackageReference Include="Nefarius.ViGEm.Client" Version="1.21.256" />
+		<PackageReference Include="Concentus.Oggfile" Version="1.0.7" />
+		<PackageReference Include="NVorbis" Version="0.10.5" />
+		<PackageReference Include="OggVorbisEncoder" Version="1.2.2" />
+		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
+		<PackageReference Include="SharpZipLib" Version="1.4.2" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+		<PackageReference Include="System.Drawing.Common" Version="10.0.12" />
+		<PackageReference Include="System.Management" Version="10.0.12" />
+		<PackageReference Include="System.Resources.Extensions" Version="10.0.10" />
+		<PackageReference Include="Vortice.D3DCompiler" Version="3.8.3" />
+		<PackageReference Include="Vortice.Direct3D11" Version="3.8.3" />
+		<PackageReference Include="Vortice.DirectComposition" Version="3.8.3" />
+		<PackageReference Include="Vortice.DXGI" Version="3.8.3" />
+		<PackageReference Include="Vortice.MediaFoundation" Version="3.8.3" />
+		<PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+		<PackageReference Include="Openize.Drako" Version="26.2.0" />
+		<PackageReference Include="ZstdSharp.Port" Version="0.8.8" />
+		<PackageReference Include="Tmds.DBus" Version="0.95.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Visible="false" Include="..\Chivas.App\NativeMethods.txt" Link="NativeMethods.txt" />
+		<ProjectReference Include="..\Chivas.Core\Chivas.Core.csproj" />
+		<ProjectReference Include="..\Chivas.Platform.Abstractions\Chivas.Platform.Abstractions.csproj" />
+		<ProjectReference Include="..\Chivas.Platform.Linux\Chivas.Platform.Linux.csproj" />
+		<ProjectReference Include="..\Chivas.Platform.MacOS\Chivas.Platform.MacOS.csproj" />
+		<ProjectReference Include="..\..\external\wpfui\src\Wpf.Ui\Wpf.Ui.Cross.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="Chivas.Models.Attributes.BuildMetadataAttribute">
+			<_Parameter1>1970-01-01T00:00:00Z</_Parameter1>
+			<_Parameter2></_Parameter2>
+			<_Parameter3>$(CommitHash)</_Parameter3>
+			<_Parameter4>$(CommitRef)</_Parameter4>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<Target Name="StripWindowsDesktopFrameworkRefs" AfterTargets="ResolvePackageAssets" BeforeTargets="AddTransitiveFrameworkReferences">
+		<ItemGroup>
+			<TransitiveFrameworkReference Remove="@(TransitiveFrameworkReference)" Condition="$([System.String]::Copy('%(TransitiveFrameworkReference.Identity)').Contains('WindowsDesktop'))" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="StripWindowsDesktopDirectRefs" BeforeTargets="ProcessFrameworkReferences">
+		<ItemGroup>
+			<FrameworkReference Remove="@(FrameworkReference)" Condition="$([System.String]::Copy('%(FrameworkReference.Identity)').Contains('WindowsDesktop'))" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="StripPublishExtras" AfterTargets="ComputeResolvedFilesToPublishList">
+		<ItemGroup>
+			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Extension)' == '.xml' Or '%(ResolvedFileToPublish.Extension)' == '.pdb'" />
+			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="$([System.String]::Copy('%(ResolvedFileToPublish.Filename)').StartsWith('libmscordaccore')) Or $([System.String]::Copy('%(ResolvedFileToPublish.Filename)').StartsWith('libmscordbi')) Or $([System.String]::Copy('%(ResolvedFileToPublish.Filename)').StartsWith('mscordaccore')) Or $([System.String]::Copy('%(ResolvedFileToPublish.Filename)').StartsWith('mscordbi'))" />
+		</ItemGroup>
+	</Target>
+
+  <Target Name="RemoveDuplicatePortableCoreAssemblies" AfterTargets="ComputeResolvedFilesToPublishList">
+    <ItemGroup>
+      <_ChivasDuplicatePublishFile Include="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'System.Private.Windows.Core.dll' And $([System.String]::Copy('%(ResolvedFileToPublish.Identity)').Contains('librewpf.transport'))" />
+      <ResolvedFileToPublish Remove="@(_ChivasDuplicatePublishFile)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="RemoveDuplicateBundleAssemblies" AfterTargets="_ComputeFilesToBundle" Condition="'$(PublishSingleFile)' == 'true'">
+    <ItemGroup>
+      <_ChivasDuplicateBundleFile Include="@(_FilesToBundle)" Condition="'%(_FilesToBundle.Filename)%(_FilesToBundle.Extension)' == 'System.Private.Windows.Core.dll' And $([System.String]::Copy('%(_FilesToBundle.Identity)').Contains('librewpf.transport'))" />
+      <_FilesToBundle Remove="@(_ChivasDuplicateBundleFile)" />
+    </ItemGroup>
+  </Target>
+
+	<Target Name="ReplaceLinuxProGpuWpfOutput" AfterTargets="ResolveReferences" BeforeTargets="CopyFilesToOutputDirectory" Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<ItemGroup>
+			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' == 'ProGPU.Wpf.dll'" />
+			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' == 'PresentationCore.dll'" />
+			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' == 'PresentationFramework.dll'" />
+			<ReferenceCopyLocalPaths Include="$(LinuxProGpuWpfAssembly)" />
+			<ReferenceCopyLocalPaths Include="$(LinuxPresentationCoreAssembly)" />
+			<ReferenceCopyLocalPaths Include="$(LinuxPresentationFrameworkAssembly)" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="CopyLinuxProGpuWpfOutput" AfterTargets="_ProGpuWpfSdkCopyPackageRuntimeAssets" Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<Copy SourceFiles="$(LinuxProGpuWpfAssembly);$(LinuxPresentationCoreAssembly);$(LinuxPresentationFrameworkAssembly)" DestinationFiles="$(TargetDir)ProGPU.Wpf.dll;$(TargetDir)PresentationCore.dll;$(TargetDir)PresentationFramework.dll" SkipUnchangedFiles="false" />
+	</Target>
+
+	<Target Name="ReplaceLinuxProGpuWpfPublish" AfterTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+		<ItemGroup>
+			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'ProGPU.Wpf.dll'" />
+			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'PresentationCore.dll'" />
+			<ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'PresentationFramework.dll'" />
+			<ResolvedFileToPublish Include="$(LinuxProGpuWpfAssembly)" RelativePath="ProGPU.Wpf.dll" CopyToPublishDirectory="PreserveNewest" />
+			<ResolvedFileToPublish Include="$(LinuxPresentationCoreAssembly)" RelativePath="PresentationCore.dll" CopyToPublishDirectory="PreserveNewest" />
+			<ResolvedFileToPublish Include="$(LinuxPresentationFrameworkAssembly)" RelativePath="PresentationFramework.dll" CopyToPublishDirectory="PreserveNewest" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="PrepareLinuxReadyToRunInputs" BeforeTargets="_PrepareForReadyToRunCompilation" DependsOnTargets="_ProGpuWpfSdkPublishManagedTransportRuntimeAssets" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(PublishReadyToRun)' == 'true'">
+		<ItemGroup>
+			<_ChivasReadyToRunDuplicate Include="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' == 'System.Private.Windows.Core.dll' And $([System.String]::Copy('%(ResolvedFileToPublish.Identity)').Contains('librewpf.transport'))" />
+			<ResolvedFileToPublish Remove="@(_ChivasReadyToRunDuplicate)" />
+			<ResolvedFileToPublish Condition="'%(ResolvedFileToPublish.Extension)' == '.dll' And '%(ResolvedFileToPublish.PostprocessAssembly)' != 'true' And '%(ResolvedFileToPublish.RelativePath)' == '%(ResolvedFileToPublish.Filename)%(ResolvedFileToPublish.Extension)' And !$([System.String]::Copy('%(ResolvedFileToPublish.Filename)').EndsWith('.resources'))">
+				<PostprocessAssembly>true</PostprocessAssembly>
+			</ResolvedFileToPublish>
+		</ItemGroup>
+	</Target>
+
+	<Target Name="ReplaceLinuxProGpuWpfBundle" AfterTargets="_ComputeFilesToBundle" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(PublishSingleFile)' == 'true' And '$(PublishReadyToRun)' != 'true'">
+		<ItemGroup>
+			<_FilesToBundle Remove="@(_FilesToBundle)" Condition="'%(_FilesToBundle.Filename)%(_FilesToBundle.Extension)' == 'ProGPU.Wpf.dll'" />
+			<_FilesToBundle Remove="@(_FilesToBundle)" Condition="'%(_FilesToBundle.Filename)%(_FilesToBundle.Extension)' == 'PresentationCore.dll'" />
+			<_FilesToBundle Remove="@(_FilesToBundle)" Condition="'%(_FilesToBundle.Filename)%(_FilesToBundle.Extension)' == 'PresentationFramework.dll'" />
+			<_FilesToBundle Include="$(LinuxProGpuWpfAssembly)" RelativePath="ProGPU.Wpf.dll" />
+			<_FilesToBundle Include="$(LinuxPresentationCoreAssembly)" RelativePath="PresentationCore.dll" />
+			<_FilesToBundle Include="$(LinuxPresentationFrameworkAssembly)" RelativePath="PresentationFramework.dll" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="UseVendoredLinuxGlfw" AfterTargets="ResolvePackageAssets" Condition="$(RuntimeIdentifier.StartsWith('linux')) And Exists('$(LinuxGlfwLibrary)')">
+		<ItemGroup>
+			<_ChivasPackagedGlfwRuntime Include="@(RuntimeCopyLocalItems)" Condition="'%(RuntimeCopyLocalItems.Filename)%(RuntimeCopyLocalItems.Extension)' == 'libglfw.so.3'" />
+			<RuntimeCopyLocalItems Remove="@(_ChivasPackagedGlfwRuntime)" />
+			<RuntimeCopyLocalItems Include="@(_ChivasPackagedGlfwRuntime->'$(LinuxGlfwLibrary)')" />
+			<_ChivasPackagedGlfwNative Include="@(NativeCopyLocalItems)" Condition="'%(NativeCopyLocalItems.Filename)%(NativeCopyLocalItems.Extension)' == 'libglfw.so.3'" />
+			<NativeCopyLocalItems Remove="@(_ChivasPackagedGlfwNative)" />
+			<NativeCopyLocalItems Include="@(_ChivasPackagedGlfwNative->'$(LinuxGlfwLibrary)')" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="UseVendoredLinuxWgpu" AfterTargets="ResolvePackageAssets" Condition="$(RuntimeIdentifier.StartsWith('linux')) And Exists('$(LinuxWgpuLibrary)')">
+		<ItemGroup>
+			<_ChivasPackagedWgpuRuntime Include="@(RuntimeCopyLocalItems)" Condition="'%(RuntimeCopyLocalItems.Filename)%(RuntimeCopyLocalItems.Extension)' == 'libwgpu_native.so'" />
+			<RuntimeCopyLocalItems Remove="@(_ChivasPackagedWgpuRuntime)" />
+			<RuntimeCopyLocalItems Include="@(_ChivasPackagedWgpuRuntime->'$(LinuxWgpuLibrary)')" />
+			<_ChivasPackagedWgpuNative Include="@(NativeCopyLocalItems)" Condition="'%(NativeCopyLocalItems.Filename)%(NativeCopyLocalItems.Extension)' == 'libwgpu_native.so'" />
+			<NativeCopyLocalItems Remove="@(_ChivasPackagedWgpuNative)" />
+			<NativeCopyLocalItems Include="@(_ChivasPackagedWgpuNative->'$(LinuxWgpuLibrary)')" />
+		</ItemGroup>
+	</Target>
+
+</Project>

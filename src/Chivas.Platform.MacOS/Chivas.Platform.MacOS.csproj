@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+		<RootNamespace>Chivas.Platform.MacOS</RootNamespace>
+		<AssemblyName>Chivas.Platform.MacOS</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Chivas.Core\Chivas.Core.csproj" />
+		<ProjectReference Include="..\Chivas.Platform.Abstractions\Chivas.Platform.Abstractions.csproj" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,175 @@
+﻿name: Desktop validation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desktop-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          submodules: recursive
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet build Chivas.sln -c Debug -warnaserror
+      - run: dotnet publish src/Chivas.App/Chivas.csproj -c Release -r win-x64 --self-contained false -o artifacts/windows
+      - run: dotnet publish src/Chivas.Desktop.Windows/Chivas.Desktop.Windows.csproj -c Release -r win-x64 --self-contained true -o artifacts/windows-desktop
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: windows
+          path: artifacts
+
+  client_server:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet build src/ClientServer/ClientServer.slnx -c Debug -warnaserror
+
+  macos:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        rid: [osx-x64, osx-arm64]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          submodules: recursive
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet build src/Chivas.Desktop.MacOS/Chivas.Desktop.MacOS.csproj -c Debug -warnaserror
+      - run: dotnet publish src/Chivas.Cross/Chivas.Cross.csproj -c Release -r ${{ matrix.rid }} --self-contained true -o artifacts/${{ matrix.rid }}
+      - run: bash build/Packaging/MacOS/package.sh ${{ matrix.rid }} 1.0.0 artifacts/package-${{ matrix.rid }}
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ${{ matrix.rid }}
+          path: artifacts
+
+  linux_validation:
+    name: Linux canonical and experimental validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          submodules: recursive
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet build src/Chivas.Cross/Chivas.Cross.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-cross/
+      - run: dotnet build src/Chivas.Desktop.Linux/Chivas.Desktop.Linux.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-experimental/
+
+  linux_aur:
+    name: Arch AUR recipe generation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Generate the AUR recipe with placeholder release checksums
+        run: bash build/Packaging/Arch/pkgbuild.sh '' artifacts/aur 0000000000000000000000000000000000000000000000000000000000000000 0000000000000000000000000000000000000000000000000000000000000000
+      - run: bash -n artifacts/aur/PKGBUILD
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: aur
+          path: artifacts/aur
+
+  linux_packages:
+    name: Linux ${{ matrix.rid }} ${{ matrix.format }} package validation
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rid: linux-x64
+            format: deb
+          - rid: linux-arm64
+            format: deb
+          - rid: linux-x64
+            format: tar
+          - rid: linux-arm64
+            format: tar
+          - rid: linux-musl-x64
+            format: tar
+          - rid: linux-musl-arm64
+            format: tar
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          submodules: recursive
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 10.0.x
+      - run: sudo apt-get update && sudo apt-get install -y build-essential gcc-aarch64-linux-gnu binutils desktop-file-utils file
+      - run: bash build/Packaging/Linux/package.sh ${{ matrix.rid }} '' ${{ matrix.format }} artifacts/packages
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ${{ matrix.rid }}-${{ matrix.format }}
+          path: artifacts/packages
+
+  linux_rpm_packages:
+    name: Linux ${{ matrix.rid }} RPM artifact validation
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rid: linux-x64
+          - rid: linux-arm64
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          submodules: recursive
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 10.0.x
+      - run: sudo apt-get update && sudo apt-get install -y build-essential gcc-aarch64-linux-gnu binutils cpio desktop-file-utils file rpm
+      - run: bash build/Packaging/Linux/package.sh ${{ matrix.rid }} '' rpm artifacts/packages
+      - if: matrix.rid == 'linux-x64'
+        run: |
+          for attempt in 1 2 3 4 5; do docker pull fedora:latest && break; sleep $((attempt * 15)); done
+          docker run --rm -v "$PWD/artifacts/packages:/packages:ro" fedora:latest bash -c 'dnf install -y --setopt=install_weak_deps=False --setopt=zchunk=False /packages/*.rpm && rpm -V chivas && test "$(readlink -f /usr/bin/chivas)" = /usr/lib64/chivas/Chivas'
+      - if: matrix.rid == 'linux-x64'
+        run: |
+          for attempt in 1 2 3 4 5; do docker pull opensuse/tumbleweed:latest && break; sleep $((attempt * 15)); done
+          docker run --rm -v "$PWD/artifacts/packages:/packages:ro" opensuse/tumbleweed:latest bash -c 'zypper --non-interactive install --no-recommends --allow-unsigned-rpm /packages/*.rpm && rpm -V chivas && test "$(readlink -f /usr/bin/chivas)" = /usr/lib64/chivas/Chivas'
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ${{ matrix.rid }}-rpm
+          path: artifacts/packages
+
+  linux_appimage_availability:
+    name: Linux AppImage tool availability
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          submodules: recursive
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 10.0.x
+      - id: tool
+        run: if command -v appimagetool >/dev/null 2>&1; then echo 'available=true' >> "$GITHUB_OUTPUT"; else echo 'available=false' >> "$GITHUB_OUTPUT"; fi
+      - if: steps.tool.outputs.available == 'false'
+        run: echo 'AppImage package validation was not run because appimagetool is unavailable' >> "$GITHUB_STEP_SUMMARY"
+      - if: steps.tool.outputs.available == 'true'
+        run: sudo apt-get update && sudo apt-get install -y build-essential gcc-aarch64-linux-gnu binutils desktop-file-utils file
+      - if: steps.tool.outputs.available == 'true'
+        run: bash build/Packaging/Linux/package.sh linux-x64 '' appimage artifacts/packages
+      - if: steps.tool.outputs.available == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: linux-x64-appimage
+          path: artifacts/packages

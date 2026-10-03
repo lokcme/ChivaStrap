@@ -1,0 +1,9 @@
+﻿namespace Chivas.Enums;
+
+public enum LaunchMode
+{
+	None,
+	Player,
+	Studio,
+	StudioAuth
+}

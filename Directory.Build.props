@@ -1,0 +1,29 @@
+﻿<Project>
+
+	<PropertyGroup>
+		<ChivasVersion>1.2.0</ChivasVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(ChivasLinuxPackagingRoot)' != ''">
+		<BaseOutputPath>$(ChivasLinuxPackagingRoot)bin/$(MSBuildProjectName)/</BaseOutputPath>
+		<BaseIntermediateOutputPath>$(ChivasLinuxPackagingRoot)obj/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
+		<DefaultItemExcludes>$(DefaultItemExcludes);bin/**;bin-*/**;bin-cross/**;obj/**;obj-*/**</DefaultItemExcludes>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(ChivasLinuxPackagingRoot)' != '' And $(MSBuildProjectName.StartsWith('Chivas.Cross'))">
+		<BaseOutputPath>$(ChivasLinuxPackagingRoot)bin/Chivas.Cross/</BaseOutputPath>
+		<BaseIntermediateOutputPath>$(ChivasLinuxPackagingRoot)obj/Chivas.Cross/</BaseIntermediateOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Version Condition="'$(Version)' == ''">$(ChivasVersion)</Version>
+		<FileVersion>$(Version)</FileVersion>
+		<AssemblyVersion>$(Version)</AssemblyVersion>
+		<InformationalVersion>$(Version)</InformationalVersion>
+	</PropertyGroup>
+
+</Project>

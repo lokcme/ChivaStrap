@@ -1,0 +1,922 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Resources;
+using Chivas.Core;
+using Chivas.Platform.Linux;
+using Chivas.Resources;
+
+namespace Chivas.Utility;
+
+internal static class LinuxDesktopEntry
+{
+	private const string EntryFileName = "io.github.lokcme.Chivas.desktop";
+
+	private const string IconName = "io.github.lokcme.Chivas";
+
+	private const string LauncherFileName = "io.github.lokcme.Chivas";
+
+	private static string DataHome => ResolveXdgDirectory("XDG_DATA_HOME", ".local", "share");
+
+	private static string ApplicationsDirectory => Path.Combine(DataHome, "applications");
+
+	private static string IconRootDirectory => Path.Combine(LinuxFlatpakHost.IsSandboxed ? HostDataHome : DataHome, "icons", "hicolor");
+
+	private static string HostDataHome => ResolveXdgDirectory("HOST_XDG_DATA_HOME", ".local", "share");
+
+	private static string IconDirectory => Path.Combine(IconRootDirectory, "256x256", "apps");
+
+	private static string LauncherPath => Path.Combine(
+		Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".local", "bin", LauncherFileName);
+
+	internal static string? InstalledTarget()
+	{
+		try
+		{
+			FileInfo launcher = new(LauncherPath);
+			if (launcher.LinkTarget == null)
+				return null;
+			string? target = launcher.ResolveLinkTarget(true)?.FullName;
+			return target != null && File.Exists(target) ? Path.GetFullPath(target) : null;
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			return null;
+		}
+	}
+
+	public static void EnsureInstalled(string executablePath)
+	{
+		if (!Platform.IsLinux || string.IsNullOrEmpty(executablePath))
+		{
+			return;
+		}
+		if (LinuxFlatpakHost.IsSandboxed)
+		{
+			try
+			{
+				RepairManagedShortcuts(executablePath);
+				string entryPath = Path.Combine(ApplicationsDirectory, EntryFileName);
+				string contents = BuildDesktopEntry(executablePath);
+				if (File.Exists(entryPath))
+					WriteAtomic(entryPath, contents);
+				MoveLegacyDesktopShortcut(executablePath);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine("LinuxDesktopEntry::EnsureInstalled", "Could not repair desktop shortcuts: " + ex.Message);
+			}
+			return;
+		}
+		try
+		{
+			string launchPath = EnsureLauncher(executablePath);
+			string entryPath = Path.Combine(ApplicationsDirectory, EntryFileName);
+			string iconPath = Path.Combine(IconDirectory, IconName + ".png");
+			if (File.Exists(entryPath) && File.Exists(iconPath)
+				&& string.Equals(File.ReadAllText(entryPath), BuildDesktopEntry(launchPath), StringComparison.Ordinal)
+				&& IconIsCurrent(iconPath))
+			{
+				RepairManagedShortcuts(launchPath);
+				RemoveSupersededEntries();
+				Refresh();
+				return;
+			}
+		}
+		catch
+		{
+		}
+		Install(executablePath, false, false);
+	}
+
+	public static void Install(string executablePath, bool createDesktopShortcut = false, bool replaceInstalledLauncher = true)
+	{
+		if (!Platform.IsLinux || string.IsNullOrEmpty(executablePath))
+		{
+			return;
+		}
+		if (LinuxFlatpakHost.IsSandboxed)
+		{
+			if (createDesktopShortcut)
+				WriteDesktopShortcut(executablePath);
+			return;
+		}
+		try
+		{
+			string launchPath = EnsureLauncher(executablePath, replaceInstalledLauncher);
+			Directory.CreateDirectory(ApplicationsDirectory);
+			Directory.CreateDirectory(IconDirectory);
+
+			string iconPath = Path.Combine(IconDirectory, IconName + ".png");
+			WriteIcon(iconPath);
+
+			string entryPath = Path.Combine(ApplicationsDirectory, EntryFileName);
+			string contents = BuildDesktopEntry(launchPath);
+
+			WriteAtomic(entryPath, contents);
+			MakeExecutable(entryPath);
+			RemoveSupersededEntries();
+			if (createDesktopShortcut)
+				WriteDesktopShortcut(launchPath);
+			else
+				MoveLegacyDesktopShortcut(launchPath);
+			RepairManagedShortcuts(launchPath);
+			Refresh();
+
+			App.Logger?.WriteLine("LinuxDesktopEntry::Install", "Desktop entry written to " + entryPath);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::Install", "Could not create desktop entry: " + ex.Message);
+		}
+	}
+
+	private static readonly string[] SupersededEntryFileNames =
+	[
+		"chivas.desktop",
+		"chivas-roblox.desktop",
+		"chivas-roblox-player.desktop",
+		"chivas-roblox-studio.desktop",
+		"chivas-roblox-studio-auth.desktop"
+	];
+
+	private static void RemoveSupersededEntries()
+	{
+		foreach (string name in SupersededEntryFileNames)
+		{
+			try
+			{
+				string path = Path.Combine(ApplicationsDirectory, name);
+				if (!File.Exists(path))
+					continue;
+
+				string contents = File.ReadAllText(path);
+				if (contents.IndexOf("Chivas", StringComparison.OrdinalIgnoreCase) < 0
+					|| contents.IndexOf("Exec=", StringComparison.Ordinal) < 0)
+					continue;
+
+				File.Delete(path);
+				App.Logger?.WriteLine("LinuxDesktopEntry::RemoveSupersededEntries", "Removed the superseded desktop entry " + name);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine("LinuxDesktopEntry::RemoveSupersededEntries", "Could not remove " + name + ": " + ex.Message);
+			}
+		}
+
+		try
+		{
+			string desktop = ResolveDesktopDirectory();
+			string path = Path.Combine(desktop, "chivas.desktop");
+			if (!string.IsNullOrEmpty(desktop) && File.Exists(path))
+			{
+				string contents = File.ReadAllText(path);
+				if (contents.Contains("Chivas", StringComparison.OrdinalIgnoreCase)
+                    && contents.Contains("Exec="))
+				{
+					File.Delete(path);
+					App.Logger?.WriteLine("LinuxDesktopEntry::RemoveSupersededEntries", "Removed the superseded desktop shortcut chivas.desktop");
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::RemoveSupersededEntries", "Could not remove the legacy desktop shortcut: " + ex.Message);
+		}
+	}
+
+	private static string BuildDesktopEntry(string executablePath)
+	{
+		string entry = string.Join('\n',
+			"[Desktop Entry]",
+			"Type=Application",
+			"Name=Chivas",
+			"GenericName=Roblox Bootstrapper",
+			"Comment=Customize and launch Roblox through Sober on Linux",
+			"Exec=" + BuildExecValue(executablePath, "") + " %u",
+			"Icon=" + IconName,
+			"Terminal=false",
+			"Categories=Game;",
+			"Keywords=roblox;chivas;bootstrapper;sober;",
+			"StartupNotify=true",
+			"StartupWMClass=chivas",
+			"X-GNOME-WMClass=chivas",
+			"MimeType=x-scheme-handler/roblox;x-scheme-handler/roblox-player;x-scheme-handler/roblox-studio;x-scheme-handler/roblox-studio-auth;x-scheme-handler/chivas;",
+			"Actions=LaunchRoblox;LaunchRobloxStudio;Settings;",
+			"",
+			"[Desktop Action LaunchRoblox]",
+			"Name=Launch Roblox",
+			"Exec=" + BuildExecValue(executablePath, "-player"),
+			"",
+			"[Desktop Action LaunchRobloxStudio]",
+			"Name=Launch Roblox Studio",
+			"Exec=" + BuildExecValue(executablePath, "-studio"),
+			"",
+			"[Desktop Action Settings]",
+			"Name=Chivas Settings",
+			"Exec=" + BuildExecValue(executablePath, "-settings"),
+			"");
+		if (LinuxFlatpakHost.IsSandboxed || !CanRemainUnquoted(executablePath))
+			return entry;
+		string execLine = "Exec=" + EscapeExecArgument(executablePath) + " %u\n";
+		return entry.Replace(execLine, execLine + "TryExec=" + executablePath + "\n", StringComparison.Ordinal);
+	}
+
+	private static bool IconIsCurrent(string iconPath)
+	{
+		try
+		{
+			byte[]? selected = ReadSelectedIconPng();
+			if (selected != null)
+			{
+				using FileStream current = File.OpenRead(iconPath);
+				return CryptographicOperations.FixedTimeEquals(SHA256.HashData(selected), SHA256.HashData(current));
+			}
+
+			StreamResourceInfo? info = Application.GetResourceStream(new Uri("pack://application:,,,/Chivas.png", UriKind.Absolute));
+			using Stream? source = info?.Stream;
+			if (source == null)
+				return false;
+			using FileStream installed = File.OpenRead(iconPath);
+			byte[] sourceHash = SHA256.HashData(source);
+			byte[] installedHash = SHA256.HashData(installed);
+			return CryptographicOperations.FixedTimeEquals(sourceHash, installedHash);
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
+	internal static string ResolveLaunchPath(string executablePath)
+	{
+		return EnsureLauncher(executablePath);
+	}
+
+	internal static byte[]? ReadIconPng()
+	{
+		byte[]? selected = ReadSelectedIconPng();
+		if (selected != null)
+			return selected;
+		try
+		{
+			StreamResourceInfo? info = Application.GetResourceStream(new Uri("pack://application:,,,/Chivas.png", UriKind.Absolute));
+			if (info?.Stream == null)
+				return null;
+			using Stream source = info.Stream;
+			using MemoryStream buffer = new();
+			source.CopyTo(buffer);
+			return buffer.ToArray();
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::ReadIconPng", "Could not read the application icon: " + ex.Message);
+			return null;
+		}
+	}
+
+	private static byte[]? ReadSelectedIconPng()
+	{
+		try
+		{
+			if (App.Settings?.Prop == null)
+				return null;
+
+			System.Windows.Media.Imaging.BitmapSource? source = Chivas.Extensions.IconEx.LoadPortableIcon(App.Settings.Prop.ActiveBootstrapperIcon, 256);
+			if (source == null)
+				return null;
+
+			System.Windows.Media.Imaging.BitmapSource bgra = source.Format == System.Windows.Media.PixelFormats.Bgra32
+				? source
+				: new System.Windows.Media.Imaging.FormatConvertedBitmap(source, System.Windows.Media.PixelFormats.Bgra32, null, 0);
+
+			int width = bgra.PixelWidth;
+			int height = bgra.PixelHeight;
+			if (width <= 0 || height <= 0)
+				return null;
+
+			int stride = checked(width * 4);
+			byte[] pixels = new byte[checked(stride * height)];
+			bgra.CopyPixels(pixels, stride, 0);
+
+			using SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32> image =
+				SixLabors.ImageSharp.Image.LoadPixelData<SixLabors.ImageSharp.PixelFormats.Bgra32>(pixels, width, height);
+			using MemoryStream buffer = new();
+			image.Save(buffer, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
+			return buffer.ToArray();
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::ReadSelectedIconPng", "Could not encode the selected icon: " + ex.Message);
+			return null;
+		}
+	}
+
+	internal static byte[]? ReadTrayIconPng()
+	{
+		byte[]? selected = ReadSelectedIconPng();
+		if (selected != null)
+			return selected;
+
+		try
+		{
+			StreamResourceInfo? info = Application.GetResourceStream(new Uri("pack://application:,,,/Chivas.png", UriKind.Absolute));
+			if (info?.Stream == null)
+				return null;
+			using Stream source = info.Stream;
+			using MemoryStream buffer = new();
+			source.CopyTo(buffer);
+			return buffer.ToArray();
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::ReadTrayIconPng", "Could not read the bundled icon: " + ex.Message);
+			return null;
+		}
+	}
+
+	internal static string InstalledIconName()
+	{
+		List<string> roots = [Path.Combine(DataHome, "icons")];
+		string? dataDirectories = Environment.GetEnvironmentVariable("XDG_DATA_DIRS");
+		foreach (string directory in (string.IsNullOrWhiteSpace(dataDirectories) ? "/usr/local/share:/usr/share" : dataDirectories).Split(':', StringSplitOptions.RemoveEmptyEntries))
+			roots.Add(Path.Combine(directory, "icons"));
+
+		foreach (string root in roots)
+		{
+			string theme = Path.Combine(root, "hicolor");
+			try
+			{
+				if (!Directory.Exists(theme))
+					continue;
+				foreach (string size in Directory.EnumerateDirectories(theme))
+				{
+					string applications = Path.Combine(size, "apps");
+					if (File.Exists(Path.Combine(applications, IconName + ".png")) || File.Exists(Path.Combine(applications, IconName + ".svg")))
+						return IconName;
+				}
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+			}
+		}
+
+		return string.Empty;
+	}
+
+	internal static string DesktopEntryId => Path.GetFileNameWithoutExtension(EntryFileName);
+
+	public static void RefreshIcon()
+	{
+#if CROSSPLAT
+		if (Platform.IsLinux)
+			Chivas.UI.Tray.LinuxTray.UpdateIcon(ReadTrayIconPng());
+#endif
+		if (!Platform.IsLinux)
+			return;
+
+		byte[]? encoded = ReadSelectedIconPng();
+		if (encoded == null)
+			return;
+
+		Task.Run(delegate
+		{
+			try
+			{
+				Directory.CreateDirectory(IconDirectory);
+				string iconPath = Path.Combine(IconDirectory, IconName + ".png");
+				string temporary = iconPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+				File.WriteAllBytes(temporary, encoded);
+				File.Move(temporary, iconPath, true);
+				if (!OperatingSystem.IsWindows())
+					File.SetUnixFileMode(iconPath, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead);
+				RunQuiet("gtk-update-icon-cache", "-f", "-t", IconRootDirectory);
+				App.Logger?.WriteLine("LinuxDesktopEntry::RefreshIcon", "Wrote the selected icon to " + iconPath);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine("LinuxDesktopEntry::RefreshIcon", "Could not refresh the desktop icon: " + ex.Message);
+			}
+		});
+	}
+
+	public static string ApplicationsFolder => ApplicationsDirectory;
+
+	public static string DesktopFolder => ResolveDesktopDirectory();
+
+	public static string DefaultIconName => IconName;
+
+	public static string IconFilePath => Path.Combine(IconDirectory, IconName + ".png");
+
+	private static readonly string[] IconFileExtensions = [".png", ".svg", ".ico", ".xpm", ".jpg", ".jpeg"];
+
+	public static bool CreateShortcut(string filePath, string name, string executablePath, string arguments, string? iconPath)
+	{
+		if (!Platform.IsLinux || string.IsNullOrWhiteSpace(filePath) || string.IsNullOrWhiteSpace(executablePath))
+			return false;
+
+		try
+		{
+			if (!LinuxFlatpakHost.IsSandboxed)
+				executablePath = EnsureLauncher(executablePath);
+			string? folder = Path.GetDirectoryName(filePath);
+			if (!string.IsNullOrEmpty(folder))
+				Directory.CreateDirectory(folder);
+
+			WriteAtomic(filePath, BuildShortcutEntry(name, executablePath, arguments, iconPath));
+			MakeExecutable(filePath);
+			RunQuiet("gio", "set", HostVisiblePath(filePath), "metadata::trusted", "true");
+
+			if (!string.IsNullOrEmpty(folder) && string.Equals(Path.GetFullPath(folder), Path.GetFullPath(ApplicationsDirectory), StringComparison.Ordinal))
+				RunQuiet("update-desktop-database", HostVisiblePath(ApplicationsDirectory));
+
+			return File.Exists(filePath);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::CreateShortcut", "Could not write " + filePath + ": " + ex.Message);
+			return false;
+		}
+	}
+
+	private static string EnsureLauncher(string executablePath, bool replaceInstalled = false)
+	{
+		try
+		{
+			string target = Path.GetFullPath(executablePath);
+			if (string.Equals(target, LauncherPath, StringComparison.Ordinal) || !File.Exists(target))
+				return target;
+			if (LinuxBundleInstaller.IsPackageManagedLocation(Path.GetDirectoryName(target) ?? "/"))
+				return ResolvePackagedLauncher(target);
+
+			Directory.CreateDirectory(Path.GetDirectoryName(LauncherPath)!);
+			FileInfo existing = new(LauncherPath);
+			if (existing.Exists && existing.LinkTarget == null)
+				return target;
+			if (existing.LinkTarget != null && (!replaceInstalled || IsVolatileLocation(target)))
+			{
+				string? current = existing.ResolveLinkTarget(true)?.FullName;
+				if (current != null && File.Exists(current) && !IsVolatileLocation(current))
+				{
+					if (!string.Equals(Path.GetFullPath(current), target, StringComparison.Ordinal))
+						App.Logger?.WriteLine("LinuxDesktopEntry::EnsureLauncher", "The launcher keeps pointing at the installed copy " + current);
+					return LauncherPath;
+				}
+			}
+
+			string temporary = LauncherPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+			try
+			{
+				File.CreateSymbolicLink(temporary, target);
+				File.Move(temporary, LauncherPath, true);
+			}
+			finally
+			{
+				if (File.Exists(temporary))
+					File.Delete(temporary);
+			}
+
+			return LauncherPath;
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::EnsureLauncher", "Could not refresh the stable launcher: " + ex.Message);
+			return executablePath;
+		}
+	}
+
+	internal static bool IsVolatileLocation(string path)
+	{
+		string full = Path.GetFullPath(path);
+		List<string> roots = ["/tmp/", "/dev/shm/", Path.GetTempPath()];
+		string? runtime = Environment.GetEnvironmentVariable("XDG_RUNTIME_DIR");
+		if (!string.IsNullOrWhiteSpace(runtime))
+			roots.Add(runtime);
+		foreach (string root in roots)
+		{
+			string prefix = Path.TrimEndingDirectorySeparator(Path.GetFullPath(root)) + Path.DirectorySeparatorChar;
+			if (full.StartsWith(prefix, StringComparison.Ordinal))
+				return true;
+		}
+		return false;
+	}
+
+	private static string ResolvePackagedLauncher(string target)
+	{
+		foreach (string candidate in new[] { "/usr/bin/chivas", "/usr/local/bin/chivas" })
+		{
+			try
+			{
+				FileInfo link = new(candidate);
+				if (!link.Exists)
+					continue;
+				string resolved = Path.GetFullPath(link.ResolveLinkTarget(true)?.FullName ?? link.FullName);
+				if (string.Equals(resolved, target, StringComparison.Ordinal))
+					return candidate;
+			}
+			catch (IOException)
+			{
+			}
+			catch (UnauthorizedAccessException)
+			{
+			}
+		}
+		return target;
+	}
+
+	private static void RepairManagedShortcuts(string executablePath)
+	{
+		string desktop = ResolveDesktopDirectory();
+		if (!string.IsNullOrEmpty(desktop))
+		{
+			RepairShortcutIfPresent(Path.Combine(desktop, "Chivas.desktop"), "Chivas", executablePath, "");
+			RepairShortcutIfPresent(Path.Combine(desktop, Strings.Menu_Title + ".desktop"), Strings.Menu_Title, executablePath, "-settings");
+			RepairShortcutIfPresent(Path.Combine(desktop, Strings.LaunchMenu_LaunchRoblox + ".desktop"), Strings.LaunchMenu_LaunchRoblox, executablePath, "-player");
+			RepairShortcutIfPresent(Path.Combine(desktop, Strings.LaunchMenu_LaunchRobloxStudio + ".desktop"), Strings.LaunchMenu_LaunchRobloxStudio, executablePath, "-studio");
+		}
+
+		RepairShortcutIfPresent(Path.Combine(ApplicationsDirectory, "Chivas.desktop"), "Chivas", executablePath, "");
+	}
+
+	private static void RepairShortcutIfPresent(string path, string name, string executablePath, string arguments)
+	{
+		if (File.Exists(path))
+			CreateShortcut(path, name, executablePath, arguments, IconFilePath);
+	}
+
+	private static string BuildShortcutEntry(string name, string executablePath, string arguments, string? iconPath)
+	{
+		return string.Join('\n',
+			"[Desktop Entry]",
+			"Type=Application",
+			"Name=" + DesktopPathValue(string.IsNullOrWhiteSpace(name) ? "Chivas" : name),
+			"Comment=Launch through Chivas",
+			"Exec=" + BuildExecValue(executablePath, arguments),
+			"Icon=" + ResolveIconValue(iconPath),
+			"Terminal=false",
+			"Categories=Game;",
+			"StartupNotify=true",
+			"StartupWMClass=chivas",
+			"X-GNOME-WMClass=chivas",
+			"X-Chivas-Managed=true",
+			"");
+	}
+
+	private static string BuildExecValue(string executablePath, string arguments)
+	{
+		System.Text.StringBuilder builder = new(LinuxFlatpakHost.IsSandboxed
+			? "/usr/bin/flatpak run --command=chivas " + EscapeExecArgument(LinuxFlatpakHost.CurrentApplicationId)
+			: EscapeExecArgument(executablePath));
+		foreach (string token in SplitArguments(arguments))
+			builder.Append(' ').Append(EscapeExecArgument(token));
+		return builder.ToString();
+	}
+
+	private static IEnumerable<string> SplitArguments(string? arguments)
+	{
+		if (string.IsNullOrWhiteSpace(arguments))
+			yield break;
+
+		System.Text.StringBuilder token = new();
+		bool quoted = false;
+		foreach (char character in arguments)
+		{
+			if (character == '"')
+			{
+				quoted = !quoted;
+				continue;
+			}
+
+			if (!quoted && char.IsWhiteSpace(character))
+			{
+				if (token.Length > 0)
+				{
+					yield return token.ToString();
+					token.Clear();
+				}
+				continue;
+			}
+
+			token.Append(character);
+		}
+
+		if (token.Length > 0)
+			yield return token.ToString();
+	}
+
+	private static string ResolveIconValue(string? iconPath)
+	{
+		if (string.IsNullOrWhiteSpace(iconPath))
+			return IconName;
+
+		try
+		{
+			string extension = Path.GetExtension(iconPath);
+			if (File.Exists(iconPath) && Array.Exists(IconFileExtensions, value => string.Equals(value, extension, StringComparison.OrdinalIgnoreCase)))
+				return DesktopPathValue(Path.GetFullPath(iconPath));
+		}
+		catch (Exception)
+		{
+		}
+
+		return IconName;
+	}
+
+	public static void Remove()
+	{
+		if (!Platform.IsLinux)
+		{
+			return;
+		}
+		RemoveDesktopShortcuts();
+		if (LinuxFlatpakHost.IsSandboxed)
+		{
+			return;
+		}
+		try
+		{
+			string entryPath = Path.Combine(ApplicationsDirectory, EntryFileName);
+			if (File.Exists(entryPath))
+			{
+				File.Delete(entryPath);
+			}
+			string iconPath = Path.Combine(IconDirectory, IconName + ".png");
+			if (File.Exists(iconPath))
+			{
+				File.Delete(iconPath);
+			}
+			FileInfo launcher = new(LauncherPath);
+			if (launcher.Exists && launcher.LinkTarget != null)
+				File.Delete(LauncherPath);
+			RunQuiet("update-desktop-database", HostVisiblePath(ApplicationsDirectory));
+			RunQuiet("gtk-update-icon-cache", "-f", "-t", IconRootDirectory);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::Remove", "Could not remove desktop entry: " + ex.Message);
+		}
+	}
+
+	private static string ResolveDesktopDirectory()
+	{
+		string target = string.Empty;
+		try
+		{
+			target = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+		}
+		catch
+		{
+		}
+		if (string.IsNullOrEmpty(target))
+		{
+			target = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Desktop");
+		}
+		try
+		{
+			Directory.CreateDirectory(target);
+			return target;
+		}
+		catch
+		{
+			return string.Empty;
+		}
+	}
+
+	private static void WriteDesktopShortcut(string executablePath)
+	{
+		try
+		{
+			string desktop = ResolveDesktopDirectory();
+			if (string.IsNullOrEmpty(desktop))
+			{
+				return;
+			}
+			string legacyPath = Path.Combine(desktop, EntryFileName);
+			if (File.Exists(legacyPath))
+				File.Delete(legacyPath);
+			string shortcutPath = Path.Combine(desktop, "Chivas.desktop");
+			if (CreateShortcut(shortcutPath, "Chivas", executablePath, "", IconFilePath))
+				App.Logger?.WriteLine("LinuxDesktopEntry::WriteDesktopShortcut", "Desktop shortcut written to " + shortcutPath);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::WriteDesktopShortcut", "Could not create desktop shortcut: " + ex.Message);
+		}
+	}
+
+	private static void MoveLegacyDesktopShortcut(string executablePath)
+	{
+		string desktop = ResolveDesktopDirectory();
+		if (!string.IsNullOrEmpty(desktop) && File.Exists(Path.Combine(desktop, EntryFileName)))
+			WriteDesktopShortcut(executablePath);
+	}
+
+	private static void RemoveDesktopShortcuts()
+	{
+		try
+		{
+			string desktop = ResolveDesktopDirectory();
+			if (string.IsNullOrEmpty(desktop))
+				return;
+			string legacyPath = Path.Combine(desktop, EntryFileName);
+			if (File.Exists(legacyPath))
+				File.Delete(legacyPath);
+			string shortcutPath = Path.Combine(desktop, "Chivas.desktop");
+			if (File.Exists(shortcutPath) && File.ReadAllText(shortcutPath).Contains("X-Chivas-Managed=true", StringComparison.Ordinal))
+				File.Delete(shortcutPath);
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::RemoveDesktopShortcuts", "Could not remove the desktop shortcut: " + ex.Message);
+		}
+	}
+
+	private static void WriteIcon(string iconPath)
+	{
+		string temporary = iconPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+		try
+		{
+			byte[]? selected = ReadSelectedIconPng();
+			if (selected != null)
+			{
+				File.WriteAllBytes(temporary, selected);
+				File.Move(temporary, iconPath, true);
+				if (!OperatingSystem.IsWindows())
+					File.SetUnixFileMode(iconPath, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead);
+				return;
+			}
+
+			StreamResourceInfo? info = Application.GetResourceStream(new Uri("pack://application:,,,/Chivas.png", UriKind.Absolute));
+			if (info?.Stream == null)
+			{
+				return;
+			}
+			using Stream source = info.Stream;
+			using (FileStream target = File.Create(temporary))
+				source.CopyTo(target);
+			File.Move(temporary, iconPath, true);
+			if (!OperatingSystem.IsWindows())
+				File.SetUnixFileMode(iconPath, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::WriteIcon", "Could not write icon: " + ex.Message);
+		}
+		finally
+		{
+			if (File.Exists(temporary))
+				File.Delete(temporary);
+		}
+	}
+
+	private static void MakeExecutable(string path)
+	{
+		try
+		{
+			if (!OperatingSystem.IsWindows())
+				File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute
+					| UnixFileMode.GroupRead | UnixFileMode.OtherRead);
+		}
+		catch
+		{
+		}
+	}
+
+	private static void Refresh()
+	{
+		RunQuiet("update-desktop-database", HostVisiblePath(ApplicationsDirectory));
+		RunQuiet("gtk-update-icon-cache", "-f", "-t", IconRootDirectory);
+		try
+		{
+			Directory.CreateDirectory(ResolveXdgDirectory("XDG_CONFIG_HOME", ".config"));
+		}
+		catch
+		{
+		}
+		foreach (string scheme in SchemeHandlers)
+			RunQuiet("xdg-mime", "default", EntryFileName, scheme);
+	}
+
+	private static readonly string[] SchemeHandlers =
+	[
+		"x-scheme-handler/roblox",
+		"x-scheme-handler/chivas",
+		"x-scheme-handler/roblox-player",
+		"x-scheme-handler/roblox-studio",
+		"x-scheme-handler/roblox-studio-auth"
+	];
+
+	public static void RegisterSandboxSchemeHandlers()
+	{
+		if (!Platform.IsLinux || !LinuxFlatpakHost.IsSandboxed)
+			return;
+
+		foreach (string scheme in SchemeHandlers)
+			RunQuiet("xdg-mime", "default", EntryFileName, scheme);
+		App.Logger?.WriteLine("LinuxDesktopEntry::RegisterSandboxSchemeHandlers", "Asked the desktop to open Roblox links with the Chivas Flatpak");
+	}
+
+	private static string HostVisiblePath(string path)
+	{
+		if (LinuxFlatpakHost.IsSandboxed && string.Equals(Path.GetFullPath(path), Path.GetFullPath(ApplicationsDirectory), StringComparison.Ordinal))
+			return Path.Combine(HostDataHome, "applications");
+		if (LinuxFlatpakHost.IsSandboxed && string.Equals(Path.GetDirectoryName(Path.GetFullPath(path)), Path.GetFullPath(ApplicationsDirectory), StringComparison.Ordinal))
+			return Path.Combine(HostDataHome, "applications", Path.GetFileName(path));
+		return path;
+	}
+
+	private static string DesktopPathValue(string value)
+	{
+		return value
+			.Replace("\r", string.Empty, StringComparison.Ordinal)
+			.Replace("\n", string.Empty, StringComparison.Ordinal);
+	}
+
+	private static string EscapeExecArgument(string value)
+	{
+		string escaped = value
+			.Replace("\\", "\\\\", StringComparison.Ordinal)
+			.Replace("\"", "\\\"", StringComparison.Ordinal)
+			.Replace("`", "\\`", StringComparison.Ordinal)
+			.Replace("$", "\\$", StringComparison.Ordinal)
+			.Replace("%", "%%", StringComparison.Ordinal);
+		return CanRemainUnquoted(value) ? escaped : "\"" + escaped + "\"";
+	}
+
+	private static bool CanRemainUnquoted(string value)
+	{
+		if (string.IsNullOrEmpty(value))
+			return false;
+
+		foreach (char character in value)
+		{
+			if (!char.IsAsciiLetterOrDigit(character) && character is not '/' and not '.' and not '_' and not '-')
+				return false;
+		}
+
+		return true;
+	}
+
+	private static void RunQuiet(string fileName, params string[] arguments)
+	{
+		try
+		{
+			if (!LinuxFlatpakHost.TryCreateHostCommand(new SystemProcessService(), fileName, arguments, out var command))
+				return;
+			ProcessStartInfo startInfo = new(command.FileName)
+			{
+				UseShellExecute = false,
+				CreateNoWindow = true,
+				RedirectStandardOutput = true,
+				RedirectStandardError = true
+			};
+			foreach (string argument in command.Arguments)
+				startInfo.ArgumentList.Add(argument);
+			using Process? process = Process.Start(startInfo);
+			if (process is null)
+				return;
+			Task[] drains =
+			[
+				process.StandardOutput.BaseStream.CopyToAsync(Stream.Null),
+				process.StandardError.BaseStream.CopyToAsync(Stream.Null)
+			];
+			foreach (Task drain in drains)
+				_ = drain.ContinueWith(static task => _ = task.Exception, TaskContinuationOptions.OnlyOnFaulted);
+			if (!process.WaitForExit(5000))
+				process.Kill(true);
+		}
+		catch
+		{
+		}
+	}
+
+	private static string ResolveXdgDirectory(string variable, params string[] fallback)
+	{
+		string? configured = Environment.GetEnvironmentVariable(variable);
+		if (!string.IsNullOrWhiteSpace(configured) && Path.IsPathRooted(configured))
+			return Path.GetFullPath(configured);
+		string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+		foreach (string segment in fallback)
+			path = Path.Combine(path, segment);
+		return path;
+	}
+
+	private static void WriteAtomic(string path, string contents)
+	{
+		string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+		try
+		{
+			File.WriteAllText(temporary, contents);
+			File.Move(temporary, path, true);
+		}
+		finally
+		{
+			if (File.Exists(temporary))
+				File.Delete(temporary);
+		}
+	}
+}

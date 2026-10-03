@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<RootNamespace>Chivas.Platform.Linux</RootNamespace>
+		<AssemblyName>Chivas.Platform.Linux</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Chivas.Core\Chivas.Core.csproj" />
+		<ProjectReference Include="..\Chivas.Platform.Abstractions\Chivas.Platform.Abstractions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Tomlyn" Version="2.10.1" />
+	</ItemGroup>
+</Project>

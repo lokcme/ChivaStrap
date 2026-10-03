@@ -1,0 +1,97 @@
+﻿# The application ships as a single file bundle that keeps its payload appended to
+# the executable. The default post install processing strips that payload away and
+# leaves a binary that aborts with "Failure processing application bundle", so the
+# binary post processing and the debug package are both turned off here.
+%global __os_install_post %{nil}
+%global debug_package %{nil}
+%global __strip /bin/true
+
+Name: chivas
+Version: @VERSION@
+Release: 1
+Summary: Customize and launch Roblox through Sober on Linux
+License: MIT
+URL: https://github.com/lokcme/ChivaStrap
+ExclusiveArch: x86_64 aarch64
+Requires: libvulkan.so.1()(64bit)
+Requires: libX11.so.6()(64bit)
+Requires: libXext.so.6()(64bit)
+Requires: libXrender.so.1()(64bit)
+Requires: libXrandr.so.2()(64bit)
+Requires: libXi.so.6()(64bit)
+Requires: libXcursor.so.1()(64bit)
+Requires: libXfixes.so.3()(64bit)
+Requires: libXcomposite.so.1()(64bit)
+Requires: libXdamage.so.1()(64bit)
+Requires: libICE.so.6()(64bit)
+Requires: libSM.so.6()(64bit)
+Requires: libfontconfig.so.1()(64bit)
+Requires: libfreetype.so.6()(64bit)
+Requires: libxkbcommon.so.0()(64bit)
+Requires: libxkbcommon-x11.so.0()(64bit)
+Requires: libwayland-client.so.0()(64bit)
+Requires: libdbus-1.so.3()(64bit)
+Requires: libGL.so.1()(64bit)
+Requires: libEGL.so.1()(64bit)
+Requires: libssl.so.3()(64bit)
+Requires: ca-certificates
+Requires: flatpak
+Recommends: (mesa-vulkan-drivers or libvulkan_radeon or libvulkan_intel or libvulkan_lvp)
+Requires: xdg-utils
+Recommends: (zenity or kdialog)
+Recommends: /usr/bin/pkexec
+Requires: /usr/bin/gio
+Requires: /usr/bin/notify-send
+Requires: /usr/bin/secret-tool
+Recommends: /usr/bin/xrandr
+Recommends: /usr/bin/pw-dump
+Recommends: /usr/bin/wpctl
+Requires: /usr/bin/update-desktop-database
+Requires: libgstreamer-1.0.so.0()(64bit)
+Requires: libgstpbutils-1.0.so.0()(64bit)
+Requires: (gstreamer1-plugins-good or gstreamer-plugins-good)
+Requires: (gstreamer1-plugins-bad-free or gstreamer-plugins-bad)
+Requires: (gstreamer1-plugin-libav or gstreamer-plugins-libav)
+Requires: libwebkit2gtk-4.1.so.0()(64bit)
+Source0: publish
+Source1: io.github.lokcme.Chivas.desktop
+Source2: io.github.lokcme.Chivas.png
+Source3: io.github.lokcme.Chivas.metainfo.xml
+Source4: LICENSE
+
+%description
+Chivas is an open source Roblox bootstrapper for Linux that installs and
+launches Roblox through Sober. It brings FastFlags, performance and graphics
+controls, mods, themes, account tools, server tools, Discord Rich Presence,
+and desktop integrations together in one customizable app.
+
+%install
+mkdir -p %{buildroot}%{_libdir}/chivas %{buildroot}%{_bindir}
+cp -a %{_sourcedir}/publish/. %{buildroot}%{_libdir}/chivas/
+chmod 0755 %{buildroot}%{_libdir}/chivas %{buildroot}%{_libdir}/chivas/Chivas
+ln -s ../%{_lib}/chivas/Chivas %{buildroot}%{_bindir}/chivas
+install -Dm644 %{_sourcedir}/io.github.lokcme.Chivas.desktop %{buildroot}%{_datadir}/applications/io.github.lokcme.Chivas.desktop
+install -Dm644 %{_sourcedir}/io.github.lokcme.Chivas.png %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/io.github.lokcme.Chivas.png
+install -Dm644 %{_sourcedir}/io.github.lokcme.Chivas.metainfo.xml %{buildroot}%{_datadir}/metainfo/io.github.lokcme.Chivas.metainfo.xml
+install -Dm644 %{_sourcedir}/LICENSE %{buildroot}%{_licensedir}/chivas/LICENSE
+
+%post
+command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database %{_datadir}/applications || true
+command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f -t %{_datadir}/icons/hicolor || true
+
+%postun
+command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database %{_datadir}/applications || true
+command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f -t %{_datadir}/icons/hicolor || true
+
+%files
+%dir %{_libdir}/chivas
+%{_libdir}/chivas/Chivas
+%{_bindir}/chivas
+%{_datadir}/applications/io.github.lokcme.Chivas.desktop
+%{_datadir}/icons/hicolor/256x256/apps/io.github.lokcme.Chivas.png
+%{_datadir}/metainfo/io.github.lokcme.Chivas.metainfo.xml
+%license %{_licensedir}/chivas/LICENSE
+
+%changelog
+* @DATE@ Chivas - @VERSION@-1
+- Chivas @VERSION@

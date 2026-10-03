@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+		<RootNamespace>Chivas.Desktop</RootNamespace>
+		<AssemblyName>Chivas.Desktop</AssemblyName>
+		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="12.1.2" />
+		<PackageReference Include="Avalonia.Controls.WebView" Version="12.1.0" />
+		<PackageReference Include="Avalonia.Desktop" Version="12.1.2" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="..\Chivas.Core\ExtensionManifests\*.json" Link="ExtensionManifests\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Chivas.Core\Chivas.Core.csproj" />
+		<ProjectReference Include="..\Chivas.Platform.Abstractions\Chivas.Platform.Abstractions.csproj" />
+	</ItemGroup>
+</Project>

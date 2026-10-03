@@ -1,0 +1,52 @@
+﻿using System.IO;
+using System.Windows;
+using ShellLink;
+using Chivas.Enums;
+using Chivas.Resources;
+using Chivas.UI;
+
+namespace Chivas.Utility;
+
+internal static class Shortcut
+{
+	private static GenericTriState _loadStatus = GenericTriState.Unknown;
+
+	public static void Create(string exePath, string exeArgs, string lnkPath)
+	{
+		Create(exePath, exeArgs, lnkPath, exePath);
+	}
+
+	public static void Create(string exePath, string exeArgs, string lnkPath, string iconPath)
+	{
+		if (!Platform.IsLinux && File.Exists(lnkPath))
+		{
+			return;
+		}
+		try
+		{
+			if (Platform.IsLinux)
+			{
+				if (!LinuxDesktopEntry.CreateShortcut(lnkPath, Path.GetFileNameWithoutExtension(lnkPath), exePath, exeArgs, iconPath))
+					throw new IOException("The desktop entry could not be written to " + lnkPath);
+			}
+			else
+			{
+				ShellLink.Shortcut.CreateShortcut(exePath, exeArgs, iconPath, 0).WriteToFile(lnkPath);
+			}
+			if (_loadStatus != GenericTriState.Successful)
+			{
+				_loadStatus = GenericTriState.Successful;
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("Shortcut::Create", "Failed to create a shortcut for " + lnkPath + "!");
+			App.Logger.WriteException("Shortcut::Create", ex);
+			if (_loadStatus != GenericTriState.Failed)
+			{
+				_loadStatus = GenericTriState.Failed;
+				Frontend.ShowMessageBox(Strings.Dialog_CannotCreateShortcuts, MessageBoxImage.Asterisk);
+			}
+		}
+	}
+}

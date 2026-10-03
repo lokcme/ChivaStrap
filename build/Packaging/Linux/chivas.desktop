@@ -1,0 +1,28 @@
+﻿[Desktop Entry]
+Type=Application
+Name=Chivas
+GenericName=Roblox Bootstrapper
+Comment=Customize and launch Roblox through Sober on Linux
+Exec=chivas %u
+TryExec=chivas
+Icon=io.github.lokcme.Chivas
+Terminal=false
+Categories=Game;
+Keywords=roblox;chivas;bootstrapper;sober;
+StartupNotify=true
+StartupWMClass=chivas
+X-GNOME-WMClass=chivas
+MimeType=x-scheme-handler/roblox;x-scheme-handler/roblox-player;x-scheme-handler/roblox-studio;x-scheme-handler/roblox-studio-auth;x-scheme-handler/chivas;
+Actions=LaunchRoblox;LaunchRobloxStudio;Settings;
+
+[Desktop Action LaunchRoblox]
+Name=Launch Roblox
+Exec=chivas -player
+
+[Desktop Action LaunchRobloxStudio]
+Name=Launch Roblox Studio
+Exec=chivas -studio
+
+[Desktop Action Settings]
+Name=Chivas Settings
+Exec=chivas -settings
