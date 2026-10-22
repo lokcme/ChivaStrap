@@ -1,0 +1,46 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Color x:Key="ApplicationBackgroundColor">#FF101820</Color>
+  <Color x:Key="ComboBoxPopupAcrylicBackground">#FF1A2632</Color>
+  <Color x:Key="GlassAccentColor">#FF6F8FA6</Color>
+  <Color x:Key="RinPrimaryColor">#FF6F8FA6</Color>
+  <SolidColorBrush x:Key="NewTextEditorBackground" Color="#E6121B25" />
+  <SolidColorBrush x:Key="NewTextEditorForeground" Color="#FFF2F6FA" />
+  <SolidColorBrush x:Key="NewTextEditorLink" Color="#FF9ABBD2" />
+  <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="#FF101820" />
+
+  <Color x:Key="WindowBackgroundColorPrimary">#E20E1721</Color>
+  <Color x:Key="WindowBackgroundColorSecondary">#EA17232F</Color>
+  <Color x:Key="WindowBackgroundColorThird">#D5121C27</Color>
+  <Color x:Key="ControlFillColorDefault">#1EFFFFFF</Color>
+  <Color x:Key="ControlFillColorSecondary">#25FFFFFF</Color>
+  <Color x:Key="ControlFillColorTertiary">#14FFFFFF</Color>
+  <Color x:Key="ControlFillColorDisabled">#0FFFFFFF</Color>
+  <Color x:Key="ControlFillColorInputActive">#E51A2632</Color>
+  <Color x:Key="ControlSolidFillColorDefault">#FF243342</Color>
+  <Color x:Key="ControlStrokeColorDefault">#38FFFFFF</Color>
+  <Color x:Key="ControlStrokeColorSecondary">#20FFFFFF</Color>
+  <Color x:Key="ControlStrongStrokeColorDefault">#88FFFFFF</Color>
+  <Color x:Key="CardBackgroundFillColorDefault">#1CFFFFFF</Color>
+  <Color x:Key="CardBackgroundFillColorSecondary">#14FFFFFF</Color>
+  <Color x:Key="CardStrokeColorDefault">#30FFFFFF</Color>
+  <Color x:Key="SolidBackgroundFillColorBase">#FF101820</Color>
+  <Color x:Key="SolidBackgroundFillColorSecondary">#FF141F29</Color>
+  <Color x:Key="SolidBackgroundFillColorTertiary">#FF1B2733</Color>
+  <Color x:Key="SolidBackgroundFillColorQuarternary">#FF202E3B</Color>
+  <Color x:Key="SystemFillColorSolidNeutralBackground">#F0192531</Color>
+  <Color x:Key="TextFillColorPrimary">#FFF2F6FA</Color>
+  <Color x:Key="TextFillColorSecondary">#C6E2EAF2</Color>
+  <Color x:Key="TextFillColorTertiary">#A6C4D0DC</Color>
+  <Color x:Key="TextFillColorDisabled">#70C4D0DC</Color>
+  <Color x:Key="TextPlaceholderColor">#A6C4D0DC</Color>
+  <Color x:Key="TextOnAccentFillColorPrimary">#FFFFFFFF</Color>
+  <Color x:Key="SystemFillColorSuccessBackground">#55318D62</Color>
+  <Color x:Key="SystemFillColorCautionBackground">#556F5A32</Color>
+  <Color x:Key="SystemFillColorCriticalBackground">#556D3541</Color>
+  <Color x:Key="SystemFillColorNeutralBackground">#55233241</Color>
+  <SolidColorBrush x:Key="SystemFillColorSolidNeutralBackgroundBrush" Color="#F0192531" />
+  <SolidColorBrush x:Key="SystemFillColorSuccessBackgroundBrush" Color="#55318D62" />
+  <SolidColorBrush x:Key="SystemFillColorCautionBackgroundBrush" Color="#556F5A32" />
+  <SolidColorBrush x:Key="SystemFillColorCriticalBackgroundBrush" Color="#556D3541" />
+  <SolidColorBrush x:Key="SystemFillColorNeutralBackgroundBrush" Color="#55233241" />
+</ResourceDictionary>

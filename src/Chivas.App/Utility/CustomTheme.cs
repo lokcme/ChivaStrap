@@ -79,6 +79,7 @@ namespace Chivas.Utility
 
         public static IReadOnlyList<ThemeKeyInfo> Schema { get; } = new List<ThemeKeyInfo>
         {
+            new ThemeKeyInfo { Key = "GlassAccentColor", Label = "Glass highlight", Group = "Surfaces", IsBrush = false, Fallback = "#FF3897E8" },
             new ThemeKeyInfo { Key = "WindowBackgroundColorPrimary", Label = "Window base", Group = "Window", IsBrush = false, Fallback = "#CC202020" },
             new ThemeKeyInfo { Key = "WindowBackgroundColorSecondary", Label = "Window glow", Group = "Window", IsBrush = false, Fallback = "#CC202020" },
             new ThemeKeyInfo { Key = "WindowBackgroundColorThird", Label = "Window edge", Group = "Window", IsBrush = false, Fallback = "#CC202020" },
@@ -241,6 +242,13 @@ namespace Chivas.Utility
                 {
                     App.Logger?.WriteLine(LOG_IDENT, "Skipped theme key " + key + ": " + ex.Message);
                 }
+            }
+
+            // Older custom themes predate the glass accent token. Reuse their
+            // existing link/accent colour so the glass treatment follows their palette.
+            if (!user.Contains("GlassAccentColor") && user.Contains("NewTextEditorLink") && user["NewTextEditorLink"] is SolidColorBrush customAccent)
+            {
+                merged["GlassAccentColor"] = customAccent.Color;
             }
 
             foreach (ThemeKeyInfo info in Schema)

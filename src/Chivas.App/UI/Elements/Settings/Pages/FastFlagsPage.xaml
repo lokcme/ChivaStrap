@@ -227,7 +227,7 @@
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="{x:Static resources:Strings.Menu_FastFlags_Page_Advanced_Info}" />
+          <ui:InfoBar Style="{StaticResource GlassInfoBarBaseStyle}" Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="{x:Static resources:Strings.Menu_FastFlags_Page_Advanced_Info}" />
           <controls:OptionControl Header="{x:Static resources:Strings.Menu_FastFlags_Page_Particles_Header}" Description="{x:Static resources:Strings.Menu_FastFlags_Page_Particles_Description}">
             <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureParticleStyle, Mode=TwoWay}">
               <ComboBoxItem Content="{x:Static resources:Strings.Menu_FastFlags_Page_Particles_Default}" />

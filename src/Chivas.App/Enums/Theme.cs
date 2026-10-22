@@ -19,5 +19,7 @@ public enum Theme
 	Purple,
 	Red,
 	Yellow,
-	Custom
+	Custom,
+	[EnumName(FromTranslation = "Enums.Theme.Crystal")]
+	Crystal
 }

@@ -618,6 +618,9 @@ If not, then please report this exception through a [GitHub issue]({1}) along wi
   <data name="Enums.Theme.Chivas" xml:space="preserve">
     <value>Chivas</value>
   </data>
+  <data name="Enums.Theme.Crystal" xml:space="preserve">
+    <value>Crystal (neutral)</value>
+  </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
     <value>Chivas has been upgraded to a new version</value>
   </data>
@@ -1463,6 +1466,15 @@ Please manually delete Chivas.exe from the install location or try restarting yo
   <data name="Menu.TestMode" xml:space="preserve">
     <value>Test mode</value>
     <comment>See the prompt for more context</comment>
+  </data>
+  <data name="Menu.RobloxAccount.SignedOut.Title" xml:space="preserve">
+    <value>Sign in to Roblox</value>
+  </data>
+  <data name="Menu.RobloxAccount.SignedOut.Description" xml:space="preserve">
+    <value>Your Roblox profile will appear here</value>
+  </data>
+  <data name="Menu.RobloxAccount.SignedIn.Description" xml:space="preserve">
+    <value>View your profile and switch accounts</value>
   </data>
   <data name="Menu.TestMode.Prompt" xml:space="preserve">
     <value>Test mode makes it easier to iteratively test how your settings affect Roblox. 

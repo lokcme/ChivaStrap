@@ -3,17 +3,57 @@
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+      <SolidColorBrush x:Key="GlassBarBrush" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+      <SolidColorBrush x:Key="GlassSidebarBrush" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+      <SolidColorBrush x:Key="GlassPanelBrush" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+      <SolidColorBrush x:Key="GlassPanelStrongBrush" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+      <SolidColorBrush x:Key="GlassCardBrush" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+      <SolidColorBrush x:Key="GlassStrokeBrush" Color="{DynamicResource ControlStrokeColorDefault}" />
+      <SolidColorBrush x:Key="GlassHighlightBrush" Color="{DynamicResource ControlFillColorSecondary}" />
+      <LinearGradientBrush x:Key="GlassNavPillBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="#24FFFFFF" />
+        <GradientStop Offset="0.18" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+        <GradientStop Offset="0.72" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+        <GradientStop Offset="1" Color="#18FFFFFF" />
+      </LinearGradientBrush>
+      <LinearGradientBrush x:Key="GlassNavActiveBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="{DynamicResource GlassAccentColor}" />
+        <GradientStop Offset="1" Color="{DynamicResource GlassAccentColor}" />
+        <LinearGradientBrush.Opacity>0.24</LinearGradientBrush.Opacity>
+      </LinearGradientBrush>
+      <SolidColorBrush x:Key="GlassNavLensStrokeBrush" Color="{DynamicResource GlassAccentColor}" Opacity="0.58" />
+      <SolidColorBrush x:Key="GlassNavActiveTextBrush" Color="{DynamicResource GlassAccentColor}" />
+      <LinearGradientBrush x:Key="GlassNavSheenBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="#38FFFFFF" />
+        <GradientStop Offset="0.36" Color="#18FFFFFF" />
+        <GradientStop Offset="1" Color="#00FFFFFF" />
+      </LinearGradientBrush>
+      <LinearGradientBrush x:Key="GlassPanelGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+        <GradientStop Offset="0.45" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+        <GradientStop Offset="1" Color="{DynamicResource WindowBackgroundColorThird}" />
+      </LinearGradientBrush>
+      <LinearGradientBrush x:Key="GlassAccentGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="{DynamicResource GlassAccentColor}" />
+        <GradientStop Offset="0.68" Color="{DynamicResource GlassAccentColor}" />
+        <GradientStop Offset="1" Color="#FFFFFFFF" />
+      </LinearGradientBrush>
       <BitmapImage x:Key="AppIconImage" UriSource="pack://application:,,,/Chivas.png" />
-      <SolidColorBrush x:Key="LauncherMenuBrush" Color="#FF1C1C1E" />
-      <SolidColorBrush x:Key="LauncherMenuHoverBrush" Color="#14FFFFFF" />
-      <SolidColorBrush x:Key="LauncherMenuBorderBrush" Color="#1AFFFFFF" />
-      <SolidColorBrush x:Key="LauncherDividerBrush" Color="#12FFFFFF" />
-      <SolidColorBrush x:Key="LauncherControlBrush" Color="#0FFFFFFF" />
-      <SolidColorBrush x:Key="LauncherControlHoverBrush" Color="#1AFFFFFF" />
-      <SolidColorBrush x:Key="LauncherControlPressedBrush" Color="#10FFFFFF" />
-      <SolidColorBrush x:Key="LauncherTextPrimaryBrush" Color="#FFEDEDED" />
-      <SolidColorBrush x:Key="LauncherTextSecondaryBrush" Color="#FFB4B4B4" />
-      <SolidColorBrush x:Key="LauncherTextTertiaryBrush" Color="#FF7C7C7C" />
+      <LinearGradientBrush x:Key="LauncherMenuBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="#22FFFFFF" />
+        <GradientStop Offset="0.14" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+        <GradientStop Offset="0.78" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+        <GradientStop Offset="1" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+      </LinearGradientBrush>
+      <SolidColorBrush x:Key="LauncherMenuHoverBrush" Color="{DynamicResource ControlFillColorSecondary}" />
+      <SolidColorBrush x:Key="LauncherMenuBorderBrush" Color="{DynamicResource ControlStrokeColorDefault}" />
+      <SolidColorBrush x:Key="LauncherDividerBrush" Color="#24FFFFFF" />
+      <SolidColorBrush x:Key="LauncherControlBrush" Color="#20FFFFFF" />
+      <SolidColorBrush x:Key="LauncherControlHoverBrush" Color="#38FFFFFF" />
+      <SolidColorBrush x:Key="LauncherControlPressedBrush" Color="#4AFFFFFF" />
+      <SolidColorBrush x:Key="LauncherTextPrimaryBrush" Color="{DynamicResource TextFillColorPrimary}" />
+      <SolidColorBrush x:Key="LauncherTextSecondaryBrush" Color="{DynamicResource TextFillColorSecondary}" />
+      <SolidColorBrush x:Key="LauncherTextTertiaryBrush" Color="{DynamicResource TextFillColorTertiary}" />
       <Style x:Key="TopBarButtonStyle" TargetType="Button">
         <Setter Property="Height" Value="30" />
         <Setter Property="Background" Value="Transparent" />
@@ -51,6 +91,37 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground" Value="#FFCACACA" />
       </Style>
+      <Style x:Key="MacTrafficLightButtonStyle" TargetType="Button">
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Margin" Value="0,0,7,0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Button">
+              <Border x:Name="TrafficLightFace" Width="13" Height="13" CornerRadius="7" Background="{TemplateBinding Background}" BorderBrush="#55000000" BorderThickness="0.7" SnapsToDevicePixels="True">
+                <ContentPresenter x:Name="TrafficLightGlyph" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0" />
+              </Border>
+              <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter TargetName="TrafficLightGlyph" Property="Opacity" Value="1" />
+                  <Setter TargetName="TrafficLightFace" Property="BorderBrush" Value="#77000000" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                  <Setter TargetName="TrafficLightFace" Property="Opacity" Value="0.72" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                  <Setter TargetName="TrafficLightFace" Property="Opacity" Value="0.45" />
+                </Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
       <Style x:Key="TopBarPillButtonStyle" TargetType="Button" BasedOn="{StaticResource TopBarButtonStyle}">
         <Setter Property="Padding" Value="10,0" />
       </Style>
@@ -82,9 +153,12 @@
       </Style>
       <Style x:Key="TopNavButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="12,4" />
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Width" Value="86" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Padding" Value="3,3" />
+        <Setter Property="FontSize" Value="12" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Foreground" Value="{StaticResource LauncherTextSecondaryBrush}" />
         <Setter Property="Cursor" Value="Hand" />
@@ -92,36 +166,16 @@
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="{x:Type Button}">
-              <Border Background="Transparent" Padding="{TemplateBinding Padding}">
-                <StackPanel>
-                  <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                  <Rectangle x:Name="TabUnderline" Height="2" Margin="0,3,0,0" RadiusX="1" RadiusY="1" HorizontalAlignment="Stretch" Opacity="0" RenderTransformOrigin="0.5,0.5" Fill="{DynamicResource SystemAccentBrush}">
-                    <Rectangle.RenderTransform>
-                      <ScaleTransform ScaleX="0" />
-                    </Rectangle.RenderTransform>
-                  </Rectangle>
-                </StackPanel>
+              <Border x:Name="TabBackground" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="18" Padding="{TemplateBinding Padding}">
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
               </Border>
               <ControlTemplate.Triggers>
-                <Trigger Property="Tag" Value="Active">
-                  <Trigger.EnterActions>
-                    <BeginStoryboard>
-                      <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="TabUnderline" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.12" />
-                        <DoubleAnimation Storyboard.TargetName="TabUnderline" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.22">
-                          <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                      </Storyboard>
-                    </BeginStoryboard>
-                  </Trigger.EnterActions>
-                  <Trigger.ExitActions>
-                    <BeginStoryboard>
-                      <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="TabUnderline" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.12" />
-                        <DoubleAnimation Storyboard.TargetName="TabUnderline" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="0" Duration="0:0:0.12" />
-                      </Storyboard>
-                    </BeginStoryboard>
-                  </Trigger.ExitActions>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter TargetName="TabBackground" Property="Background" Value="{StaticResource GlassHighlightBrush}" />
+                  <Setter TargetName="TabBackground" Property="BorderBrush" Value="{StaticResource GlassStrokeBrush}" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                  <Setter TargetName="TabBackground" Property="Background" Value="{StaticResource GlassHighlightBrush}" />
                 </Trigger>
               </ControlTemplate.Triggers>
             </ControlTemplate>
@@ -132,7 +186,7 @@
             <Setter Property="Foreground" Value="{StaticResource LauncherTextPrimaryBrush}" />
           </Trigger>
           <Trigger Property="Tag" Value="Active">
-            <Setter Property="Foreground" Value="{StaticResource LauncherTextPrimaryBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource GlassNavActiveTextBrush}" />
           </Trigger>
         </Style.Triggers>
       </Style>
@@ -165,6 +219,7 @@
                     <ContentPresenter x:Name="MenuIcon" ContentSource="Icon" Width="16" Height="16" Margin="0,0,10,0" VerticalAlignment="Center" />
                     <ContentPresenter Grid.Column="1" ContentSource="Header" VerticalAlignment="Center" RecognizesAccessKey="True" />
                     <ui:SymbolIcon x:Name="MenuArrow" Grid.Column="2" Symbol="ChevronRight24" FontSize="12" Margin="12,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextTertiaryBrush}" Visibility="Collapsed" />
+                    <ui:SymbolIcon x:Name="MenuCheck" Grid.Column="2" Symbol="Checkmark24" FontSize="15" Margin="12,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource SystemAccentBrush}" Visibility="Collapsed" />
                   </Grid>
                 </Border>
                 <vscontrols:AnimatedPopup x:Name="PART_Popup" Placement="Right" HorizontalOffset="-6" VerticalOffset="-18" AllowsTransparency="True" Focusable="False" IsOpen="{TemplateBinding IsSubmenuOpen}">
@@ -179,6 +234,9 @@
                 </Trigger>
                 <Trigger Property="Role" Value="SubmenuHeader">
                   <Setter TargetName="MenuArrow" Property="Visibility" Value="Visible" />
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                  <Setter TargetName="MenuCheck" Property="Visibility" Value="Visible" />
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                   <Setter TargetName="MenuChrome" Property="Background" Value="{StaticResource LauncherMenuHoverBrush}" />
@@ -270,7 +328,7 @@
         </Image.Effect>
       </Image>
     </Grid>
-    <Border Name="RestartNotificationCard" Grid.RowSpan="3" Width="390" MinHeight="116" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,24,72" Padding="14" Panel.ZIndex="1200" Visibility="Collapsed" Opacity="0" CornerRadius="7" Background="{DynamicResource SystemFillColorSolidNeutralBackgroundBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+    <Border Name="RestartNotificationCard" Grid.RowSpan="3" Width="390" MinHeight="116" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,24,72" Padding="16" Panel.ZIndex="1200" Visibility="Collapsed" Opacity="0" CornerRadius="16" Background="{DynamicResource GlassCardSurfaceBrush}" BorderBrush="{DynamicResource GlassControlStrokeBrush}" BorderThickness="1" TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}">
       <Border.Effect>
         <DropShadowEffect BlurRadius="24" ShadowDepth="4" Direction="270" Opacity="0.45" Color="#000000" />
       </Border.Effect>
@@ -296,7 +354,7 @@
       </Grid>
     </Border>
     <vscontrols:DownloadNotificationCard x:Name="DownloadCard" Grid.RowSpan="3" Margin="0,0,24,72" Panel.ZIndex="1190" />
-    <ui:Snackbar Name="AlreadyRunningSnackbar" Title="{x:Static resources:Strings.Menu_AlreadyRunning_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="10" Icon="Info20" Message="{x:Static resources:Strings.Menu_AlreadyRunning_Caption}" Timeout="10000">
+    <ui:Snackbar Name="AlreadyRunningSnackbar" Style="{StaticResource GlassSnackbarBaseStyle}" Title="{x:Static resources:Strings.Menu_AlreadyRunning_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="10" Icon="Info20" Message="{x:Static resources:Strings.Menu_AlreadyRunning_Caption}" Timeout="10000">
       <Control.Background>
         <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
           <GradientStop Offset="0.00" Color="{DynamicResource WindowBackgroundColorPrimary}" />
@@ -305,7 +363,7 @@
         </LinearGradientBrush>
       </Control.Background>
     </ui:Snackbar>
-    <ui:Snackbar Name="SettingsSavedSnackbar" Title="{x:Static resources:Strings.Menu_SettingsSaved_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="9" Icon="CheckboxChecked24" Message="{x:Static resources:Strings.Menu_SettingsSaved_Message}" Timeout="2100">
+    <ui:Snackbar Name="SettingsSavedSnackbar" Style="{StaticResource GlassSnackbarBaseStyle}" Title="{x:Static resources:Strings.Menu_SettingsSaved_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="9" Icon="CheckboxChecked24" Message="{x:Static resources:Strings.Menu_SettingsSaved_Message}" Timeout="2100">
       <Control.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
           <GradientStop Offset="0.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
@@ -315,7 +373,7 @@
         </LinearGradientBrush>
       </Control.Background>
     </ui:Snackbar>
-    <ui:Snackbar Name="SettingsSavedLaunchSnackbar" Title="Chivas Saved And Launched Roblox!" Grid.RowSpan="10" Margin="150,0,150,20" Panel.ZIndex="10" Icon="CheckboxChecked24" Message="{x:Static resources:Strings.Menu_Chrome_SavedMsg}" Timeout="2000">
+    <ui:Snackbar Name="SettingsSavedLaunchSnackbar" Style="{StaticResource GlassSnackbarBaseStyle}" Title="Chivas Saved And Launched Roblox!" Grid.RowSpan="10" Margin="150,0,150,20" Panel.ZIndex="10" Icon="CheckboxChecked24" Message="{x:Static resources:Strings.Menu_Chrome_SavedMsg}" Timeout="2000">
       <Control.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
           <GradientStop Offset="0.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
@@ -325,10 +383,23 @@
         </LinearGradientBrush>
       </Control.Background>
     </ui:Snackbar>
-    <ui:Snackbar Name="SettingFailureSnackbar" Title="Setting not changed" Grid.RowSpan="10" Margin="180,0,180,20" Panel.ZIndex="11" Icon="ErrorCircle24" Timeout="5000" />
-    <ui:TitleBar Name="RootTitleBar" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" UseSnapLayout="True">
+    <ui:Snackbar Name="SettingFailureSnackbar" Style="{StaticResource GlassSnackbarBaseStyle}" Title="Setting not changed" Grid.RowSpan="10" Margin="180,0,180,20" Panel.ZIndex="11" Icon="ErrorCircle24" Timeout="5000" Background="{DynamicResource GlassCardSurfaceBrush}" BorderBrush="{DynamicResource GlassControlStrokeBrush}" />
+    <ui:TitleBar Name="RootTitleBar" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" ShowMinimize="False" ShowMaximize="False" ShowClose="False" UseSnapLayout="True">
+      <ui:TitleBar.Background>
+        <SolidColorBrush Color="{DynamicResource WindowBackgroundColorSecondary}" />
+      </ui:TitleBar.Background>
+      <ui:TitleBar.BorderBrush>
+        <SolidColorBrush Color="#28FFFFFF" />
+      </ui:TitleBar.BorderBrush>
+      <ui:TitleBar.BorderThickness>0,0,0,1</ui:TitleBar.BorderThickness>
       <ui:TitleBar.Header>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="0,6,0,-6">
+          <Button x:Name="TopNavBack" Width="26" Height="26" Style="{StaticResource TopNavArrowStyle}" IsEnabled="False" ToolTip="{x:Static resources:Strings.Menu_Chrome_Back}" Click="TopNavBack_Click">
+            <ui:SymbolIcon Symbol="ChevronLeft24" FontSize="17" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
+          </Button>
+          <Button x:Name="TopNavForward" Width="26" Height="26" Style="{StaticResource TopNavArrowStyle}" IsEnabled="False" ToolTip="{x:Static resources:Strings.Menu_Chrome_Forward}" Click="TopNavForward_Click">
+            <ui:SymbolIcon Symbol="ChevronRight24" FontSize="17" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
+          </Button>
           <Grid Margin="0,0,2,0">
             <Button x:Name="TopSearchButton" Style="{StaticResource TopBarIconButtonStyle}" Click="TopSearchButton_Click">
               <Button.ToolTip>
@@ -470,7 +541,26 @@
         </StackPanel>
       </ui:TitleBar.Header>
     </ui:TitleBar>
-    <StackPanel x:Name="TopNavPanel" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="14,5,0,0" Panel.ZIndex="1001">
+    <Grid x:Name="HeaderControlLayout" Grid.Row="0" Panel.ZIndex="1001" Focusable="False">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="180" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="180" />
+      </Grid.ColumnDefinitions>
+    <StackPanel x:Name="TopNavPanel" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="14,5,0,0" Panel.ZIndex="1001">
+      <StackPanel x:Name="MacWindowButtons" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
+        <Button x:Name="MacCloseButton" Style="{StaticResource MacTrafficLightButtonStyle}" Background="#FFFF5F57" ToolTip="Cerrar Chivas" AutomationProperties.Name="Cerrar Chivas" Click="MacCloseButton_Click">
+          <TextBlock Text="×" FontFamily="Segoe UI Symbol" FontSize="8" FontWeight="Bold" Foreground="#A6000000" Margin="0,-1,0,0" />
+        </Button>
+        <Button x:Name="MacMinimizeButton" Style="{StaticResource MacTrafficLightButtonStyle}" Background="#FFFEBC2E" ToolTip="Minimizar" AutomationProperties.Name="Minimizar Chivas" Click="MacMinimizeButton_Click">
+          <Button.Margin>0,0,7,0</Button.Margin>
+          <TextBlock Text="−" FontFamily="Segoe UI Symbol" FontSize="8" FontWeight="Bold" Foreground="#A6000000" Margin="0,-1,0,0" />
+        </Button>
+        <Button x:Name="MacMaximizeButton" Style="{StaticResource MacTrafficLightButtonStyle}" Background="#FF28C840" ToolTip="Maximizar o restaurar" AutomationProperties.Name="Maximizar o restaurar Chivas" Click="MacMaximizeButton_Click">
+          <Button.Margin>0</Button.Margin>
+          <TextBlock Text="⤢" FontFamily="Segoe UI Symbol" FontSize="7" FontWeight="Bold" Foreground="#A6000000" Margin="0,-1,0,0" />
+        </Button>
+      </StackPanel>
       <Button x:Name="AppMenuButton" Margin="0,0,5,0" Style="{StaticResource TopBarButtonStyle}" Click="AppMenuButton_Click">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
           <Image Width="16" Height="16" Margin="0,0,8,0" RenderOptions.BitmapScalingMode="HighQuality" Source="{StaticResource AppIconImage}" />
@@ -507,30 +597,56 @@
           </Border>
         </StackPanel>
       </Button>
-      <Button x:Name="TopNavBack" Width="26" Height="26" Style="{StaticResource TopNavArrowStyle}" Margin="5,0,0,0" IsEnabled="False" ToolTip="{x:Static resources:Strings.Menu_Chrome_Back}" Click="TopNavBack_Click">
-        <ui:SymbolIcon Symbol="ChevronLeft24" FontSize="17" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
-      </Button>
-      <Button x:Name="TopNavForward" Width="26" Height="26" Style="{StaticResource TopNavArrowStyle}" Margin="0" IsEnabled="False" ToolTip="{x:Static resources:Strings.Menu_Chrome_Forward}" Click="TopNavForward_Click">
-        <ui:SymbolIcon Symbol="ChevronRight24" FontSize="17" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
-      </Button>
     </StackPanel>
-    <StackPanel x:Name="SectionTabsPanel" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0" Panel.ZIndex="1001" MouseMove="SectionTabs_MouseMove" MouseLeave="SectionTabs_MouseLeave">
-        <Button x:Name="SectionTabPrincipal" Style="{StaticResource TopNavButtonStyle}" Padding="8,4" Margin="2,0" RenderTransformOrigin="0.5,1" CommandParameter="Principal" Click="SectionTab_Click" MouseEnter="SectionTab_MouseEnter" ToolTipService.IsEnabled="False">
-          <ui:SymbolIcon Symbol="Home24" FontSize="17" />
+    <Border x:Name="SectionTabsGlass" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,0" Padding="5,4" Panel.ZIndex="1001" Background="{StaticResource GlassNavPillBrush}" BorderBrush="{StaticResource GlassStrokeBrush}" BorderThickness="1" CornerRadius="28">
+      <Grid x:Name="SectionTabsHost" SizeChanged="SectionTabsHost_SizeChanged">
+        <Canvas ClipToBounds="True" IsHitTestVisible="False">
+          <Border x:Name="SectionLiquidIndicator" Canvas.Left="0" Canvas.Top="4" Width="70" Height="44" Opacity="0" CornerRadius="24" Background="{StaticResource GlassNavActiveBrush}" BorderBrush="{StaticResource GlassNavLensStrokeBrush}" BorderThickness="1" SnapsToDevicePixels="True">
+            <Border.RenderTransform>
+              <TranslateTransform x:Name="SectionIndicatorTranslate" />
+            </Border.RenderTransform>
+            <Border x:Name="SectionLiquidSurface" Margin="1" CornerRadius="23" Background="{StaticResource GlassNavSheenBrush}" BorderBrush="#33FFFFFF" BorderThickness="1" RenderTransformOrigin="0.5,0.5">
+              <Border.RenderTransform>
+                <ScaleTransform x:Name="SectionIndicatorScale" ScaleX="1" ScaleY="1" />
+              </Border.RenderTransform>
+            </Border>
+          </Border>
+        </Canvas>
+        <StackPanel x:Name="SectionTabsPanel" Panel.ZIndex="1" Orientation="Horizontal" MouseLeave="SectionTabs_MouseLeave">
+        <Button x:Name="SectionTabPrincipal" Style="{StaticResource TopNavButtonStyle}" Margin="1,0" CommandParameter="Principal" Click="SectionTab_Click" ToolTipService.IsEnabled="False">
+          <StackPanel>
+            <ui:SymbolIcon Symbol="Home24" FontSize="18" HorizontalAlignment="Center" />
+            <TextBlock Text="Inicio" HorizontalAlignment="Center" Margin="0,2,0,0" />
+          </StackPanel>
         </Button>
-        <Button x:Name="SectionTabPersonalizacion" Style="{StaticResource TopNavButtonStyle}" Padding="8,4" Margin="2,0" RenderTransformOrigin="0.5,1" CommandParameter="Personalización" Click="SectionTab_Click" MouseEnter="SectionTab_MouseEnter" ToolTipService.IsEnabled="False">
-          <ui:SymbolIcon Symbol="Color24" FontSize="17" />
+        <Button x:Name="SectionTabPersonalizacion" Style="{StaticResource TopNavButtonStyle}" Margin="1,0" CommandParameter="Personalización" Click="SectionTab_Click" ToolTipService.IsEnabled="False">
+          <StackPanel>
+            <ui:SymbolIcon Symbol="Color24" FontSize="18" HorizontalAlignment="Center" />
+            <TextBlock Text="Apariencia" HorizontalAlignment="Center" Margin="0,2,0,0" />
+          </StackPanel>
         </Button>
-        <Button x:Name="SectionTabAvanzada" Style="{StaticResource TopNavButtonStyle}" Padding="8,4" Margin="2,0" RenderTransformOrigin="0.5,1" CommandParameter="Configuración avanzada" Click="SectionTab_Click" MouseEnter="SectionTab_MouseEnter" ToolTipService.IsEnabled="False">
-          <ui:SymbolIcon Symbol="Options24" FontSize="17" />
+        <Button x:Name="SectionTabAvanzada" Style="{StaticResource TopNavButtonStyle}" Margin="1,0" CommandParameter="Configuración avanzada" Click="SectionTab_Click" ToolTipService.IsEnabled="False">
+          <StackPanel>
+            <ui:SymbolIcon Symbol="Options24" FontSize="18" HorizontalAlignment="Center" />
+            <TextBlock Text="Avanzado" HorizontalAlignment="Center" Margin="0,2,0,0" />
+          </StackPanel>
         </Button>
-        <Button x:Name="SectionTabHerramientas" Style="{StaticResource TopNavButtonStyle}" Padding="8,4" Margin="2,0" RenderTransformOrigin="0.5,1" CommandParameter="Herramientas" Click="SectionTab_Click" MouseEnter="SectionTab_MouseEnter" ToolTipService.IsEnabled="False">
-          <ui:SymbolIcon Symbol="WrenchScrewdriver20" FontSize="17" />
+        <Button x:Name="SectionTabHerramientas" Style="{StaticResource TopNavButtonStyle}" Margin="1,0" CommandParameter="Herramientas" Click="SectionTab_Click" ToolTipService.IsEnabled="False">
+          <StackPanel>
+            <ui:SymbolIcon Symbol="WrenchScrewdriver20" FontSize="18" HorizontalAlignment="Center" />
+            <TextBlock Text="Herramientas" HorizontalAlignment="Center" Margin="0,2,0,0" />
+          </StackPanel>
         </Button>
-        <Button x:Name="SectionTabSistema" Style="{StaticResource TopNavButtonStyle}" Padding="8,4" Margin="2,0" RenderTransformOrigin="0.5,1" CommandParameter="Sistema" Click="SectionTab_Click" MouseEnter="SectionTab_MouseEnter" ToolTipService.IsEnabled="False">
-          <ui:SymbolIcon Symbol="Settings28" FontSize="17" />
+        <Button x:Name="SectionTabSistema" Style="{StaticResource TopNavButtonStyle}" Margin="1,0" CommandParameter="Sistema" Click="SectionTab_Click" ToolTipService.IsEnabled="False">
+          <StackPanel>
+            <ui:SymbolIcon Symbol="Settings28" FontSize="18" HorizontalAlignment="Center" />
+            <TextBlock Text="Sistema" HorizontalAlignment="Center" Margin="0,2,0,0" />
+          </StackPanel>
         </Button>
-    </StackPanel>
+      </StackPanel>
+      </Grid>
+    </Border>
+    </Grid>
     <vscontrols:AnimatedPopup x:Name="SectionMenuPopup" Placement="Bottom" LightDismiss="True" AllowsTransparency="True" HorizontalOffset="0" VerticalOffset="0" MouseLeave="SectionMenu_MouseLeave" MouseEnter="SectionMenu_MouseEnter">
       <Border Margin="12,0,12,12" MinWidth="230" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="6" TextElement.FontSize="13.5" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
         <StackPanel x:Name="SectionMenuItemsPanel" />
@@ -562,13 +678,17 @@
             <MenuItem.Icon><ui:SymbolIcon Symbol="Question24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
           <Separator Style="{StaticResource TopBarMenuSeparatorStyle}" />
+          <MenuItem x:Name="TestModeMenuItem" Header="{x:Static resources:Strings.Menu_TestMode}" Style="{StaticResource TopBarMenuItemStyle}" IsCheckable="True" Click="TestModeMenuItem_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="Beaker24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
+          <Separator Style="{StaticResource TopBarMenuSeparatorStyle}" />
           <MenuItem Header="{x:Static resources:Strings.Menu_TopMenu_Restart}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuRestart_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="ArrowClockwise24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
         </StackPanel>
       </Border>
     </vscontrols:AnimatedPopup>
-    <Grid Name="RootGrid" Row="1" Margin="8,12,0,0" MouseMove="RootGrid_MouseMove" MouseLeave="RootGrid_MouseLeave">
+    <Grid Name="RootGrid" Row="1" Margin="16,14,10,0" MouseMove="RootGrid_MouseMove" MouseLeave="RootGrid_MouseLeave">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
@@ -578,23 +698,19 @@
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
       <ui:Button Name="SidebarToggle" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Width="40" Height="36" Margin="8,0,0,6" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="70" Visibility="Collapsed" Style="{StaticResource HamburgerButton}" ToolTip="{x:Static resources:Strings.Menu_Chrome_CollapseSidebar}" Click="SidebarToggle_Click" />
-      <Grid Name="SidebarHost" Row="1" Column="0" Margin="0,0,5,0" Panel.ZIndex="60" Visibility="Collapsed">
-        <ui:NavigationFluent Name="RootNavigation" ClipToBounds="True" Width="225" SelectedPageIndex="1" TransitionType="FadeInWithSlideLeft" TransitionDuration="150" Frame="{Binding ElementName=RootFrame}">
+      <Grid Name="SidebarHost" Row="1" Column="0" Margin="0,0,12,0" Panel.ZIndex="60" Visibility="Collapsed" Background="{DynamicResource GlassSidebarBrush}">
+        <ui:NavigationFluent Name="RootNavigation" ClipToBounds="True" Width="225" SelectedPageIndex="1" TransitionType="FadeInWithSlideLeft" TransitionDuration="100" Frame="{Binding ElementName=RootFrame}">
           <ui:NavigationFluent.Resources>
             <Style TargetType="{x:Type ui:NavigationItem}">
               <Setter Property="Cache" Value="False" />
               <Setter Property="ui:RinControlMotion.Enabled" Value="True" />
-              <Setter Property="Margin" Value="0,0,0,4" />
+              <Setter Property="Margin" Value="0,0,0,6" />
               <Setter Property="Cursor" Value="Arrow" />
-              <Setter Property="FontSize" Value="14" />
+              <Setter Property="FontSize" Value="13.5" />
               <Setter Property="IconSize" Value="18" />
               <Setter Property="VerticalAlignment" Value="Center" />
               <Setter Property="HorizontalContentAlignment" Value="Left" />
-              <Setter Property="Background">
-                <Setter.Value>
-                  <SolidColorBrush Color="{DynamicResource SubtleFillColorSecondary}" />
-                </Setter.Value>
-              </Setter>
+              <Setter Property="Background" Value="{StaticResource GlassPanelBrush}" />
               <Setter Property="Foreground">
                 <Setter.Value>
                   <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
@@ -605,7 +721,7 @@
                   <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
                 </Setter.Value>
               </Setter>
-              <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentBrush}" />
+              <Setter Property="BorderBrush" Value="{StaticResource GlassStrokeBrush}" />
               <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />
               <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
               <Setter Property="Focusable" Value="True" />
@@ -614,14 +730,14 @@
               <Setter Property="Template">
                 <Setter.Value>
                   <ControlTemplate TargetType="{x:Type ui:NavigationItem}">
-                    <Border x:Name="MainBorder" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderThickness="1" CornerRadius="5">
+                    <Border x:Name="MainBorder" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="11">
                       <Grid>
                         <Rectangle x:Name="ActiveRectangle" Width="3" Height="0" Margin="-1,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.0" RadiusX="1.5" RadiusY="1.5">
                           <Rectangle.Fill>
                             <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
                           </Rectangle.Fill>
                         </Rectangle>
-                        <Grid x:Name="InnerGrid" Margin="16,8" HorizontalAlignment="Left">
+                        <Grid x:Name="InnerGrid" Margin="15,9" HorizontalAlignment="Left">
                           <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -677,7 +793,7 @@
                         <Setter TargetName="ActiveRectangle" Property="Opacity" Value="1" />
                         <Setter TargetName="MainBorder" Property="Background">
                           <Setter.Value>
-                            <SolidColorBrush Color="{DynamicResource SubtleFillColorSecondary}" />
+                          <SolidColorBrush Color="#18FFFFFF" />
                           </Setter.Value>
                         </Setter>
                         <MultiTrigger.EnterActions>
@@ -762,11 +878,7 @@
                         <MultiTrigger.Conditions>
                           <Condition Property="IsMouseOver" Value="True" />
                         </MultiTrigger.Conditions>
-                        <Setter TargetName="MainBorder" Property="Background">
-                          <Setter.Value>
-                            <SolidColorBrush Color="{DynamicResource SubtleFillColorSecondary}" />
-                          </Setter.Value>
-                        </Setter>
+                          <Setter TargetName="MainBorder" Property="Background" Value="{StaticResource GlassHighlightBrush}" />
                       </MultiTrigger>
                       <Trigger Property="vscontrols:SidebarGroup.IsHeader" Value="True">
                         <Setter TargetName="GroupChevron" Property="Visibility" Value="Visible" />
@@ -893,9 +1005,9 @@
             <ui:SymbolIcon Name="BreadcrumbIcon" Symbol="Add12" FontSize="23" Margin="0,4,6,0" VerticalAlignment="Center" />
             <ui:Breadcrumb Navigation="{Binding ElementName=RootNavigation}" />
           </StackPanel>
-          <ui:InfoBar Margin="0,0,28,0" Grid.Column="2" HorizontalAlignment="Right" Padding="3" IsClosable="True" IsOpen="True" Message="{Binding AppVersion}" appUi:LinuxTextGuard.PreserveCompactLayout="True" />
+          <ui:InfoBar Style="{StaticResource GlassInfoBarBaseStyle}" Margin="0,0,28,0" Grid.Column="2" HorizontalAlignment="Right" Padding="3" IsClosable="True" IsOpen="True" Message="{Binding AppVersion}" appUi:LinuxTextGuard.PreserveCompactLayout="True" />
         </Grid>
-        <Border Name="PageSurface" Grid.Row="1" Margin="0" Padding="12,10,2,0" CornerRadius="8,0,0,0" Background="{DynamicResource LayerFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1,1,0,0" SnapsToDevicePixels="True" UseLayoutRounding="True">
+        <Border Name="PageSurface" Grid.Row="1" Margin="0" Padding="20,16,8,6" CornerRadius="20,20,0,0" Background="{StaticResource GlassPanelGradientBrush}" BorderBrush="{StaticResource GlassStrokeBrush}" BorderThickness="1,1,0,0" SnapsToDevicePixels="True" UseLayoutRounding="True">
           <Frame Name="RootFrame" ClipToBounds="True" />
         </Border>
       </Grid>
@@ -920,9 +1032,9 @@
         <ui:Button Height="30" Margin="10,0,0,0" Padding="12,0" Content="{x:Static resources:Strings.Menu_Chrome_Reset}" Click="ZoomReset_Click" />
       </StackPanel>
     </Border>
-    <Border x:Name="StatusBarHost" Grid.Row="2" VerticalAlignment="Bottom" Height="64" Margin="12,0,12,12" CornerRadius="12" Padding="16,0" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+    <Border x:Name="StatusBarHost" Grid.Row="2" VerticalAlignment="Bottom" Height="68" Margin="18,0,18,16" CornerRadius="18" Padding="16,0" BorderThickness="1" BorderBrush="{StaticResource GlassStrokeBrush}">
       <Border.Background>
-        <SolidColorBrush Opacity="0.7" Color="{DynamicResource SolidBackgroundFillColorBase}" />
+            <SolidColorBrush Opacity="0.86" Color="{DynamicResource WindowBackgroundColorSecondary}" />
       </Border.Background>
       <StatusBar Name="RootStatusBar" Padding="14,0" VerticalAlignment="Center" BorderThickness="0">
         <Control.Background>
@@ -943,10 +1055,30 @@
           </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <StatusBarItem Grid.Column="0" Margin="0,0,4,0">
-          <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-            <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" Foreground="{DynamicResource SystemAccentBrush}" AutomationProperties.Name="{x:Static resources:Strings.Menu_TestMode}" IsChecked="{Binding TestModeEnabled, Mode=TwoWay}" />
-            <TextBlock Padding="10,0,0,0" VerticalAlignment="Center" FontSize="14" Text="{x:Static resources:Strings.Menu_TestMode}" />
-          </StackPanel>
+          <ui:Button x:Name="RobloxAccountButton" MinWidth="260" Height="46" Padding="9,4" Appearance="Secondary" Background="{StaticResource GlassPanelBrush}" BorderBrush="{StaticResource GlassStrokeBrush}" HorizontalContentAlignment="Stretch" Click="RobloxAccountButton_Click" ToolTip="{x:Static resources:Strings.Menu_Integrations_Page_AccountSwitcher}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Border Width="34" Height="34" CornerRadius="17" Background="{StaticResource LauncherControlBrush}" BorderBrush="{StaticResource GlassStrokeBrush}" BorderThickness="1">
+                <Grid>
+                  <ui:SymbolIcon x:Name="RobloxAccountPlaceholder" Symbol="Person24" FontSize="19" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
+                  <Image x:Name="RobloxAccountAvatar" Width="34" Height="34" Stretch="UniformToFill" Visibility="Collapsed" RenderOptions.BitmapScalingMode="HighQuality">
+                    <Image.Clip>
+                      <EllipseGeometry Center="17,17" RadiusX="17" RadiusY="17" />
+                    </Image.Clip>
+                  </Image>
+                </Grid>
+              </Border>
+              <StackPanel Grid.Column="1" Margin="10,0,8,0" VerticalAlignment="Center">
+                <TextBlock x:Name="RobloxAccountTitle" FontSize="12.5" FontWeight="SemiBold" Foreground="{StaticResource LauncherTextPrimaryBrush}" Text="{x:Static resources:Strings.Menu_RobloxAccount_SignedOut_Title}" TextTrimming="CharacterEllipsis" />
+                <TextBlock x:Name="RobloxAccountSubtitle" Margin="0,2,0,0" FontSize="10.5" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="{x:Static resources:Strings.Menu_RobloxAccount_SignedOut_Description}" TextTrimming="CharacterEllipsis" />
+              </StackPanel>
+              <ui:SymbolIcon Grid.Column="2" Symbol="ChevronDown16" FontSize="13" Foreground="{StaticResource LauncherTextTertiaryBrush}" VerticalAlignment="Center" />
+            </Grid>
+          </ui:Button>
         </StatusBarItem>
         <StatusBarItem Grid.Column="2" Padding="0,0,8,0">
           <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -963,7 +1095,7 @@
                 </StackPanel>
               </ui:Button>
             </Grid>
-            <ui:Button Name="InstallLaunchButton" Height="38" Padding="16,0" HorizontalAlignment="Center" FontWeight="SemiBold" Appearance="Primary" Background="White" Foreground="#1B1B1B" Content="{x:Static resources:Strings.Menu_StatusBar_Install}" Command="{Binding SaveAndLaunchSettingsCommand, Mode=OneWay}" />
+              <ui:Button Name="InstallLaunchButton" Height="40" Padding="18,0" HorizontalAlignment="Center" FontWeight="SemiBold" Appearance="Primary" Background="{StaticResource GlassAccentGradientBrush}" Foreground="White" BorderBrush="{StaticResource GlassStrokeBrush}" Content="{x:Static resources:Strings.Menu_StatusBar_Install}" Command="{Binding SaveAndLaunchSettingsCommand, Mode=OneWay}" />
           </StackPanel>
         </StatusBarItem>
         <StatusBarItem Grid.Column="3" Padding="0,0,9,0">

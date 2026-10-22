@@ -618,6 +618,9 @@ If not, then please report this exception through a [GitHub issue]({1}) along wi
   <data name="Enums.Theme.Chivas" xml:space="preserve">
     <value>Chivas</value>
   </data>
+  <data name="Enums.Theme.Crystal" xml:space="preserve">
+    <value>Crystal (neutral)</value>
+  </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
     <value>Chivas has been upgraded to a new version</value>
   </data>

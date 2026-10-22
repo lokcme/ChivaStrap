@@ -972,7 +972,7 @@
                   <ui:ToggleSwitch IsChecked="{Binding FrameGenOverlayShow, Mode=TwoWay}" />
                 </controls:OptionControl>
                 <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.FrameGeneration}">
-                  <ui:InfoBar Margin="0,8,0,0" Severity="Warning" IsClosable="False" IsOpen="{Binding FrameGenCapWarningOpen, Mode=OneWay}" Message="{Binding FrameGenCapWarningMessage, Mode=OneWay}" Visibility="{Binding FrameGenCapWarningOpen, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                  <ui:InfoBar Style="{StaticResource GlassInfoBarBaseStyle}" Margin="0,8,0,0" Severity="Warning" IsClosable="False" IsOpen="{Binding FrameGenCapWarningOpen, Mode=OneWay}" Message="{Binding FrameGenCapWarningMessage, Mode=OneWay}" Visibility="{Binding FrameGenCapWarningOpen, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Button Content="{x:Static resources:Strings.Menu_Mods_Page_FixFrameCap}" Command="{Binding FixFrameCapCommand}" />
                   </ui:InfoBar>
                 </StackPanel>

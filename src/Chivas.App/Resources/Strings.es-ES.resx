@@ -1220,6 +1220,15 @@ Elimine manualmente Chivas.exe de la ubicación de instalación o reinicie el si
     <value>Modo de prueba</value>
     <comment>See the prompt for more context</comment>
   </data>
+  <data name="Menu.RobloxAccount.SignedOut.Title" xml:space="preserve">
+    <value>Iniciar sesión en Roblox</value>
+  </data>
+  <data name="Menu.RobloxAccount.SignedOut.Description" xml:space="preserve">
+    <value>Tu perfil aparecerá aquí al iniciar sesión</value>
+  </data>
+  <data name="Menu.RobloxAccount.SignedIn.Description" xml:space="preserve">
+    <value>Ver perfil y cambiar de cuenta</value>
+  </data>
   <data name="Menu.TestMode.Prompt" xml:space="preserve">
     <value>El modo de prueba facilita la prueba iterativa de cómo tus ajustes afectan a Roblox. 
 
@@ -1361,6 +1370,9 @@ Por favor cierre las aplicaciones que estén usando los archivos de Roblox, y vu
   </data>
   <data name="Enums.Theme.Chivas" xml:space="preserve">
     <value>Chivas</value>
+  </data>
+  <data name="Enums.Theme.Crystal" xml:space="preserve">
+    <value>Cristal (neutro)</value>
   </data>
   <data name="Enums.Theme.Yellow" xml:space="preserve">
     <value>Amarillo</value>

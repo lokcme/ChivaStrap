@@ -31,9 +31,11 @@ using DiscordRPC.Message;
 using Chivas.Enums;
 using Chivas.Extensions;
 using Chivas.Integrations;
+using Chivas.Models.Entities;
 using Chivas.Models.Persistable;
 using Chivas.Resources;
 using Chivas.UI.Elements.Base;
+using Chivas.UI.Elements.ContextMenu;
 using Chivas.UI.Elements.Controls;
 using Chivas.UI.Elements.Settings.Pages;
 using Chivas.UI;
@@ -272,6 +274,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 	private bool _restartNotificationBusy;
 
     private readonly CancellationTokenSource _lifetimeCts = new CancellationTokenSource();
+
+    private CancellationTokenSource? _robloxAccountRefreshCts;
+
+    private AccountManagerWindow? _accountManagerWindow;
+
+    private DateTime _lastRobloxAccountRefresh = DateTime.MinValue;
+
+    private int _robloxAccountRefreshVersion;
+
+    private bool _robloxAccountCookiePresent;
 
     private readonly DispatcherTimer _visibilityTimer = new DispatcherTimer();
 
@@ -949,56 +961,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             BreadcrumbIcon.Symbol = value;
         }
     }
-
-
-
-    private readonly Dictionary<System.Windows.Controls.Button, (ScaleTransform Scale, TranslateTransform Lift)> _dockTransforms = new Dictionary<System.Windows.Controls.Button, (ScaleTransform, TranslateTransform)>();
-
-    private DispatcherTimer? _sectionHoverTimer;
-
-    private System.Windows.Controls.Button? _hoverPendingTab;
-
-    private void SectionTab_MouseEnter(object sender, MouseEventArgs e)
-    {
-        if (sender is not System.Windows.Controls.Button tab || tab.CommandParameter is not string)
-        {
-            return;
-        }
-        if (SectionMenuPopup.IsOpen && ReferenceEquals(SectionMenuPopup.PlacementTarget, tab))
-        {
-            return;
-        }
-        CancelSectionClose();
-        if (SectionMenuPopup.IsOpen)
-        {
-            _hoverPendingTab = null;
-            _sectionHoverTimer?.Stop();
-            OpenSectionMenu(tab);
-            return;
-        }
-        _hoverPendingTab = tab;
-        if (_sectionHoverTimer == null)
-        {
-            _sectionHoverTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(80) };
-            _sectionHoverTimer.Tick += SectionHoverTimer_Tick;
-        }
-        _sectionHoverTimer.Stop();
-        _sectionHoverTimer.Start();
-    }
-
-    private void SectionHoverTimer_Tick(object? sender, EventArgs e)
-    {
-        _sectionHoverTimer?.Stop();
-        System.Windows.Controls.Button? tab = _hoverPendingTab;
-        _hoverPendingTab = null;
-        if (tab == null || _isClosed)
-        {
-            return;
-        }
-        OpenSectionMenu(tab);
-    }
-
     private DispatcherTimer? _sectionCloseTimer;
+
+    private string? _sectionIndicatorSection;
 
     private void CancelSectionClose()
     {
@@ -1043,8 +1008,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             return;
         }
-        _hoverPendingTab = null;
-        _sectionHoverTimer?.Stop();
         if (SectionMenuPopup.IsOpen && ReferenceEquals(SectionMenuPopup.PlacementTarget, tab))
         {
             SectionMenuPopup.IsOpen = false;
@@ -1098,8 +1061,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             menuItem.Click += (s, args) =>
             {
                 CancelSectionClose();
-                _hoverPendingTab = null;
-                _sectionHoverTimer?.Stop();
                 SectionMenuPopup.IsOpen = false;
                 OpenSectionMenuItem(captured);
             };
@@ -1133,51 +1094,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private int _dockLastTick;
-
-    private double _dockLastX = double.NaN;
-
-    private void SectionTabs_MouseMove(object sender, MouseEventArgs e)
-    {
-        if (SectionTabsPanel == null)
-        {
-            return;
-        }
-        double mouseX = e.GetPosition(SectionTabsPanel).X;
-        int now = Environment.TickCount;
-        if (now - _dockLastTick < 12 && Math.Abs(mouseX - _dockLastX) < 2.0)
-        {
-            return;
-        }
-        _dockLastTick = now;
-        _dockLastX = mouseX;
-        foreach (System.Windows.Controls.Button tab in GetSectionTabs())
-        {
-            if (!_dockTransforms.TryGetValue(tab, out var t))
-            {
-                t = (new ScaleTransform(1.0, 1.0), new TranslateTransform(0.0, 0.0));
-                tab.RenderTransform = new TransformGroup { Children = { t.Scale, t.Lift } };
-                _dockTransforms[tab] = t;
-            }
-            double centerX = tab.TranslatePoint(new Point(tab.ActualWidth / 2.0, 0.0), SectionTabsPanel).X;
-            double closeness = Math.Max(0.0, 1.0 - Math.Abs(mouseX - centerX) / 80.0);
-            double scale = 1.0 + 0.25 * closeness * closeness;
-            t.Scale.ScaleX = scale;
-            t.Scale.ScaleY = scale;
-            t.Lift.Y = -(scale - 1.0) * 22.0;
-        }
-    }
-
     private void SectionTabs_MouseLeave(object sender, MouseEventArgs e)
     {
-        foreach (var t in _dockTransforms.Values)
-        {
-            t.Scale.ScaleX = 1.0;
-            t.Scale.ScaleY = 1.0;
-            t.Lift.Y = 0.0;
-        }
-        _hoverPendingTab = null;
-        _sectionHoverTimer?.Stop();
         if (SectionMenuPopup.IsOpen)
         {
             ScheduleSectionClose();
@@ -1187,6 +1105,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private System.Windows.Controls.Button[] GetSectionTabs()
     {
         return new[] { SectionTabPrincipal, SectionTabPersonalizacion, SectionTabAvanzada, SectionTabHerramientas, SectionTabSistema };
+    }
+
+    private void SectionTabsHost_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (_sectionIndicatorSection is string section)
+        {
+            PositionSectionIndicator(section, animate: false);
+        }
     }
 
     private string? GetContentSection(object? content)
@@ -1208,10 +1134,95 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void UpdateSectionTabs(object? content)
     {
         string? section = GetContentSection(content);
-        foreach (System.Windows.Controls.Button tab in GetSectionTabs())
+        System.Windows.Controls.Button[] tabs = GetSectionTabs();
+        foreach (System.Windows.Controls.Button tab in tabs)
         {
             tab.Tag = tab.CommandParameter as string == section ? "Active" : null;
         }
+        if (section == null)
+        {
+            _sectionIndicatorSection = null;
+            SectionLiquidIndicator.Visibility = Visibility.Collapsed;
+            return;
+        }
+        bool animate = _sectionIndicatorSection != null && !string.Equals(_sectionIndicatorSection, section, StringComparison.Ordinal);
+        _sectionIndicatorSection = section;
+        SectionLiquidIndicator.Visibility = Visibility.Visible;
+        PositionSectionIndicator(section, animate);
+    }
+
+    private void PositionSectionIndicator(string section, bool animate)
+    {
+        if (SectionTabsHost.Visibility != Visibility.Visible || SectionTabsHost.ActualWidth <= 0 || SectionTabsHost.ActualHeight <= 0)
+        {
+            return;
+        }
+
+        System.Windows.Controls.Button? selectedTab = GetSectionTabs()
+            .FirstOrDefault(tab => string.Equals(tab.CommandParameter as string, section, StringComparison.Ordinal));
+        if (selectedTab == null || selectedTab.ActualWidth <= 0 || selectedTab.ActualHeight <= 0)
+        {
+            return;
+        }
+
+        Point tabOrigin = selectedTab.TranslatePoint(new Point(0, 0), SectionTabsHost);
+        double height = Math.Max(36, Math.Min(44, SectionTabsHost.ActualHeight - 8));
+        double targetWidth = Math.Max(48, selectedTab.ActualWidth - 2);
+        SectionLiquidIndicator.Height = height;
+        Canvas.SetTop(SectionLiquidIndicator, Math.Max(0, (SectionTabsHost.ActualHeight - height) / 2));
+
+        if (!animate || SectionLiquidIndicator.Opacity == 0)
+        {
+            SectionIndicatorTranslate.BeginAnimation(TranslateTransform.XProperty, null);
+            SectionIndicatorTranslate.X = tabOrigin.X + 1;
+            SectionLiquidIndicator.BeginAnimation(FrameworkElement.WidthProperty, null);
+            SectionLiquidIndicator.Width = targetWidth;
+            SectionIndicatorScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+            SectionIndicatorScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+            SectionIndicatorScale.ScaleX = 1;
+            SectionIndicatorScale.ScaleY = 1;
+            SectionLiquidIndicator.Opacity = 1;
+            return;
+        }
+
+        double currentWidth = SectionLiquidIndicator.ActualWidth;
+        if (currentWidth <= 0)
+        {
+            currentWidth = SectionLiquidIndicator.Width;
+        }
+        SectionLiquidIndicator.Width = targetWidth;
+        SectionLiquidIndicator.BeginAnimation(
+            FrameworkElement.WidthProperty,
+            new DoubleAnimation(currentWidth, targetWidth, TimeSpan.FromMilliseconds(245))
+            {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+            },
+            HandoffBehavior.SnapshotAndReplace);
+
+        SectionIndicatorTranslate.BeginAnimation(
+            TranslateTransform.XProperty,
+            new DoubleAnimation(tabOrigin.X + 1, TimeSpan.FromMilliseconds(245))
+            {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+            },
+            HandoffBehavior.SnapshotAndReplace);
+
+        SectionIndicatorScale.BeginAnimation(
+            ScaleTransform.ScaleXProperty,
+            new DoubleAnimation(1.13, TimeSpan.FromMilliseconds(110))
+            {
+                AutoReverse = true,
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+            },
+            HandoffBehavior.SnapshotAndReplace);
+        SectionIndicatorScale.BeginAnimation(
+            ScaleTransform.ScaleYProperty,
+            new DoubleAnimation(0.96, TimeSpan.FromMilliseconds(110))
+            {
+                AutoReverse = true,
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+            },
+            HandoffBehavior.SnapshotAndReplace);
     }
 
     private NavigationItem[] GetNavigationItemsInServiceOrder()
@@ -2500,7 +2511,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
         CloseOverlayPopups();
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            TestModeMenuItem.IsChecked = viewModel.TestModeEnabled;
+        }
         AppMenuPopup.IsOpen = true;
+    }
+
+    private void TestModeMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is System.Windows.Controls.MenuItem menuItem && DataContext is MainWindowViewModel viewModel)
+        {
+            viewModel.TestModeEnabled = menuItem.IsChecked;
+            menuItem.IsChecked = viewModel.TestModeEnabled;
+        }
+        AppMenuPopup.IsOpen = false;
     }
 
     private void AppMenuAbout_Click(object sender, RoutedEventArgs e)
@@ -3621,6 +3646,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void MainWindow_ActivatedRpc(object? sender, EventArgs e)
     {
         UpdateDiscordPresence();
+        RobloxCookie.InvalidateCache();
+        bool hasCookie = RobloxCookie.Exists;
+        if (hasCookie != _robloxAccountCookiePresent || DateTime.UtcNow - _lastRobloxAccountRefresh > TimeSpan.FromMinutes(1))
+        {
+            _ = RefreshRobloxAccountAsync(force: true);
+        }
     }
 
     private void MainWindow_ClosedRpc(object? sender, EventArgs e)
@@ -4162,10 +4193,123 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             SnowCanvas.SetActive(false);
         }
         Chivas.UI.LinuxUiPerformance.Duration("Settings window loaded work", loadedStarted);
+        _ = RefreshRobloxAccountAsync(force: true);
         await ((DispatcherObject)this).Dispatcher.InvokeAsync((Action)delegate
         {
         }, (DispatcherPriority)6);
         PlayIntro();
+    }
+
+    private void RobloxAccountButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_accountManagerWindow is { IsVisible: true })
+        {
+            _accountManagerWindow.Activate();
+            return;
+        }
+
+        AccountManagerWindow accountWindow = new() { Owner = this };
+        _accountManagerWindow = accountWindow;
+        accountWindow.Closed += RobloxAccountManagerWindow_Closed;
+        accountWindow.Show();
+    }
+
+    private void RobloxAccountManagerWindow_Closed(object? sender, EventArgs e)
+    {
+        if (sender is AccountManagerWindow accountWindow)
+        {
+            accountWindow.Closed -= RobloxAccountManagerWindow_Closed;
+        }
+        _accountManagerWindow = null;
+        _ = RefreshRobloxAccountAsync(force: true);
+    }
+
+    private async Task RefreshRobloxAccountAsync(bool force)
+    {
+        if (_isClosed || !IsLoaded)
+        {
+            return;
+        }
+        if (!force && _robloxAccountCookiePresent == RobloxCookie.Exists)
+        {
+            return;
+        }
+
+        _lastRobloxAccountRefresh = DateTime.UtcNow;
+        _robloxAccountRefreshCts?.Cancel();
+        CancellationTokenSource refreshCts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.Token);
+        refreshCts.CancelAfter(TimeSpan.FromSeconds(18));
+        _robloxAccountRefreshCts = refreshCts;
+        int refreshVersion = Interlocked.Increment(ref _robloxAccountRefreshVersion);
+
+        try
+        {
+            RobloxCookie.InvalidateCache();
+            bool hasCookie = RobloxCookie.Exists;
+            RobloxAccount? account = hasCookie ? await RobloxCookie.GetAccountAsync(refreshCts.Token).ConfigureAwait(false) : null;
+            string? avatarUrl = null;
+            if (account != null)
+            {
+                try
+                {
+                    UserDetails details = await UserDetails.Fetch(account.UserId, refreshCts.Token).ConfigureAwait(false);
+                    avatarUrl = details.Thumbnail?.ImageUrl;
+                }
+                catch (OperationCanceledException) when (refreshCts.IsCancellationRequested)
+                {
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine("MainWindow::RefreshRobloxAccount", "Profile avatar unavailable: " + ex.Message);
+                }
+            }
+
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (_isClosed || refreshVersion != Volatile.Read(ref _robloxAccountRefreshVersion))
+                {
+                    return;
+                }
+
+                _robloxAccountCookiePresent = hasCookie;
+                ApplyRobloxAccountChip(account, avatarUrl);
+            }, DispatcherPriority.Background, refreshCts.Token);
+        }
+        catch (OperationCanceledException) when (refreshCts.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::RefreshRobloxAccount", ex);
+        }
+        finally
+        {
+            if (ReferenceEquals(_robloxAccountRefreshCts, refreshCts))
+            {
+                _robloxAccountRefreshCts = null;
+            }
+            refreshCts.Dispose();
+        }
+    }
+
+    private void ApplyRobloxAccountChip(RobloxAccount? account, string? avatarUrl)
+    {
+        if (account == null)
+        {
+            RobloxAccountTitle.Text = Strings.Menu_RobloxAccount_SignedOut_Title;
+            RobloxAccountSubtitle.Text = Strings.Menu_RobloxAccount_SignedOut_Description;
+            RobloxAccountAvatar.Visibility = Visibility.Collapsed;
+            RobloxAccountAvatar.ClearValue(DynamicRenderSystem.LazyImageSourceProperty);
+            RobloxAccountButton.ToolTip = Strings.Menu_RobloxAccount_SignedOut_Description;
+            return;
+        }
+
+        RobloxAccountTitle.Text = string.IsNullOrWhiteSpace(account.DisplayName) ? account.Username : account.DisplayName;
+        RobloxAccountSubtitle.Text = "@" + account.Username;
+        RobloxAccountAvatar.Visibility = string.IsNullOrWhiteSpace(avatarUrl) ? Visibility.Collapsed : Visibility.Visible;
+        DynamicRenderSystem.SetLazyImageSource(RobloxAccountAvatar, avatarUrl);
+        RobloxAccountButton.ToolTip = Strings.Menu_RobloxAccount_SignedIn_Description;
     }
 
     private bool _navShortcutsReady;
@@ -4675,9 +4819,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public void ApplyNavMode(bool topTabs)
     {
-        if (SectionTabsPanel != null)
+        if (SectionTabsHost != null)
         {
-            SectionTabsPanel.Visibility = topTabs ? Visibility.Visible : Visibility.Collapsed;
+            SectionTabsHost.Visibility = topTabs ? Visibility.Visible : Visibility.Collapsed;
         }
         if (SidebarToggle != null)
         {
@@ -5656,9 +5800,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void WpfUiWindow_Closing(object sender, CancelEventArgs e)
     {
-        _sectionHoverTimer?.Stop();
         _sectionCloseTimer?.Stop();
-        _hoverPendingTab = null;
         if (SectionMenuPopup != null)
         {
             SectionMenuPopup.IsOpen = false;
@@ -5680,6 +5822,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         foreach (TaskCompletionSource<bool> waiter in _backgroundAnimationWaiters.Values)
             waiter.TrySetResult(result: false);
         _backgroundAnimationWaiters.Clear();
+        _robloxAccountRefreshCts?.Cancel();
         _lifetimeCts.Cancel();
         CompositionTarget.Rendering -= CompositionTarget_Rendering;
         StopLinuxGradientAnimation(reset: false);
@@ -6004,6 +6147,23 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void Button_Click_2(object sender, RoutedEventArgs e)
     {
+    }
+
+    private void MacCloseButton_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
+
+    private void MacMinimizeButton_Click(object sender, RoutedEventArgs e)
+    {
+        WindowState = System.Windows.WindowState.Minimized;
+    }
+
+    private void MacMaximizeButton_Click(object sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState == System.Windows.WindowState.Maximized
+            ? System.Windows.WindowState.Normal
+            : System.Windows.WindowState.Maximized;
     }
 
     private void LaunchTargetButton_Click(object sender, RoutedEventArgs e)

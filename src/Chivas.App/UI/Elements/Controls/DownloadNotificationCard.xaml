@@ -2,7 +2,7 @@
   <UserControl.RenderTransform>
     <TranslateTransform x:Name="CardTranslate" X="28" />
   </UserControl.RenderTransform>
-  <Border Padding="14" CornerRadius="7" Background="{DynamicResource SystemFillColorSolidNeutralBackgroundBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+  <Border Padding="16" CornerRadius="16" Background="{DynamicResource GlassCardSurfaceBrush}" BorderBrush="{DynamicResource GlassControlStrokeBrush}" BorderThickness="1" TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}">
     <Border.Effect>
       <DropShadowEffect BlurRadius="24" ShadowDepth="4" Direction="270" Opacity="0.45" Color="#000000" />
     </Border.Effect>

@@ -4759,6 +4759,33 @@ namespace Chivas.Resources {
                 return ResourceManager.GetString("Menu.TestMode", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Sign in to Roblox.
+        /// </summary>
+        public static string Menu_RobloxAccount_SignedOut_Title {
+            get {
+                return ResourceManager.GetString("Menu.RobloxAccount.SignedOut.Title", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Your Roblox profile will appear here.
+        /// </summary>
+        public static string Menu_RobloxAccount_SignedOut_Description {
+            get {
+                return ResourceManager.GetString("Menu.RobloxAccount.SignedOut.Description", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to View your profile and switch accounts.
+        /// </summary>
+        public static string Menu_RobloxAccount_SignedIn_Description {
+            get {
+                return ResourceManager.GetString("Menu.RobloxAccount.SignedIn.Description", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Test mode makes it easier to iteratively test how your settings affect Roblox. 

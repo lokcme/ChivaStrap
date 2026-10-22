@@ -6,7 +6,7 @@ namespace Chivas.Extensions;
 
 public static class ThemeEx
 {
-	public static IReadOnlyCollection<Theme> Selections { get; } = new Theme[15]
+	public static IReadOnlyCollection<Theme> Selections { get; } = new Theme[16]
 	{
 		Theme.Default,
 		Theme.Custom,
@@ -22,7 +22,8 @@ public static class ThemeEx
 		Theme.Purple,
 		Theme.Berry,
 		Theme.Red,
-		Theme.Yellow
+		Theme.Yellow,
+		Theme.Crystal
 	};
 
 	public static Theme GetFinal(this Theme dialogTheme)

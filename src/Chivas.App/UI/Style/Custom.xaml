@@ -1,4 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Chivas.UI.Elements.Base">
+  <Color x:Key="GlassAccentColor">#FF3897E8</Color>
   <SolidColorBrush x:Key="NewTextEditorBackground" Color="#CC1E1E1E" />
   <SolidColorBrush x:Key="NewTextEditorForeground" Color="#FFE8E8E8" />
   <SolidColorBrush x:Key="NewTextEditorLink" Color="#FF3897E8" />

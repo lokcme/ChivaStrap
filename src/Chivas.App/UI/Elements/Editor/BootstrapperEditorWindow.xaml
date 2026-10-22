@@ -406,7 +406,7 @@
       </StackPanel>
     </Grid>
 
-    <ui:Snackbar Name="Snackbar" Grid.RowSpan="3" Margin="200,0,200,24" Panel.ZIndex="9" Timeout="3000">
+    <ui:Snackbar Name="Snackbar" Style="{StaticResource GlassSnackbarBaseStyle}" Grid.RowSpan="3" Margin="200,0,200,24" Panel.ZIndex="9" Timeout="3000">
       <Control.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
           <GradientStop Offset="0.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
