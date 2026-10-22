@@ -1,7 +1,7 @@
 ﻿<Project>
 
 	<PropertyGroup>
-		<ChivasVersion>1.5.0.0</ChivasVersion>
+		<ChivasVersion>1.5.0.1</ChivasVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
