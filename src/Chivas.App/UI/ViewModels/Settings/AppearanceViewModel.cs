@@ -356,6 +356,28 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         }
     }
 
+    public bool TopSectionTabs
+    {
+        get
+        {
+            return App.Settings.Prop.TopSectionTabs;
+        }
+        set
+        {
+            if (App.Settings.Prop.TopSectionTabs == value)
+            {
+                return;
+            }
+            App.Settings.Prop.TopSectionTabs = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(TopSectionTabs));
+            ApplyToMainWindow(delegate (MainWindow mainWindow)
+            {
+                mainWindow.ApplyNavMode(value);
+            });
+        }
+    }
+
     public bool GRADmentFR
     {
         get
@@ -877,19 +899,19 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
                 byte[] array = File.ReadAllBytes(openFileDialog.FileName).Take(4).ToArray();
                 if (!_appFontHeaders.TryGetValue(key, out byte[]? value) || !value.SequenceEqual(array))
                 {
-                    Frontend.ShowMessageBox("Custom Font Invalid", MessageBoxImage.Hand);
+                    Frontend.ShowMessageBox(Strings.Menu_Appearance_Code_FontInvalid, MessageBoxImage.Hand);
                     return;
                 }
                 if (!AppFont.SetFromFile(openFileDialog.FileName))
                 {
-                    Frontend.ShowMessageBox("Custom Font Invalid", MessageBoxImage.Hand);
+                    Frontend.ShowMessageBox(Strings.Menu_Appearance_Code_FontInvalid, MessageBoxImage.Hand);
                     AppFont.Clear();
                     return;
                 }
             }
             catch (Exception ex)
             {
-                Frontend.ShowMessageBox("Could not load font: " + ex.Message, MessageBoxImage.Hand);
+                Frontend.ShowMessageBox(string.Format(Strings.Menu_Appearance_Code_LoadFontFail, ex.Message), MessageBoxImage.Hand);
                 return;
             }
         }
@@ -1164,7 +1186,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         OpenFileDialog openFileDialog = new OpenFileDialog
         {
             Filter = "Background Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.mp4;*.webm;*.avi;*.mov",
-            Title = "Select Background File"
+            Title = Chivas.Resources.Strings.Menu_Dialogs_Code_BgFileTitle
         };
         if (openFileDialog.ShowDialog() == true)
         {
@@ -1474,7 +1496,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
     {
         OpenFileDialog openFileDialog = new OpenFileDialog
         {
-            Title = "Select a Startup Sound",
+            Title = Chivas.Resources.Strings.Menu_Dialogs_Code_StartupSoundTitle,
             Filter = "Audio Files|*.mp3;*.wav;*.ogg;*.flac;*.wma",
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)
         };
@@ -1575,7 +1597,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
         if (string.IsNullOrWhiteSpace(newName))
         {
-            Frontend.ShowMessageBox("Name cannot be empty.", MessageBoxImage.Hand);
+            Frontend.ShowMessageBox(Strings.Menu_Appearance_Code_ThemeNameEmpty, MessageBoxImage.Hand);
             return;
         }
 
@@ -1595,7 +1617,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
         if (Chivas.Utility.Platform.IsWindows && (newName.EndsWith(' ') || newName.EndsWith('.')))
         {
-            Frontend.ShowMessageBox("Windows does not allow names that end in a period or space.", MessageBoxImage.Hand);
+            Frontend.ShowMessageBox(Strings.Menu_Appearance_Code_ThemeNameDot, MessageBoxImage.Hand);
             return;
         }
 
@@ -1608,7 +1630,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         {
             if (string.Equals(Path.GetFileName(folder), newName, StringComparison.OrdinalIgnoreCase))
             {
-                Frontend.ShowMessageBox("A theme with that name already exists.", MessageBoxImage.Hand);
+                Frontend.ShowMessageBox(Strings.Menu_Appearance_Code_ThemeExists, MessageBoxImage.Hand);
                 return;
             }
         }
@@ -1663,7 +1685,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
             if (files.Count == 0)
             {
-                Frontend.ShowMessageBox("That theme has no files yet.", MessageBoxImage.Asterisk);
+                Frontend.ShowMessageBox(Strings.Menu_Appearance_Code_ThemeNoFiles, MessageBoxImage.Asterisk);
                 return;
             }
 
@@ -1691,7 +1713,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
         if (!Directory.Exists(themeDir))
         {
-            Frontend.ShowMessageBox("That theme folder no longer exists.", MessageBoxImage.Hand);
+            Frontend.ShowMessageBox(Strings.Menu_Appearance_Code_ThemeFolderGone, MessageBoxImage.Hand);
             return;
         }
 
@@ -1748,7 +1770,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         {
             App.Logger.WriteLine("AppearanceViewModel::ExportCustomTheme", "Export failed");
             App.Logger.WriteException("AppearanceViewModel::ExportCustomTheme", ex);
-            Frontend.ShowMessageBox("Could not export the theme: " + ex.Message, MessageBoxImage.Hand);
+            Frontend.ShowMessageBox(string.Format(Strings.Menu_Appearance_Code_ThemeExportFail, ex.Message), MessageBoxImage.Hand);
             return;
         }
 
@@ -1836,7 +1858,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
     {
         OpenFileDialog openFileDialog = new OpenFileDialog
         {
-            Title = "Select a Background Image",
+            Title = Chivas.Resources.Strings.Menu_Dialogs_Code_BgImageTitle,
             Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif",
             InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)
         };

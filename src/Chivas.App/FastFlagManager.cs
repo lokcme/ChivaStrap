@@ -2,14 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Windows;
 using Chivas.Enums.FlagPresets;
+using Chivas.Integrations.AssetProxy;
 using Chivas.UI;
 
 namespace Chivas;
 
 public class FastFlagManager : JsonManager<Dictionary<string, object>>
 {
+	private const string EmbeddedCaFlag = "DFFlagHttpUseEmbeddedCaCerts";
+	private const string WindowsFlagCacheFileName = "flag_cache.dat";
+	private const string WindowsFlagCacheRelativeDirectory = "Temp\\Roblox\\cache";
+
 	public static readonly IReadOnlyDictionary<string, string> PresetFlags = new Dictionary<string, string>
 	{
 		{ "Players.LogLevel", "FStringDebugLuaLogLevel" },
@@ -1027,6 +1034,133 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		SetPreset("Preload.FontsPreload", "True");
 		SetPreset("Preload.ItemPreload", "True");
 		SetPreset("Preload.Teleport2", "True");
+	}
+
+	/// <summary>
+	/// Roblox can build its TLS trust from CA certs embedded into the client.
+	/// When that happens it rejects the local CA the AssetWarp proxy signs its
+	/// forged certificates with and every intercepted request fails with
+	/// "Http error 529". Forcing this flag False makes the client trust the
+	/// patched ssl/cacert.pem bundle instead, which is how the proxy ever
+	/// terminates TLS. Applied while interception is configured, restored to
+	/// the user's value when it is not. This mirrors what Fleasion upstream
+	/// forces through its ClientSettings responses.
+	/// </summary>
+	public void ApplyCaCompatFlags()
+	{
+		// The Fleasion app is a TLS-intercepting Env Proxy too: it patches each
+		// Roblox install's ssl/cacert.pem, so the embedded-CA path would break
+		// its delivery exactly like it breaks ours. Force the compatibility
+		// flag while either engine is in play.
+		bool proxyPossible = AssetProxyServer.IsProxyConfigurationEnabled || App.Settings.Prop.Fleasion;
+		if (!proxyPossible)
+		{
+			if (!App.Settings.Prop.AssetWarpCaFlagOwned)
+			{
+				RestoreWindowsFlagCacheCompat();
+				return;
+			}
+			SetValue(EmbeddedCaFlag, App.Settings.Prop.AssetWarpCaFlagBackup);
+			App.Settings.Prop.AssetWarpCaFlagOwned = false;
+			App.Settings.SaveDeferred();
+			RestoreWindowsFlagCacheCompat();
+			return;
+		}
+		if (!App.Settings.Prop.AssetWarpCaFlagOwned)
+		{
+			App.Settings.Prop.AssetWarpCaFlagBackup = GetValue(EmbeddedCaFlag);
+			App.Settings.Prop.AssetWarpCaFlagOwned = true;
+			App.Settings.Save();
+		}
+		SetValue(EmbeddedCaFlag, "False");
+		SeedWindowsFlagCacheCompat();
+	}
+
+	/// <summary>
+	/// Seeds the same early-startup flag source used by Fleasion's custom
+	/// FastFlag path. Roblox evaluates this cache before it fetches remote
+	/// ClientSettings, so the TLS proxy can be trusted before any intercepted
+	/// asset request is made. The normal ClientAppSettings file alone is now
+	/// rejected by Roblox's local FastFlag allowlist.
+	/// </summary>
+	private void SeedWindowsFlagCacheCompat()
+	{
+		if (!Chivas.Utility.Platform.IsWindows)
+			return;
+
+		string path = Path.Combine(Paths.LocalAppData, WindowsFlagCacheRelativeDirectory, WindowsFlagCacheFileName);
+		try
+		{
+			if (!File.Exists(path))
+				return;
+			byte[] raw = File.ReadAllBytes(path);
+			if (raw.Length < 6)
+				return;
+			int signatureLength = BitConverter.ToInt32(raw, 0);
+			int payloadOffset = checked(5 + signatureLength);
+			if (signatureLength < 0 || payloadOffset >= raw.Length || raw[payloadOffset - 1] != 0)
+				return;
+
+			JsonNode? parsed = JsonNode.Parse(raw.AsSpan(payloadOffset));
+			if (parsed is not JsonObject root || root["applicationSettings"] is not JsonObject settings)
+				return;
+
+			JsonNode? current = settings[EmbeddedCaFlag];
+			if (current?.GetValue<string>() == "False")
+				return;
+			settings[EmbeddedCaFlag] = "False";
+			byte[] payload = JsonSerializer.SerializeToUtf8Bytes(root);
+			byte[] updated = new byte[payloadOffset + payload.Length];
+			Buffer.BlockCopy(raw, 0, updated, 0, payloadOffset);
+			Buffer.BlockCopy(payload, 0, updated, payloadOffset, payload.Length);
+			string temporary = path + ".chivas.tmp";
+			File.WriteAllBytes(temporary, updated);
+			File.Move(temporary, path, true);
+			App.Logger.WriteLine("FastFlagManager::SeedWindowsFlagCacheCompat", "Seeded DFFlagHttpUseEmbeddedCaCerts=False into Roblox flag_cache.dat");
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or ArgumentException or OverflowException)
+		{
+			App.Logger.WriteLine("FastFlagManager::SeedWindowsFlagCacheCompat", "Could not seed Roblox flag_cache.dat: " + ex.Message);
+		}
+	}
+
+	private void RestoreWindowsFlagCacheCompat()
+	{
+		if (!Chivas.Utility.Platform.IsWindows)
+			return;
+
+		string path = Path.Combine(Paths.LocalAppData, WindowsFlagCacheRelativeDirectory, WindowsFlagCacheFileName);
+		try
+		{
+			if (!File.Exists(path))
+				return;
+			byte[] raw = File.ReadAllBytes(path);
+			if (raw.Length < 6)
+				return;
+			int signatureLength = BitConverter.ToInt32(raw, 0);
+			int payloadOffset = checked(5 + signatureLength);
+			if (signatureLength < 0 || payloadOffset >= raw.Length || raw[payloadOffset - 1] != 0)
+				return;
+
+			JsonNode? parsed = JsonNode.Parse(raw.AsSpan(payloadOffset));
+			if (parsed is not JsonObject root || root["applicationSettings"] is not JsonObject settings)
+				return;
+			if (settings[EmbeddedCaFlag] is null)
+				return;
+			settings.Remove(EmbeddedCaFlag);
+			byte[] payload = JsonSerializer.SerializeToUtf8Bytes(root);
+			byte[] updated = new byte[payloadOffset + payload.Length];
+			Buffer.BlockCopy(raw, 0, updated, 0, payloadOffset);
+			Buffer.BlockCopy(payload, 0, updated, payloadOffset, payload.Length);
+			string temporary = path + ".chivas.tmp";
+			File.WriteAllBytes(temporary, updated);
+			File.Move(temporary, path, true);
+			App.Logger.WriteLine("FastFlagManager::RestoreWindowsFlagCacheCompat", "Removed Chivas TLS compatibility flag from Roblox flag_cache.dat");
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or ArgumentException or OverflowException)
+		{
+			App.Logger.WriteLine("FastFlagManager::RestoreWindowsFlagCacheCompat", "Could not restore Roblox flag_cache.dat: " + ex.Message);
+		}
 	}
 
 	public void RemoveInstalledPreloadFlags(string path)

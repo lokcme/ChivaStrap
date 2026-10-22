@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Chivas</string>
-    <string name="url_website" translatable="false">https://chivatyys.netlify.app</string>
+    <string name="url_website" translatable="false">https://chivababy.netlify.app</string>
     <string name="url_releases" translatable="false">https://github.com/lokcme/ChivaStrap/releases</string>
     <string name="pair">%1$s · %2$s</string>
 
@@ -313,7 +313,7 @@
     <string name="settings_licenses">Licenses</string>
     <string name="settings_licenses_body">Open source notices</string>
     <string name="settings_website">Chivas website</string>
-    <string name="settings_website_body">chivatyys.netlify.app</string>
+    <string name="settings_website_body">chivababy.netlify.app</string>
     <string name="settings_updates">Check for updates</string>
     <string name="settings_updates_body">Open the Chivas releases page</string>
     <string name="update_section">Updates</string>

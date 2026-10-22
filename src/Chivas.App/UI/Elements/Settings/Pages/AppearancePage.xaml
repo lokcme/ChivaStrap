@@ -6,57 +6,57 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Color24" Margin="0,0,6,0" />
-            <TextBlock Text="Application" />
+            <TextBlock Text="{x:Static resources:Strings.Menu_Appearance_Page_TabApplication}" />
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Application" />
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="{x:Static resources:Strings.Menu_Appearance_Page_TabApplication}" />
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="Background and UI" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Customize background ui and options" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="{x:Static resources:Strings.Menu_Appearance_Page_BgUIHeader}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Menu_Appearance_Page_BgUIDesc}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Description="Adds Snow to Chivass background" Header="Background Snow">
+              <controls:OptionControl Description="{x:Static resources:Strings.Menu_Appearance_Page_SnowDesc}" Header="{x:Static resources:Strings.Menu_Appearance_Page_SnowHeader}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding Snowww, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Description="Adds a Gradient Movement with Cursor" Header="Gradient Movement">
+              <controls:OptionControl Description="{x:Static resources:Strings.Menu_Appearance_Page_GradientMoveDesc}" Header="{x:Static resources:Strings.Menu_Appearance_Page_GradientMoveHeader}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding GRADmentFR, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Description="Adds smooth scrollbar movement instantly" Header="Smooth ScrollBar" Visibility="{Binding WindowsOnlyVisibility}">
+              <controls:OptionControl Description="{x:Static resources:Strings.Menu_Appearance_Page_SmoothScrollDesc}" Header="{x:Static resources:Strings.Menu_Appearance_Page_SmoothScrollHeader}" Visibility="{Binding WindowsOnlyVisibility}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding SmooothBARRyesirikikthxlucipook, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Description="Uses sharper text rendering after Chivas restarts" Header="Clear Font" Visibility="{Binding WindowsOnlyVisibility}">
+              <controls:OptionControl Description="{x:Static resources:Strings.Menu_Appearance_Page_ClearFontDesc}" Header="{x:Static resources:Strings.Menu_Appearance_Page_ClearFontHeader}" Visibility="{Binding WindowsOnlyVisibility}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding ClearFont, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Background Settings" Description="Import a background image/video/gif and adjust opacity settings. Gradient opacity is set from the image lighting on import, and you can change it after.">
+              <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Page_BgSettingsHeader}" Description="{x:Static resources:Strings.Menu_Appearance_Page_BgSettingsDesc}">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="0,5,0,0">
                   <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,5">
-                    <TextBlock Text="Gradient Opacity" VerticalAlignment="Center" Width="120" />
+                    <TextBlock Text="{x:Static resources:Strings.Menu_Appearance_Page_GradientOpacity}" VerticalAlignment="Center" Width="120" />
                     <Slider Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Width="200" Value="{Binding GradientOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Margin="5,0,0,0" Text="{Binding GradientOpacity, StringFormat={}{0:F2}}" />
                   </StackPanel>
                   <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,5">
-                    <TextBlock Text="Dark Overlay" VerticalAlignment="Center" Width="120" />
+                    <TextBlock Text="{x:Static resources:Strings.Menu_Appearance_Page_DarkOverlay}" VerticalAlignment="Center" Width="120" />
                     <Slider Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Width="200" Value="{Binding BlackOverlayOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Margin="5,0,0,0" Text="{Binding BlackOverlayOpacity, StringFormat={}{0:F2}}" />
                   </StackPanel>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,5">
-                                        <TextBlock Text="Display everywhere" VerticalAlignment="Center" Width="130" />
+                                        <TextBlock Text="{x:Static resources:Strings.Menu_Appearance_Page_DisplayEverywhere}" VerticalAlignment="Center" Width="130" />
                                         <ui:ToggleSwitch IsChecked="{Binding BackgroundEverywhere, Mode=TwoWay}" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,5">
                     <ui:Button>
                       <ui:Button.Style>
                         <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
-                          <Setter Property="Content" Value="Import" />
+                          <Setter Property="Content" Value="{x:Static resources:Strings.Menu_Appearance_Page_ImportBg}" />
                           <Setter Property="Command" Value="{Binding ImportBackgroundCommand2}" />
                           <Setter Property="Appearance" Value="Secondary" />
                           <Style.Triggers>
                             <DataTrigger Binding="{Binding HasCustomBackground}" Value="True">
-                              <Setter Property="Content" Value="Remove" />
+                              <Setter Property="Content" Value="{x:Static resources:Strings.Menu_Appearance_Page_RemoveBg}" />
                               <Setter Property="Command" Value="{Binding RemoveBackgroundCommand2}" />
                               <Setter Property="Appearance" Value="Danger" />
                             </DataTrigger>
@@ -69,7 +69,7 @@
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
-          <controls:OptionControl Loaded="OptionControl_Loaded" Header="{x:Static resources:Strings.Menu_Appearance_Global_Theme_Title}" Description="Check out some of our built-in custom themes!">
+          <controls:OptionControl Loaded="OptionControl_Loaded" Header="{x:Static resources:Strings.Menu_Appearance_Global_Theme_Title}" Description="{x:Static resources:Strings.Menu_Appearance_Page_GlobalThemeDesc}">
             <StackPanel VerticalAlignment="Center" Orientation="Vertical" Margin="0,5,0,0">
               <ComboBox Width="200" Padding="10,5" Margin="0,0,0,10" ItemsSource="{Binding BindableThemes}" SelectedItem="{Binding Theme, Mode=TwoWay}" SelectionChanged="ThemeComboBox_SelectionChanged">
                 <ItemsControl.ItemTemplate>
@@ -78,10 +78,10 @@
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ComboBox>
-              <ui:Button Content="Editor" HorizontalAlignment="Right" Click="OpenCustomThemeEditor_Click" />
+              <ui:Button Content="{x:Static resources:Strings.Menu_Appearance_Page_EditorBtn}" HorizontalAlignment="Right" Click="OpenCustomThemeEditor_Click" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="Window Backdrop" Description="Choose the material behind Chivas windows." Visibility="{x:Static platform:PlatformFeatureVisibility.DesktopBackdrop}">
+          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Page_WindowBackdropHeader}" Description="{x:Static resources:Strings.Menu_Appearance_Page_WindowBackdropDesc}" Visibility="{x:Static platform:PlatformFeatureVisibility.DesktopBackdrop}">
             <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BackdropOptions}" SelectedItem="{Binding SelectedBackdrop, Mode=OneWay}" SelectionChanged="BackdropComboBox_SelectionChanged">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -90,13 +90,13 @@
               </ItemsControl.ItemTemplate>
             </ComboBox>
           </controls:OptionControl>
-          <controls:OptionControl Header="Application Font" Description="Change the font used across all of Chivas.">
+          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Page_AppFontHeader}" Description="{x:Static resources:Strings.Menu_Appearance_Page_AppFontDesc}">
             <StackPanel>
-              <ui:Button Content="Choose Font..." Icon="DocumentAdd16" Command="{Binding ManageAppFontCommand}" Visibility="{Binding ChooseAppFontVisibility, Mode=OneWay}" />
+              <ui:Button Content="{x:Static resources:Strings.Menu_Appearance_Page_ChooseFont}" Icon="DocumentAdd16" Command="{Binding ManageAppFontCommand}" Visibility="{Binding ChooseAppFontVisibility, Mode=OneWay}" />
               <ui:Button Appearance="Danger" Icon="Delete16" Command="{Binding ManageAppFontCommand}" Content="{Binding AppFontName, Mode=OneWay}" FontFamily="{Binding AppFontFamily, Mode=OneWay}" Visibility="{Binding RemoveAppFontVisibility, Mode=OneWay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="Page zoom" Description="Zooms the settings pages like a browser. Ctrl+Scroll for hotkey">
+          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Page_PageZoomHeader}" Description="{x:Static resources:Strings.Menu_Appearance_Page_PageZoomDesc}">
             <ComboBox Width="110" Padding="10,5" ItemsSource="{Binding ZoomOptions}" SelectedItem="{Binding UiZoomPercent, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -105,11 +105,14 @@
               </ItemsControl.ItemTemplate>
             </ComboBox>
           </controls:OptionControl>
+          <controls:OptionControl Margin="0,8,0,0" Description="{x:Static resources:Strings.Menu_Appearance_Page_TopTabsDesc}" Header="{x:Static resources:Strings.Menu_Appearance_Page_TopTabsHeader}">
+            <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding TopSectionTabs, Mode=TwoWay}" />
+          </controls:OptionControl>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="Sidebar layout" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Rename, choose icons or custom images, show, hide, and reorder sidebar pages." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="{x:Static resources:Strings.Menu_Appearance_Page_SidebarHeader}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Menu_Appearance_Page_SidebarDesc}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <Grid>
@@ -142,17 +145,17 @@
                   </Style>
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-                  <DataGridTemplateColumn Header="Name" Width="*" MinWidth="160">
+                  <DataGridTemplateColumn Header="{x:Static resources:Strings.Menu_Appearance_Page_GridName}" Width="*" MinWidth="160">
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
                         <ui:TextBox Margin="4,3" MaxLength="48" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                       </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                   </DataGridTemplateColumn>
-                  <DataGridTemplateColumn Header="Icon" Width="138" CanUserSort="False">
+                  <DataGridTemplateColumn Header="{x:Static resources:Strings.Menu_Appearance_Page_GridIcon}" Width="138" CanUserSort="False">
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
-                        <ui:Button Height="30" Margin="4,3" Padding="8,0" HorizontalContentAlignment="Left" ToolTip="Change sidebar icon" Tag="{Binding}" Click="SidebarIconButton_Click">
+                        <ui:Button Height="30" Margin="4,3" Padding="8,0" HorizontalContentAlignment="Left" ToolTip="{x:Static resources:Strings.Menu_Appearance_Page_ChangeIconTip}" Tag="{Binding}" Click="SidebarIconButton_Click">
                           <StackPanel Orientation="Horizontal">
                             <Grid Width="22" Height="22">
                               <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="18" Foreground="{DynamicResource TextFillColorPrimaryBrush}">
@@ -186,11 +189,11 @@
                       </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                   </DataGridTemplateColumn>
-                  <DataGridTextColumn Header="Section" Width="130" IsReadOnly="True" Binding="{Binding Section}" />
-                  <DataGridTemplateColumn Header="Show" Width="90" CanUserSort="False">
+                  <DataGridTextColumn Header="{x:Static resources:Strings.Menu_Appearance_Page_GridSection}" Width="130" IsReadOnly="True" Binding="{Binding Section}" />
+                  <DataGridTemplateColumn Header="{x:Static resources:Strings.Menu_Appearance_Page_GridShow}" Width="90" CanUserSort="False">
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
-                        <ui:Button MinWidth="74" Height="30" Padding="10,0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding VisibilityLabel}" ToolTip="Change sidebar visibility" IsEnabled="{Binding CanHide}" Command="{Binding DataContext.ToggleSidebarItemVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                        <ui:Button MinWidth="74" Height="30" Padding="10,0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding VisibilityLabel}" ToolTip="{x:Static resources:Strings.Menu_Appearance_Page_ChangeVisibilityTip}" IsEnabled="{Binding CanHide}" Command="{Binding DataContext.ToggleSidebarItemVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                           <ui:Button.Style>
                             <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
                               <Setter Property="Appearance" Value="Secondary" />
@@ -205,14 +208,14 @@
                       </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                   </DataGridTemplateColumn>
-                  <DataGridTemplateColumn Header="Move" Width="86" CanUserSort="False">
+                  <DataGridTemplateColumn Header="{x:Static resources:Strings.Menu_Appearance_Page_GridMove}" Width="86" CanUserSort="False">
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                          <ui:Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" ToolTip="Move up" AutomationProperties.Name="Move up" IsEnabled="{Binding CanMoveUp}" Command="{Binding DataContext.MoveSidebarItemUpCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                          <ui:Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" ToolTip="{x:Static resources:Strings.Menu_Appearance_Page_MoveUpTip}" AutomationProperties.Name="{x:Static resources:Strings.Menu_Appearance_Page_MoveUpTip}" IsEnabled="{Binding CanMoveUp}" Command="{Binding DataContext.MoveSidebarItemUpCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                             <ui:SymbolIcon Symbol="ChevronUp24" Style="{StaticResource SidebarMoveIconStyle}" />
                           </ui:Button>
-                          <ui:Button Width="34" Height="30" Padding="0" ToolTip="Move down" AutomationProperties.Name="Move down" IsEnabled="{Binding CanMoveDown}" Command="{Binding DataContext.MoveSidebarItemDownCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
+                          <ui:Button Width="34" Height="30" Padding="0" ToolTip="{x:Static resources:Strings.Menu_Appearance_Page_MoveDownTip}" AutomationProperties.Name="{x:Static resources:Strings.Menu_Appearance_Page_MoveDownTip}" IsEnabled="{Binding CanMoveDown}" Command="{Binding DataContext.MoveSidebarItemDownCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}">
                             <ui:SymbolIcon Symbol="ChevronDown24" Style="{StaticResource SidebarMoveIconStyle}" />
                           </ui:Button>
                         </StackPanel>
@@ -266,7 +269,7 @@
                               <TextBlock Margin="7,0,0,0" MaxWidth="86" VerticalAlignment="Center" Text="{Binding IconLabel}" TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                           </ui:Button>
-                          <ui:Button MinWidth="76" Height="32" Margin="0,0,6,4" Padding="8,0" Content="{Binding VisibilityLabel}" ToolTip="Change sidebar visibility" IsEnabled="{Binding CanHide}" Command="{Binding DataContext.ToggleSidebarItemVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
+                          <ui:Button MinWidth="76" Height="32" Margin="0,0,6,4" Padding="8,0" Content="{Binding VisibilityLabel}" ToolTip="{x:Static resources:Strings.Menu_Appearance_Page_ChangeVisibilityTip}" IsEnabled="{Binding CanHide}" Command="{Binding DataContext.ToggleSidebarItemVisibilityCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
                             <ui:Button.Style>
                               <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
                                 <Setter Property="Appearance" Value="Secondary" />
@@ -278,10 +281,10 @@
                               </Style>
                             </ui:Button.Style>
                           </ui:Button>
-                          <ui:Button Width="34" Height="32" Margin="0,0,4,4" Padding="0" ToolTip="Move up" AutomationProperties.Name="Move up" IsEnabled="{Binding CanMoveUp}" Command="{Binding DataContext.MoveSidebarItemUpCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
+                          <ui:Button Width="34" Height="32" Margin="0,0,4,4" Padding="0" ToolTip="{x:Static resources:Strings.Menu_Appearance_Page_MoveUpTip}" AutomationProperties.Name="{x:Static resources:Strings.Menu_Appearance_Page_MoveUpTip}" IsEnabled="{Binding CanMoveUp}" Command="{Binding DataContext.MoveSidebarItemUpCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
                             <ui:SymbolIcon Symbol="ChevronUp24" FontSize="16" />
                           </ui:Button>
-                          <ui:Button Width="34" Height="32" Margin="0,0,0,4" Padding="0" ToolTip="Move down" AutomationProperties.Name="Move down" IsEnabled="{Binding CanMoveDown}" Command="{Binding DataContext.MoveSidebarItemDownCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
+                          <ui:Button Width="34" Height="32" Margin="0,0,0,4" Padding="0" ToolTip="{x:Static resources:Strings.Menu_Appearance_Page_MoveDownTip}" AutomationProperties.Name="{x:Static resources:Strings.Menu_Appearance_Page_MoveDownTip}" IsEnabled="{Binding CanMoveDown}" Command="{Binding DataContext.MoveSidebarItemDownCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
                             <ui:SymbolIcon Symbol="ChevronDown24" FontSize="16" />
                           </ui:Button>
                         </WrapPanel>
@@ -295,8 +298,8 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Home and Appearance stay visible so customization is always reachable." TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                <ui:Button Grid.Column="1" Margin="12,0,0,0" Icon="ArrowReset24" Content="Reset sidebar" Command="{Binding ResetSidebarCommand}" />
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Static resources:Strings.Menu_Appearance_Page_HomeNote}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <ui:Button Grid.Column="1" Margin="12,0,0,0" Icon="ArrowReset24" Content="{x:Static resources:Strings.Menu_Appearance_Page_ResetSidebar}" Command="{Binding ResetSidebarCommand}" />
               </Grid>
             </Grid>
           </ui:CardExpander>
@@ -343,7 +346,7 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Layer24" Margin="0,0,6,0" />
-            <TextBlock Text="Bootstrapper" />
+            <TextBlock Text="{x:Static resources:Strings.Menu_Appearance_Page_TabBootstrapper}" />
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
@@ -353,12 +356,12 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Margin="0,0,16,0">
-              <TextBlock Text="Bootstrapper" FontSize="20" FontWeight="Medium" />
+              <TextBlock Text="{x:Static resources:Strings.Menu_Appearance_Page_TabBootstrapper}" FontSize="20" FontWeight="Medium" />
                         </StackPanel>
-            <ui:Button Grid.Column="1" Icon="Play24" Content="Preview" VerticalAlignment="Center" Command="{Binding PreviewBootstrapperCommand}" />
+            <ui:Button Grid.Column="1" Icon="Play24" Content="{x:Static resources:Strings.Menu_Appearance_Page_PreviewBtn}" VerticalAlignment="Center" Command="{Binding PreviewBootstrapperCommand}" />
           </Grid>
 
-          <controls:OptionControl Header="Launcher style" Description="Choose a built in launcher or use one of your own themes.">
+          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Page_LauncherStyle}" Description="{x:Static resources:Strings.Menu_Appearance_Page_LauncherStyleDesc}">
             <ComboBox MinWidth="210" Padding="10,5" ItemsSource="{Binding Dialogs, Mode=OneTime}" SelectedItem="{Binding Dialog, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -368,7 +371,7 @@
             </ComboBox>
           </controls:OptionControl>
 
-          <controls:OptionControl Header="Launcher size" Description="Change the overall size and spacing of the launcher.">
+          <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Page_LauncherSize}" Description="{x:Static resources:Strings.Menu_Appearance_Page_LauncherSizeDesc}">
             <ComboBox MinWidth="150" Padding="10,5" ItemsSource="{Binding BootstrapperScales, Mode=OneTime}" SelectedItem="{Binding BootstrapperScale, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -392,8 +395,8 @@
             <ui:CardExpander Style="{StaticResource NoUserExpansionCardExpanderStyle}" IsExpanded="{Binding CustomThemesExpanded, Mode=OneWay}">
               <HeaderedContentControl.Header>
                 <StackPanel>
-                  <TextBlock FontSize="14" Text="Theme creator" />
-                  <TextBlock Margin="0,2,0,0" FontSize="12" Text="Create and manage the theme used by your custom launcher." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                  <TextBlock FontSize="14" Text="{x:Static resources:Strings.Menu_Appearance_Page_ThemeCreator}" />
+                  <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Menu_Appearance_Page_ThemeCreatorDesc}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                 </StackPanel>
               </HeaderedContentControl.Header>
               <Grid>
@@ -413,8 +416,8 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                   </Grid.ColumnDefinitions>
-                  <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="Add24" Content="New theme" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding AddCustomThemeCommand, Mode=OneTime}" />
-                  <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Delete24" Content="Delete" Appearance="Danger" HorizontalAlignment="Stretch" IsEnabled="{Binding IsCustomThemeSelected, Mode=OneWay}" Command="{Binding DeleteCustomThemeCommand, Mode=OneTime}" />
+                  <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="Add24" Content="{x:Static resources:Strings.Menu_Appearance_Page_NewTheme}" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding AddCustomThemeCommand, Mode=OneTime}" />
+                  <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Delete24" Content="{x:Static resources:Strings.Menu_Appearance_Page_DeleteTheme}" Appearance="Danger" HorizontalAlignment="Stretch" IsEnabled="{Binding IsCustomThemeSelected, Mode=OneWay}" Command="{Binding DeleteCustomThemeCommand, Mode=OneTime}" />
                 </Grid>
 
                 <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5,0,0,0">
@@ -429,14 +432,14 @@
                     </Style>
                   </StackPanel.Style>
 
-                  <TextBlock Text="Theme name" FontWeight="SemiBold" />
+                  <TextBlock Text="{x:Static resources:Strings.Menu_Appearance_Page_ThemeName}" FontWeight="SemiBold" />
                   <Grid Margin="0,5,0,0">
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="*" />
                       <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <ui:TextBox Grid.Column="0" Text="{Binding SelectedCustomThemeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <ui:Button Grid.Column="1" Margin="8,0,0,0" Icon="Save24" Content="Save name" Command="{Binding RenameCustomThemeCommand, Mode=OneTime}" />
+                    <ui:Button Grid.Column="1" Margin="8,0,0,0" Icon="Save24" Content="{x:Static resources:Strings.Menu_Appearance_Page_SaveName}" Command="{Binding RenameCustomThemeCommand, Mode=OneTime}" />
                   </Grid>
 
                   <Grid Margin="0,12,0,0">
@@ -444,23 +447,23 @@
                       <ColumnDefinition Width="*" />
                       <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="DesktopEdit24" Content="Open editor" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding EditCustomThemeCommand, Mode=OneTime}" />
-                    <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Play24" Content="Preview" HorizontalAlignment="Stretch" Command="{Binding PreviewBootstrapperCommand}" />
+                    <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="DesktopEdit24" Content="{x:Static resources:Strings.Menu_Appearance_Page_OpenEditor}" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding EditCustomThemeCommand, Mode=OneTime}" />
+                    <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Play24" Content="{x:Static resources:Strings.Menu_Appearance_Page_PreviewBtn}" HorizontalAlignment="Stretch" Command="{Binding PreviewBootstrapperCommand}" />
                   </Grid>
 
-                  <Expander Margin="0,10,0,0" Header="More actions" IsExpanded="False">
+                  <Expander Margin="0,10,0,0" Header="{x:Static resources:Strings.Menu_Appearance_Page_MoreActions}" IsExpanded="False">
                     <Grid Margin="0,8,0,0">
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                       </Grid.ColumnDefinitions>
-                      <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="ImageMultiple24" Content="View files" HorizontalAlignment="Stretch" Command="{Binding ViewCustomThemeFilesCommand, Mode=OneTime}" />
-                      <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="ArrowExportRtl24" Content="Export" HorizontalAlignment="Stretch" Command="{Binding ExportCustomThemeCommand, Mode=OneTime}" />
+                      <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="ImageMultiple24" Content="{x:Static resources:Strings.Menu_Appearance_Page_ViewFiles}" HorizontalAlignment="Stretch" Command="{Binding ViewCustomThemeFilesCommand, Mode=OneTime}" />
+                      <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="ArrowExportRtl24" Content="{x:Static resources:Strings.Menu_Appearance_Page_Export}" HorizontalAlignment="Stretch" Command="{Binding ExportCustomThemeCommand, Mode=OneTime}" />
                     </Grid>
                   </Expander>
                 </StackPanel>
 
-                <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5,0,0,0" Text="Select a theme from the list, or create a new one." TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5,0,0,0" Text="{x:Static resources:Strings.Menu_Appearance_Page_SelectThemeHint}" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
                   <TextBlock.Style>
                     <Style TargetType="TextBlock">
                       <Setter Property="Visibility" Value="Visible" />
@@ -479,21 +482,21 @@
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="Optional launcher extras" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Add a background or startup sound. These extras do not apply to custom launchers or themes created in Theme Creator." TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="{x:Static resources:Strings.Menu_Appearance_Page_LauncherExtras}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Menu_Appearance_Page_LauncherExtrasDesc}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel IsEnabled="{Binding LauncherExtrasEnabled, Mode=OneWay}">
-              <controls:OptionControl Header="Background" Description="Choose an image for the launcher background.">
+              <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Page_BgHeader}" Description="{x:Static resources:Strings.Menu_Appearance_Page_BgDesc}">
                 <StackPanel Orientation="Horizontal">
-                  <ui:Button Content="Choose image" Icon="ImageAdd24" Margin="0,0,8,0" Command="{Binding ImportBackgroundCommand}" />
-                  <ui:Button Content="Remove" Icon="Delete24" Appearance="Danger" Command="{Binding RemoveBackgroundCommand}" />
+                  <ui:Button Content="{x:Static resources:Strings.Menu_Appearance_Page_ChooseImage}" Icon="ImageAdd24" Margin="0,0,8,0" Command="{Binding ImportBackgroundCommand}" />
+                  <ui:Button Content="{x:Static resources:Strings.Menu_Appearance_Page_RemoveBgBtn}" Icon="Delete24" Appearance="Danger" Command="{Binding RemoveBackgroundCommand}" />
                 </StackPanel>
               </controls:OptionControl>
-              <controls:OptionControl Header="Startup sound" Description="Choose audio to play when the launcher opens.">
+              <controls:OptionControl Header="{x:Static resources:Strings.Menu_Appearance_Page_StartupSound}" Description="{x:Static resources:Strings.Menu_Appearance_Page_StartupSoundDesc}">
                 <StackPanel Orientation="Horizontal">
-                  <ui:Button Content="Choose audio" Icon="MusicNote124" Margin="0,0,8,0" Command="{Binding ImportStartupAudioCommand}" />
-                  <ui:Button Content="Remove" Icon="Delete24" Appearance="Danger" Command="{Binding RemoveStartupAudioCommand}" />
+                  <ui:Button Content="{x:Static resources:Strings.Menu_Appearance_Page_ChooseAudio}" Icon="MusicNote124" Margin="0,0,8,0" Command="{Binding ImportStartupAudioCommand}" />
+                  <ui:Button Content="{x:Static resources:Strings.Menu_Appearance_Page_RemoveBgBtn}" Icon="Delete24" Appearance="Danger" Command="{Binding RemoveStartupAudioCommand}" />
                 </StackPanel>
               </controls:OptionControl>
             </StackPanel>
@@ -504,11 +507,11 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Grid24" Margin="0,0,6,0" />
-            <TextBlock Text="Icons" />
+            <TextBlock Text="{x:Static resources:Strings.Menu_Appearance_Page_TabIcons}" />
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Icons" />
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="{x:Static resources:Strings.Menu_Appearance_Page_TabIcons}" />
           <controls:OptionControl x:Name="IconSelector" Header="{x:Static resources:Strings.Menu_Appearance_Icon_Title}" Description="{x:Static resources:Strings.Menu_Appearance_Icon_Description}">
             <ComboBox Padding="10,5,10,5" SelectedValuePath="IconType" ItemsSource="{Binding Icons, Mode=OneWay}" SelectedValue="{Binding Icon, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
@@ -525,7 +528,7 @@
               </ItemsControl.ItemTemplate>
             </ComboBox>
           </controls:OptionControl>
-          <controls:OptionControl x:Name="StudioIconSelector" Header="Studio icon" Description="The icon shown on the bootstrapper when launching Roblox Studio." Visibility="{Binding StudioIconVisibility, Mode=OneWay}">
+          <controls:OptionControl x:Name="StudioIconSelector" Header="{x:Static resources:Strings.Menu_Appearance_Page_StudioIcon}" Description="{x:Static resources:Strings.Menu_Appearance_Page_StudioIconDesc}" Visibility="{Binding StudioIconVisibility, Mode=OneWay}">
             <ComboBox Padding="10,5,10,5" SelectedValuePath="IconType" ItemsSource="{Binding Icons, Mode=OneWay}" SelectedValue="{Binding StudioIcon, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -549,7 +552,7 @@
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                  <TextBlock FontSize="14" Text="Customization" />
+                  <TextBlock FontSize="14" Text="{x:Static resources:Strings.Menu_Appearance_Page_Customization}" />
                   <TextBlock FontSize="12" Text="{x:Static resources:Strings.Menu_Appearance_Customisation_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                 </StackPanel>
               </Grid>

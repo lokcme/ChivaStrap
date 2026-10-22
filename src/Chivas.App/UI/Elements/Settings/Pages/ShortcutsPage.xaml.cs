@@ -50,7 +50,7 @@ public partial class ShortcutsPage : UiPage{
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("Failed to load saved settings.\n\nError: " + ex.Message);
+			Frontend.ShowMessageBox(string.Format(Chivas.Resources.Strings.Menu_Dialogs_Code_ShortcutLoadFail, ex.Message));
 		}
 	}
 
@@ -77,7 +77,7 @@ public partial class ShortcutsPage : UiPage{
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("Failed to launch the game.\n\nError: " + Describe(ex));
+			Frontend.ShowMessageBox(string.Format(Chivas.Resources.Strings.Menu_Dialogs_Code_ShortcutLaunchFail, Describe(ex)));
 		}
 		finally
 		{
@@ -119,15 +119,15 @@ public partial class ShortcutsPage : UiPage{
 			Chivas.Utility.Shortcut.Create(executable, arguments, shortcutPath, iconPath);
 			if (!File.Exists(shortcutPath))
 			{
-				Frontend.ShowMessageBox("Failed to create shortcut.\n\nChivas could not write to the desktop folder.");
+				Frontend.ShowMessageBox(Chivas.Resources.Strings.Menu_Dialogs_Code_ShortcutCreateFail);
 				return;
 			}
-			Frontend.ShowMessageBox("Shortcut created:\n" + displayName);
+			Frontend.ShowMessageBox(string.Format(Chivas.Resources.Strings.Menu_Dialogs_Code_ShortcutCreated, displayName));
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("Shortcuts::CreateShortcut", ex);
-			Frontend.ShowMessageBox("Failed to create shortcut.\n\nError: " + Describe(ex));
+			Frontend.ShowMessageBox(string.Format(Chivas.Resources.Strings.Menu_Dialogs_Code_ShortcutCreateFail2, Describe(ex)));
 		}
 		finally
 		{
@@ -144,21 +144,21 @@ public partial class ShortcutsPage : UiPage{
 			(string placeId, string code) = await ResolvePrivateServerAsync(gameId, viewModel.PrivateServerCode);
 			if (string.IsNullOrEmpty(placeId) || string.IsNullOrEmpty(code))
 			{
-				Frontend.ShowMessageBox("Enter a valid private server share link, or provide both a Game ID and access code.");
+				Frontend.ShowMessageBox(Chivas.Resources.Strings.Menu_Dialogs_Code_ShortcutBadLink);
 				return null;
 			}
 			return ("roblox://experiences/start?placeId=" + Uri.EscapeDataString(placeId) + "&privateServerLinkCode=" + Uri.EscapeDataString(code), placeId);
 		}
 		if (!long.TryParse(gameId, out long parsedGameId) || parsedGameId <= 0)
 		{
-			Frontend.ShowMessageBox("Enter a valid numeric Game ID.");
+			Frontend.ShowMessageBox(Chivas.Resources.Strings.Menu_Dialogs_Code_ShortcutBadId);
 			return null;
 		}
 		string launchUrl = "roblox://experiences/start?placeId=" + gameId;
 		string instanceId = viewModel.GameInstanceId?.Trim() ?? "";
 		if (instanceId.Length > 128 || instanceId.Any(char.IsControl))
 		{
-			Frontend.ShowMessageBox("Enter a valid server instance ID.");
+			Frontend.ShowMessageBox(Chivas.Resources.Strings.Menu_Dialogs_Code_ShortcutBadInstance);
 			return null;
 		}
 		if (instanceId.Length != 0)

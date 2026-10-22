@@ -52,22 +52,22 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public static IReadOnlyList<SidebarItemDefinition> SidebarCustomizationItems { get; } = new SidebarItemDefinition[]
     {
-        new("HomeNavItem", Strings.Menu_Sidebar_Home, "Core", SymbolRegular.Home24, false),
-        new("IntegrationsNavItem", Strings.Menu_Integrations_Title, "Core", SymbolRegular.Add12),
-        new("DeploymentNavItem", Strings.Menu_Sidebar_Deployment, "Core", SymbolRegular.PlaySettings20),
-        new("AppearanceNavItem", Strings.Menu_Appearance_Title, "Core", SymbolRegular.Color24, false),
-        new("FastFlagSettingsNavItem", Strings.Menu_Sidebar_FastFlagSettings, "Configuration", SymbolRegular.Settings28),
-        new("FastFlagEditorNavItem", Strings.Menu_Sidebar_FastFlagEditor, "Configuration", SymbolRegular.Flag28),
-        new("ModsNavItem", Strings.Menu_Mods_Title, "Configuration", SymbolRegular.WrenchScrewdriver20),
-        new("MoreNavItem", Strings.Menu_Sidebar_More, "Configuration", SymbolRegular.MoreHorizontal24),
-        new("GlobalNavItem", Strings.Menu_Sidebar_Global, "More", SymbolRegular.GlobeLocation20),
-        new("ShortcutsNavItem", Strings.Common_Shortcuts, "More", SymbolRegular.Apps32),
-        new("NewsNavItem", Strings.Menu_Sidebar_News, "More", SymbolRegular.News16),
-        new("ExtensionsNavItem", Strings.Menu_Sidebar_Extensions, "Footer", SymbolRegular.CubeAdd20),
-        new("ManagerNavItem", Strings.Menu_Sidebar_Manager, "Footer", SymbolRegular.ArrowDownload24),
-        new("SoberNavItem", Strings.Menu_Sober_Title, "Footer", SymbolRegular.Empty),
-        new("SettingsNavItem", Strings.Menu_Sidebar_Settings, "Footer", SymbolRegular.Settings28),
-        new("AboutNavItem", Strings.Menu_About_Title, "Footer", SymbolRegular.QuestionCircle32)
+        new("HomeNavItem", Strings.Menu_Sidebar_Home, "Principal", SymbolRegular.Home24, false),
+        new("LibraryNavItem", Strings.Menu_TopNav_Library, "Principal", SymbolRegular.Games24),
+        new("NewsNavItem", Strings.Menu_Sidebar_News, "Principal", SymbolRegular.News16),
+        new("AppearanceNavItem", Strings.Menu_Appearance_Title, "Personalización", SymbolRegular.Color24, false),
+        new("ModsNavItem", Strings.Menu_Mods_Title, "Personalización", SymbolRegular.WrenchScrewdriver20),
+        new("ExtensionsNavItem", Strings.Menu_Sidebar_Extensions, "Personalización", SymbolRegular.CubeAdd20),
+        new("FastFlagSettingsNavItem", Strings.Menu_Sidebar_FastFlagSettings, "Configuración avanzada", SymbolRegular.Options24),
+        new("FastFlagEditorNavItem", Strings.Menu_Sidebar_FastFlagEditor, "Configuración avanzada", SymbolRegular.Flag28),
+        new("GlobalNavItem", Strings.Menu_Sidebar_Global, "Configuración avanzada", SymbolRegular.GlobeLocation20),
+        new("IntegrationsNavItem", Strings.Menu_Integrations_Title, "Herramientas", SymbolRegular.PuzzlePiece24),
+        new("DeploymentNavItem", Strings.Menu_Sidebar_Deployment, "Herramientas", SymbolRegular.PlaySettings20),
+        new("ManagerNavItem", Strings.Menu_Sidebar_Manager, "Herramientas", SymbolRegular.ArrowDownload24),
+        new("ShortcutsNavItem", Strings.Common_Shortcuts, "Herramientas", SymbolRegular.Apps32),
+        new("SoberNavItem", Strings.Menu_Sober_Title, "Herramientas", SymbolRegular.Empty),
+        new("SettingsNavItem", Strings.Menu_Sidebar_Settings, "Sistema", SymbolRegular.Settings28),
+        new("AboutNavItem", Strings.Menu_About_Title, "Sistema", SymbolRegular.QuestionCircle32)
     };
 
     public static bool IsSidebarItemAvailable(string key)
@@ -91,7 +91,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private static void VerifySidebarCustomization()
     {
         Debug.Assert(SidebarCustomizationItems.Select(item => item.Key).Distinct(StringComparer.Ordinal).Count() == SidebarCustomizationItems.Count);
-        Debug.Assert(SidebarCustomizationItems.All(item => item.Section is "Core" or "Configuration" or "More" or "Footer"));
+        Debug.Assert(SidebarCustomizationItems.All(item => item.Section is "Principal" or "Personalización" or "Configuración avanzada" or "Herramientas" or "Sistema"));
         Debug.Assert(SidebarCustomizationItems.Where(item => item.Key is "HomeNavItem" or "AppearanceNavItem").All(item => !item.CanHide));
         Debug.Assert(NormalizeSidebarName("  My\nPage  ", "Page") == "My Page");
     }
@@ -327,7 +327,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["ShortcutsPage"] = ("Shortcuts", "Setting up game shortcuts"),
         ["ChannelPage"] = ("Settings", "Adjusting app settings and updates"),
         ["ReleasesPage"] = ("Releases", "Reading the release history"),
-        ["DonoPage"] = ("Support Chivas", "Considering a donation"),
         ["HelpPage"] = ("Help", "Reading the help guides"),
         ["AppearancePage"] = ("Appearance", "Customizing themes and backgrounds"),
         ["BootstrapperPage"] = ("Bootstrapper", "Customizing the launch window"),
@@ -421,7 +420,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         typeof(DownloadsPage),
         typeof(NvidiaFFlagEditorPage),
         typeof(ReleasesPage),
-        typeof(DonoPage),
         typeof(LibraryPage)
     };
 
@@ -602,6 +600,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ManagerNavItem.Visibility = Chivas.Utility.Platform.IsLinux ? Visibility.Collapsed : Visibility.Visible;
         VerifySidebarCustomization();
         ApplySidebarCustomization();
+        ApplyNavMode(App.Settings.Prop.TopSectionTabs);
         SettingChangeNotifier.Failed += OnSettingChangeFailed;
         RestartNotificationService.Changed += OnRestartRequirementsChanged;
         if (Chivas.Utility.Platform.IsLinux)
@@ -927,14 +926,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => LogPageReady(readyContent)));
         Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(DetachDiscardedPage));
         object content = e.Content;
-        if (content != null && _pagesToHideSearchBox.Contains(content.GetType()))
-        {
-            GlobalSearchBox.Visibility = Visibility.Collapsed;
-        }
-        else
-        {
-            GlobalSearchBox.Visibility = Visibility.Visible;
-        }
         if (BreadcrumbPanel != null)
         {
             BreadcrumbPanel.Visibility = content is LibraryPage ? Visibility.Collapsed : Visibility.Visible;
@@ -942,9 +933,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         bool isLibrary = content is LibraryPage;
         RootNavigation.Visibility = (isLibrary ? Visibility.Collapsed : Visibility.Visible);
         SynchronizeSidebarSelection(content);
-        SidebarGroup.RefreshActiveChild(MoreNavItem);
         Dispatcher.BeginInvoke(new Action(SynchronizeCurrentSidebarSelection), DispatcherPriority.Loaded);
-        UpdateTopNavActive(content);
+        UpdateSectionTabs(content);
         if (content is Page)
         {
             Dispatcher.BeginInvoke(new Action(IndexLoadedPageSearchEntries), _pendingTopSearchEntry != null ? DispatcherPriority.Loaded : DispatcherPriority.ApplicationIdle);
@@ -960,11 +950,268 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private void UpdateTopNavActive(object? content)
+
+
+    private readonly Dictionary<System.Windows.Controls.Button, (ScaleTransform Scale, TranslateTransform Lift)> _dockTransforms = new Dictionary<System.Windows.Controls.Button, (ScaleTransform, TranslateTransform)>();
+
+    private DispatcherTimer? _sectionHoverTimer;
+
+    private System.Windows.Controls.Button? _hoverPendingTab;
+
+    private void SectionTab_MouseEnter(object sender, MouseEventArgs e)
     {
-        TopNavHome.Tag = content is HomePage ? "Active" : null;
-        TopNavLibrary.Tag = content is LibraryPage ? "Active" : null;
-        TopNavNews.Tag = content is NewsPage ? "Active" : null;
+        if (sender is not System.Windows.Controls.Button tab || tab.CommandParameter is not string)
+        {
+            return;
+        }
+        if (SectionMenuPopup.IsOpen && ReferenceEquals(SectionMenuPopup.PlacementTarget, tab))
+        {
+            return;
+        }
+        CancelSectionClose();
+        if (SectionMenuPopup.IsOpen)
+        {
+            _hoverPendingTab = null;
+            _sectionHoverTimer?.Stop();
+            OpenSectionMenu(tab);
+            return;
+        }
+        _hoverPendingTab = tab;
+        if (_sectionHoverTimer == null)
+        {
+            _sectionHoverTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(80) };
+            _sectionHoverTimer.Tick += SectionHoverTimer_Tick;
+        }
+        _sectionHoverTimer.Stop();
+        _sectionHoverTimer.Start();
+    }
+
+    private void SectionHoverTimer_Tick(object? sender, EventArgs e)
+    {
+        _sectionHoverTimer?.Stop();
+        System.Windows.Controls.Button? tab = _hoverPendingTab;
+        _hoverPendingTab = null;
+        if (tab == null || _isClosed)
+        {
+            return;
+        }
+        OpenSectionMenu(tab);
+    }
+
+    private DispatcherTimer? _sectionCloseTimer;
+
+    private void CancelSectionClose()
+    {
+        _sectionCloseTimer?.Stop();
+    }
+
+    private void ScheduleSectionClose()
+    {
+        if (_sectionCloseTimer == null)
+        {
+            _sectionCloseTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
+            _sectionCloseTimer.Tick += (s, e) =>
+            {
+                _sectionCloseTimer?.Stop();
+                if (_isClosed)
+                {
+                    return;
+                }
+                if (!SectionMenuPopup.IsMouseOver && (SectionTabsPanel == null || !SectionTabsPanel.IsMouseOver))
+                {
+                    SectionMenuPopup.IsOpen = false;
+                }
+            };
+        }
+        _sectionCloseTimer.Stop();
+        _sectionCloseTimer.Start();
+    }
+
+    private void SectionMenu_MouseEnter(object sender, MouseEventArgs e)
+    {
+        CancelSectionClose();
+    }
+
+    private void SectionMenu_MouseLeave(object sender, MouseEventArgs e)
+    {
+        ScheduleSectionClose();
+    }
+
+    private void SectionTab_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Button tab)
+        {
+            return;
+        }
+        _hoverPendingTab = null;
+        _sectionHoverTimer?.Stop();
+        if (SectionMenuPopup.IsOpen && ReferenceEquals(SectionMenuPopup.PlacementTarget, tab))
+        {
+            SectionMenuPopup.IsOpen = false;
+            return;
+        }
+        OpenSectionMenu(tab);
+    }
+
+    private void OpenSectionMenu(System.Windows.Controls.Button tab)
+    {
+        if (tab.CommandParameter is not string section)
+        {
+            return;
+        }
+        CloseOverlayPopups();
+        SectionMenuItemsPanel.Children.Clear();
+        if (tab.CommandParameter is string sectionTitle && sectionTitle.Length > 0)
+        {
+            SectionMenuItemsPanel.Children.Add(new System.Windows.Controls.TextBlock
+            {
+                Text = sectionTitle,
+                FontSize = 12,
+                FontWeight = FontWeights.SemiBold,
+                Foreground = (Brush)FindResource("LauncherTextTertiaryBrush"),
+                Margin = new Thickness(10, 6, 10, 2)
+            });
+            SectionMenuItemsPanel.Children.Add(new System.Windows.Controls.Separator
+            {
+                Style = (Style)FindResource("TopBarMenuSeparatorStyle")
+            });
+        }
+        Dictionary<string, string> sections = SidebarCustomizationItems.ToDictionary(d => d.Key, d => d.Section, StringComparer.Ordinal);
+        bool any = false;
+        foreach (NavigationItem item in RootNavigation.Items.OfType<NavigationItem>())
+        {
+            if (item.Name == null || !sections.TryGetValue(item.Name, out string? itemSection) || !string.Equals(itemSection, section, StringComparison.Ordinal))
+            {
+                continue;
+            }
+            if (!item.IsEnabled || item.Visibility != Visibility.Visible)
+            {
+                continue;
+            }
+            string name = item.Content as string ?? item.Name;
+            System.Windows.Controls.MenuItem menuItem = new System.Windows.Controls.MenuItem
+            {
+                Header = name,
+                Style = (Style)FindResource("TopBarMenuItemStyle")
+            };
+            NavigationItem captured = item;
+            menuItem.Click += (s, args) =>
+            {
+                CancelSectionClose();
+                _hoverPendingTab = null;
+                _sectionHoverTimer?.Stop();
+                SectionMenuPopup.IsOpen = false;
+                OpenSectionMenuItem(captured);
+            };
+            SectionMenuItemsPanel.Children.Add(menuItem);
+            any = true;
+        }
+        if (!any)
+        {
+            return;
+        }
+        SectionMenuPopup.PlacementTarget = tab;
+        SectionMenuPopup.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+        SectionMenuPopup.IsOpen = true;
+    }
+
+    private void OpenSectionMenuItem(NavigationItem item)
+    {
+        if (item.PageType != null)
+        {
+            RootNavigation.Navigate(item.PageType);
+            return;
+        }
+        if (string.Equals(item.Name, "LibraryNavItem", StringComparison.Ordinal))
+        {
+            OnRequestOpenLibrary(this, EventArgs.Empty);
+            return;
+        }
+        if (string.Equals(item.Name, "AboutNavItem", StringComparison.Ordinal) && base.DataContext is MainWindowViewModel vm && vm.OpenAboutCommand.CanExecute(null))
+        {
+            vm.OpenAboutCommand.Execute(null);
+        }
+    }
+
+    private int _dockLastTick;
+
+    private double _dockLastX = double.NaN;
+
+    private void SectionTabs_MouseMove(object sender, MouseEventArgs e)
+    {
+        if (SectionTabsPanel == null)
+        {
+            return;
+        }
+        double mouseX = e.GetPosition(SectionTabsPanel).X;
+        int now = Environment.TickCount;
+        if (now - _dockLastTick < 12 && Math.Abs(mouseX - _dockLastX) < 2.0)
+        {
+            return;
+        }
+        _dockLastTick = now;
+        _dockLastX = mouseX;
+        foreach (System.Windows.Controls.Button tab in GetSectionTabs())
+        {
+            if (!_dockTransforms.TryGetValue(tab, out var t))
+            {
+                t = (new ScaleTransform(1.0, 1.0), new TranslateTransform(0.0, 0.0));
+                tab.RenderTransform = new TransformGroup { Children = { t.Scale, t.Lift } };
+                _dockTransforms[tab] = t;
+            }
+            double centerX = tab.TranslatePoint(new Point(tab.ActualWidth / 2.0, 0.0), SectionTabsPanel).X;
+            double closeness = Math.Max(0.0, 1.0 - Math.Abs(mouseX - centerX) / 80.0);
+            double scale = 1.0 + 0.25 * closeness * closeness;
+            t.Scale.ScaleX = scale;
+            t.Scale.ScaleY = scale;
+            t.Lift.Y = -(scale - 1.0) * 22.0;
+        }
+    }
+
+    private void SectionTabs_MouseLeave(object sender, MouseEventArgs e)
+    {
+        foreach (var t in _dockTransforms.Values)
+        {
+            t.Scale.ScaleX = 1.0;
+            t.Scale.ScaleY = 1.0;
+            t.Lift.Y = 0.0;
+        }
+        _hoverPendingTab = null;
+        _sectionHoverTimer?.Stop();
+        if (SectionMenuPopup.IsOpen)
+        {
+            ScheduleSectionClose();
+        }
+    }
+
+    private System.Windows.Controls.Button[] GetSectionTabs()
+    {
+        return new[] { SectionTabPrincipal, SectionTabPersonalizacion, SectionTabAvanzada, SectionTabHerramientas, SectionTabSistema };
+    }
+
+    private string? GetContentSection(object? content)
+    {
+        if (content == null || RootNavigation == null)
+        {
+            return null;
+        }
+        Type contentType = content.GetType();
+        Dictionary<string, string> sections = SidebarCustomizationItems.ToDictionary(d => d.Key, d => d.Section, StringComparer.Ordinal);
+        NavigationItem? match = RootNavigation.Items.OfType<NavigationItem>().FirstOrDefault(item => item.PageType == contentType);
+        if (match?.Name != null && sections.TryGetValue(match.Name, out string? section))
+        {
+            return section;
+        }
+        return null;
+    }
+
+    private void UpdateSectionTabs(object? content)
+    {
+        string? section = GetContentSection(content);
+        foreach (System.Windows.Controls.Button tab in GetSectionTabs())
+        {
+            tab.Tag = tab.CommandParameter as string == section ? "Active" : null;
+        }
     }
 
     private NavigationItem[] GetNavigationItemsInServiceOrder()
@@ -1048,46 +1295,36 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 .OrderBy(item => ranks.TryGetValue(item.Key, out int rank) ? rank : int.MaxValue)
                 .ThenBy(item => defaults[item.Key]);
         }
-        NavigationItem coreHeader = _defaultMainSidebarItems.OfType<NavigationItem>().First(item => !item.IsEnabled && string.Equals(item.Content?.ToString(), Strings.Menu_Sidebar_Core, StringComparison.Ordinal));
-        NavigationItem configurationHeader = _defaultMainSidebarItems.OfType<NavigationItem>().First(item => !item.IsEnabled && string.Equals(item.Content?.ToString(), Strings.Menu_Sidebar_Configuration, StringComparison.Ordinal));
-        Wpf.Ui.Controls.Navigation.NavigationSeparator separator = _defaultMainSidebarItems.OfType<Wpf.Ui.Controls.Navigation.NavigationSeparator>().First();
-        bool hasConfigurationItems = Ordered("Configuration").Any(definition => items[definition.Key].Visibility == Visibility.Visible);
-        configurationHeader.Visibility = hasConfigurationItems ? Visibility.Visible : Visibility.Collapsed;
-        separator.Visibility = configurationHeader.Visibility;
-        List<INavigationControl> main = new List<INavigationControl> { coreHeader };
-        main.AddRange(Ordered("Core").Select(item => items[item.Key]));
-        main.Add(separator);
-        main.Add(configurationHeader);
-        foreach (SidebarItemDefinition definition in Ordered("Configuration"))
+        Dictionary<string, NavigationItem> groupHeaders = new Dictionary<string, NavigationItem>(StringComparer.Ordinal)
         {
-            main.Add(items[definition.Key]);
-            if (definition.Key == "MoreNavItem")
-            {
-                main.AddRange(Ordered("More").Select(item => items[item.Key]));
-            }
-        }
+            { "Principal", PrincipalHeader },
+            { "Personalización", PersonalizacionHeader },
+            { "Configuración avanzada", AvanzadaHeader },
+            { "Herramientas", HerramientasHeader },
+            { "Sistema", SistemaHeader }
+        };
         foreach (NavigationItem item in items.Values.Where(item => RootNavigation.Items.Contains(item)).ToArray())
         {
             RootNavigation.Items.Remove(item);
         }
-        int coreIndex = RootNavigation.Items.IndexOf(coreHeader) + 1;
-        foreach (INavigationControl item in main.Skip(1).TakeWhile(item => !ReferenceEquals(item, separator)))
+        foreach (string group in new string[] { "Principal", "Personalización", "Configuración avanzada", "Herramientas", "Sistema" })
         {
-            RootNavigation.Items.Insert(coreIndex++, item);
-        }
-        int configurationIndex = RootNavigation.Items.IndexOf(configurationHeader) + 1;
-        foreach (INavigationControl item in main.SkipWhile(item => !ReferenceEquals(item, configurationHeader)).Skip(1))
-        {
-            RootNavigation.Items.Insert(configurationIndex++, item);
+            List<SidebarItemDefinition> grouped = Ordered(group).ToList();
+            bool anyVisible = grouped.Any(definition => items[definition.Key].Visibility == Visibility.Visible);
+            groupHeaders[group].Visibility = anyVisible ? Visibility.Visible : Visibility.Collapsed;
+            if (!anyVisible)
+            {
+                continue;
+            }
+            RootNavigation.Items.Add(groupHeaders[group]);
+            foreach (SidebarItemDefinition definition in grouped)
+            {
+                RootNavigation.Items.Add(items[definition.Key]);
+            }
         }
         foreach (NavigationItem item in items.Values.Where(item => RootNavigation.Footer.Contains(item)).ToArray())
         {
             RootNavigation.Footer.Remove(item);
-        }
-        int footerIndex = 0;
-        foreach (SidebarItemDefinition definition in Ordered("Footer"))
-        {
-            RootNavigation.Footer.Insert(footerIndex++, items[definition.Key]);
         }
         RegisterHoverIcons();
         if (!string.IsNullOrEmpty(_latestNewsKey) && App.Settings.Prop.LastSeenNewsKey != _latestNewsKey)
@@ -1118,7 +1355,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void SynchronizeCurrentSidebarSelection()
     {
         SynchronizeSidebarSelection(RootFrame?.Content);
-        SidebarGroup.RefreshActiveChild(MoreNavItem);
     }
 
     private void SynchronizeSidebarSelection(object? content)
@@ -1390,7 +1626,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             IndexDynamicPageSearchEntries(page);
         }
-        PerformSearch(GlobalSearchBox.Text?.Trim() ?? "");
+        PerformSearch("");
         if (pending)
         {
             ApplyPendingTopSearchEntry();
@@ -1770,17 +2006,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return CamelCaseBoundaryPattern.Replace(name.Replace('_', ' '), " ");
     }
 
-    private void TopNavHome_Click(object sender, RoutedEventArgs e)
-    {
-        NavigateTopNav(typeof(HomePage));
-    }
-
-    private void TopNavLibrary_Click(object sender, RoutedEventArgs e)
+    private void OnRequestOpenLibrary(object? sender, EventArgs e)
     {
         _libraryPage ??= new LibraryPage();
         if (!ReferenceEquals(RootFrame.Content, _libraryPage))
         {
             RootNavigation.NavigateExternal(_libraryPage);
+        }
+        foreach (NavigationItem item in GetNavigationItemsInServiceOrder())
+        {
+            item.IsActive = ReferenceEquals(item, LibraryNavItem);
         }
     }
 
@@ -1803,10 +2038,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private void TopNavNews_Click(object sender, RoutedEventArgs e)
-    {
-        NavigateTopNav(typeof(NewsPage));
-    }
+
 
     private void TopSearchButton_Click(object sender, RoutedEventArgs e)
     {
@@ -1897,7 +2129,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             Type pageType = item.PageType;
             pages.Add(new CommandPalettePage(pageType, pageName, icon, GetNavShortcutLabel(pageType), () => NavigateTopNav(pageType)));
         }
-        pages.Add(new CommandPalettePage(typeof(Page), "Library", SymbolRegular.Apps24, "", () => TopNavLibrary_Click(this, new RoutedEventArgs())));
+        pages.Add(new CommandPalettePage(typeof(Page), "Library", SymbolRegular.Apps24, "", () => OnRequestOpenLibrary(this, EventArgs.Empty)));
         return new CommandPaletteSnapshot(query, pages, pageNames, pageIcons, _topSearchEntriesList.ToArray());
     }
 
@@ -2420,12 +2652,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Utilities.ShellExecute(App.ProjectSupportLink);
     }
 
-    private void AppMenuDonate_Click(object sender, RoutedEventArgs e)
-    {
-        AppMenuPopup.IsOpen = false;
-        Utilities.ShellExecute(App.ProjectDonateLink);
-    }
-
     private void AppMenuRestart_Click(object sender, RoutedEventArgs e)
     {
         AppMenuPopup.IsOpen = false;
@@ -2461,24 +2687,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RootNavigation.Navigate(pageType);
     }
 
-    private void GlobalSearchBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (_searchDebounceTimer == null)
-        {
-            _searchDebounceTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(150L)
-            };
-            _searchDebounceTimer.Tick += SearchDebounceTimer_Tick;
-        }
-        _searchDebounceTimer.Stop();
-        _searchDebounceTimer.Start();
-    }
-
     private void SearchDebounceTimer_Tick(object? sender, EventArgs e)
     {
         _searchDebounceTimer?.Stop();
-        PerformSearch(GlobalSearchBox.Text?.Trim() ?? "");
+        PerformSearch("");
     }
 
     private void PerformSearch(string query)
@@ -3600,10 +3812,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 return;
             }
             NewsNavItem.Content = BuildBadgedLabel(GetSidebarDisplayName("NewsNavItem", Strings.Menu_Sidebar_News));
-            if (MoreNavItem != null)
-            {
-                MoreNavItem.Content = BuildBadgedLabel(GetSidebarDisplayName("MoreNavItem", Strings.Menu_Sidebar_More));
-            }
         }
         catch (Exception ex)
         {
@@ -3633,10 +3841,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (NewsNavItem != null && NewsNavItem.Content is not string)
             {
                 NewsNavItem.Content = GetSidebarDisplayName("NewsNavItem", Strings.Menu_Sidebar_News);
-            }
-            if (MoreNavItem != null && MoreNavItem.Content is not string)
-            {
-                MoreNavItem.Content = GetSidebarDisplayName("MoreNavItem", Strings.Menu_Sidebar_More);
             }
             if (!string.IsNullOrEmpty(_latestNewsKey) && App.Settings.Prop.LastSeenNewsKey != _latestNewsKey)
             {
@@ -4407,9 +4611,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _sidebarIconMode = iconsOnly;
             ApplyIconModeLayout(RootNavigation.Items, iconsOnly);
             ApplyIconModeLayout(RootNavigation.Footer, iconsOnly);
-            SidebarGroup.SetIconOnly(MoreNavItem, iconsOnly);
-            if (iconsOnly)
-                SidebarGroup.Expand(MoreNavItem, false, animate: false);
+
         }
     }
 
@@ -4469,6 +4671,22 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         App.Settings.Prop.SidebarWidth = ((RootNavigation != null) ? RootNavigation.Width : SidebarDefaultWidth);
         App.Settings.Save();
+    }
+
+    public void ApplyNavMode(bool topTabs)
+    {
+        if (SectionTabsPanel != null)
+        {
+            SectionTabsPanel.Visibility = topTabs ? Visibility.Visible : Visibility.Collapsed;
+        }
+        if (SidebarToggle != null)
+        {
+            SidebarToggle.Visibility = topTabs ? Visibility.Collapsed : Visibility.Visible;
+        }
+        if (SidebarHost != null)
+        {
+            SidebarHost.Visibility = topTabs ? Visibility.Collapsed : Visibility.Visible;
+        }
     }
 
     private void SidebarToggle_Click(object sender, RoutedEventArgs e)
@@ -4764,6 +4982,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             NotificationPopup.IsOpen = false;
         }
+        if (SectionMenuPopup != null)
+        {
+            SectionMenuPopup.IsOpen = false;
+        }
     }
 
     private void ReleaseOrphanedCapture()
@@ -4997,6 +5219,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         mainWindowViewModel.RequestSaveNoticeEvent = (EventHandler)Delegate.Combine(mainWindowViewModel.RequestSaveNoticeEvent, new EventHandler(OnRequestSaveNotice));
         mainWindowViewModel.RequestSaveLaunchNoticeEvent = (EventHandler)Delegate.Combine(mainWindowViewModel.RequestSaveLaunchNoticeEvent, new EventHandler(OnRequestSaveLaunchNotice));
         mainWindowViewModel.RequestCloseWindowEvent = (EventHandler)Delegate.Combine(mainWindowViewModel.RequestCloseWindowEvent, new EventHandler(OnRequestCloseWindow));
+        mainWindowViewModel.RequestOpenLibraryEvent = (EventHandler)Delegate.Combine(mainWindowViewModel.RequestOpenLibraryEvent, new EventHandler(OnRequestOpenLibrary));
     }
 
     private void UpdateButtonContent()
@@ -5008,7 +5231,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         string content;
         if (base.DataContext is MainWindowViewModel clientVm && !string.IsNullOrEmpty(clientVm.SelectedLaunchClient) && Chivas.Utility.ClassicClients.IsClientInstalled(clientVm.SelectedLaunchClient))
         {
-            content = "Save and Launch";
+            content = Strings.Menu_StatusBar_SaveAndLaunch;
         }
         else
         {
@@ -5017,11 +5240,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (!Chivas.Utility.Platform.SupportsWindowsClient)
             {
                 string runtime = studio ? "Vinegar" : "Sober";
-                content = installed ? "Save and Launch " + runtime : "Install " + runtime;
+                content = installed ? Strings.Menu_StatusBar_SaveAndLaunch + " " + runtime : Strings.Menu_StatusBar_Install + " " + runtime;
             }
             else
             {
-                content = (studio ? (installed ? "Save and Launch Studio" : "Install Studio") : (installed ? "Save and Launch" : "Install"));
+                content = (studio ? (installed ? Strings.Menu_StatusBar_SaveAndLaunchStudio : Strings.Menu_StatusBar_InstallStudio) : (installed ? Strings.Menu_StatusBar_SaveAndLaunch : Strings.Menu_StatusBar_Install));
             }
         }
         if (!object.Equals(InstallLaunchButton.Content, content))
@@ -5433,6 +5656,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void WpfUiWindow_Closing(object sender, CancelEventArgs e)
     {
+        _sectionHoverTimer?.Stop();
+        _sectionCloseTimer?.Stop();
+        _hoverPendingTab = null;
+        if (SectionMenuPopup != null)
+        {
+            SectionMenuPopup.IsOpen = false;
+        }
         SaveWindowState();
     }
 
@@ -5721,7 +5951,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void SaveNavigation(INavigation sender, RoutedNavigationEventArgs e)
     {
-        SidebarGroup.RefreshActiveChild(MoreNavItem);
         App.State.Prop.LastPage = RootNavigation.SelectedPageIndex;
         UpdateDiscordPresence();
     }

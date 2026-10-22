@@ -1,4 +1,4 @@
-﻿<ui:UiPage x:Class="Chivas.UI.Elements.Settings.Pages.ExtensionPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:util="clr-namespace:Chivas.Utility" xmlns:controls="clr-namespace:Chivas.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Chivas.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="Extensions" Scrollable="True">
+﻿<ui:UiPage x:Class="Chivas.UI.Elements.Settings.Pages.ExtensionPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:converters="clr-namespace:Chivas.UI.Converters" xmlns:resources="clr-namespace:Chivas.Resources" xmlns:util="clr-namespace:Chivas.Utility" xmlns:controls="clr-namespace:Chivas.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Chivas.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=PresentationFramework" Title="Extensions" Scrollable="True">
   <ui:UiPage.Resources>
     <Style x:Key="RowCard" TargetType="Border">
       <Setter Property="Margin" Value="0,0,0,10" />
@@ -43,6 +43,52 @@
       <Setter Property="FontSize" Value="12" />
       <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
     </Style>
+    <Style x:Key="Pill" TargetType="Border">
+      <Setter Property="Margin" Value="10,0,0,0" />
+      <Setter Property="Padding" Value="9,3" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+    </Style>
+    <Style x:Key="PillText" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+    <Style x:Key="PillSuccess" TargetType="Border" BasedOn="{StaticResource Pill}">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="{DynamicResource SystemFillColorSuccessBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    <Style x:Key="PillSuccessText" TargetType="TextBlock" BasedOn="{StaticResource PillText}">
+      <Setter Property="Foreground" Value="{DynamicResource SystemFillColorSuccessBrush}" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style x:Key="StatCard" TargetType="Border">
+      <Setter Property="Padding" Value="16" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+      <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
+    </Style>
+    <Style x:Key="StatLabel" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+    <Style x:Key="StatNumber" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="26" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Margin" Value="0,2,0,2" />
+    </Style>
+    <Style x:Key="StatSub" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
+    </Style>
+    <Style x:Key="StatTile" TargetType="Border">
+      <Setter Property="Width" Value="52" />
+      <Setter Property="Height" Value="52" />
+      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+    </Style>
     <Style x:Key="DetailLabel" TargetType="TextBlock">
       <Setter Property="FontSize" Value="13" />
       <Setter Property="FontWeight" Value="SemiBold" />
@@ -62,36 +108,66 @@
       </Border>
     </DataTemplate>
 
-    <DataTemplate x:Key="AssetRow" DataType="{x:Type local:ExtensionEntry}">
-      <Border Style="{StaticResource RowCard}" Visibility="{Binding Visible, Converter={StaticResource BooleanToVisibilityConverter}}">
+    <ItemsPanelTemplate x:Key="ListPanel">
+      <StackPanel />
+    </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="GridPanel">
+      <primitives:UniformGrid Columns="2" />
+    </ItemsPanelTemplate>
+
+    <DataTemplate x:Key="AssetCard" DataType="{x:Type local:ExtensionEntry}">
+      <Border Style="{StaticResource RowCard}" Margin="0,0,12,12" Visibility="{Binding Visible, Converter={StaticResource BooleanToVisibilityConverter}}">
         <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <Border Grid.Column="0" Style="{StaticResource RowIcon}">
-            <Image Stretch="Uniform" Margin="8" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding Icon}" />
-          </Border>
-          <StackPanel Grid.Column="1" Margin="16,0,16,0" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource RowTitle}" Text="{Binding Name}" />
-            <TextBlock Style="{StaticResource RowSummary}" Text="{Binding Summary}" MaxHeight="40" />
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-              <TextBlock Style="{StaticResource RowMeta}" Text="{Binding Author}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-              <TextBlock Style="{StaticResource RowMeta}" Margin="12,0,0,0" Text="{Binding Type}" />
-              <TextBlock Style="{StaticResource RowMeta}" Margin="12,0,0,0" Text="{Binding TagsLine}" />
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Style="{StaticResource RowIcon}" Width="64" Height="64">
+              <Image Stretch="Uniform" Margin="8" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding Icon}" />
+            </Border>
+            <StackPanel Grid.Column="1" Margin="14,0,10,0" VerticalAlignment="Center">
+              <WrapPanel VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource RowTitle}" FontSize="16" VerticalAlignment="Center" Text="{Binding Name}" />
+                <Border Style="{StaticResource Pill}">
+                  <TextBlock Style="{StaticResource PillText}" Text="{Binding Version}" />
+                </Border>
+                <Border Style="{StaticResource PillSuccess}" Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                  <TextBlock Style="{StaticResource PillSuccessText}" Text="{Binding StatusLabel}" />
+                </Border>
+                <Border Style="{StaticResource Pill}" Visibility="{Binding IsEnabled, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                  <TextBlock Style="{StaticResource PillText}" Text="{Binding StatusLabel}" />
+                </Border>
+              </WrapPanel>
             </StackPanel>
-          </StackPanel>
-          <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,10">
-              <ui:SymbolIcon Symbol="Tag24" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-              <TextBlock Style="{StaticResource RowMeta}" Margin="5,0,12,0" Text="{Binding Version}" />
-              <TextBlock Style="{StaticResource RowMeta}" Text="{Binding StatusLabel}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-              <ui:Button Content="View" Appearance="Secondary" MinWidth="76" Margin="0,0,8,0" Tag="{Binding}" Click="ViewAsset_Click" />
-              <ui:Button Content="{Binding EnableLabel}" Appearance="Primary" MinWidth="84" Tag="{Binding}" Click="ToggleAsset_Click" />
-            </StackPanel>
+            <ui:Button Grid.Column="2" Appearance="Transparent" Icon="MoreHorizontal24" Padding="6" VerticalAlignment="Top">
+              <ui:Button.ContextMenu>
+                <ContextMenu>
+                  <MenuItem Header="{x:Static resources:Strings.Menu_Extensions_Page_DetailView}" Tag="{Binding}" Click="ViewAsset_Click" />
+                  <MenuItem Header="{x:Static resources:Strings.Menu_Extensions_Page_MenuOpenSource}" Tag="{Binding}" Click="MenuSource_Click" Visibility="{Binding HasSource, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </ContextMenu>
+              </ui:Button.ContextMenu>
+            </ui:Button>
+          </Grid>
+          <TextBlock Grid.Row="1" Style="{StaticResource RowSummary}" Margin="0,10,0,0" Text="{Binding Summary}" MaxHeight="40" />
+          <ItemsControl Grid.Row="2" Margin="0,10,0,0" ItemsSource="{Binding Tags}" ItemTemplate="{StaticResource TagChip}" Focusable="False">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+          </ItemsControl>
+          <StackPanel Grid.Row="3" Margin="0,12,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <ui:Button Content="{x:Static resources:Strings.Menu_Extensions_Page_DetailView}" Appearance="Secondary" MinWidth="76" Margin="0,0,8,0" Tag="{Binding}" Click="ViewAsset_Click" />
+            <ui:Button Content="{x:Static resources:Strings.Menu_Extensions_Page_EntryDisable}" Appearance="Danger" MinWidth="84" Tag="{Binding}" Click="ToggleAsset_Click" Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <ui:Button Content="{x:Static resources:Strings.Menu_Extensions_Page_EntryEnable}" Appearance="Primary" MinWidth="84" Tag="{Binding}" Click="ToggleAsset_Click" Visibility="{Binding IsEnabled, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
           </StackPanel>
         </Grid>
       </Border>
@@ -100,36 +176,96 @@
 
   <Grid>
     <StackPanel x:Name="BrowseRoot" Margin="0,0,14,14">
-      <TextBlock FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Browse and manage extensions for Chivas and its community." />
+      <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+        <ui:SymbolIcon Symbol="PuzzlePiece24" FontSize="26" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+        <TextBlock Margin="10,0,0,0" FontSize="26" FontWeight="SemiBold" VerticalAlignment="Center" Text="{x:Static resources:Strings.Menu_Extensions_Page_Title}" />
+      </StackPanel>
+      <TextBlock FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Menu_Extensions_Page_Browse}" />
 
-      <WrapPanel Margin="0,10,0,6">
-        <ui:TextBox Width="300" Height="34" Margin="0,0,10,8" VerticalContentAlignment="Center" PlaceholderText="Search extensions" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-          <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="Type" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+      <UniformGrid Columns="3" Margin="0,16,0,0">
+        <Border Style="{StaticResource StatCard}" Margin="0,0,12,0">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+              <TextBlock Style="{StaticResource StatLabel}" Text="{x:Static resources:Strings.Menu_Extensions_Page_StatInstalled}" />
+              <TextBlock Style="{StaticResource StatNumber}" Text="{Binding StatEnabledCount}" />
+              <TextBlock Style="{StaticResource StatSub}" Text="{x:Static resources:Strings.Menu_Extensions_Page_StatInstalledSub}" />
+            </StackPanel>
+            <Border Grid.Column="1" Style="{StaticResource StatTile}">
+              <ui:SymbolIcon Symbol="Box24" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource SystemFillColorSuccessBrush}" />
+            </Border>
+          </Grid>
+        </Border>
+        <Border Style="{StaticResource StatCard}" Margin="0,0,12,0">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+              <TextBlock Style="{StaticResource StatLabel}" Text="{x:Static resources:Strings.Menu_Extensions_Page_StatDisabled}" />
+              <TextBlock Style="{StaticResource StatNumber}" Text="{Binding StatDisabledCount}" />
+              <TextBlock Style="{StaticResource StatSub}" Text="{x:Static resources:Strings.Menu_Extensions_Page_StatDisabledSub}" />
+            </StackPanel>
+            <Border Grid.Column="1" Style="{StaticResource StatTile}">
+              <ui:SymbolIcon Symbol="DismissCircle24" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            </Border>
+          </Grid>
+        </Border>
+        <Border Style="{StaticResource StatCard}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+              <TextBlock Style="{StaticResource StatLabel}" Text="{x:Static resources:Strings.Menu_Extensions_Page_StatTotal}" />
+              <TextBlock Style="{StaticResource StatNumber}" Text="{Binding StatTotalCount}" />
+              <TextBlock Style="{StaticResource StatSub}" Text="{x:Static resources:Strings.Menu_Extensions_Page_StatTotalSub}" />
+            </StackPanel>
+            <Border Grid.Column="1" Style="{StaticResource StatTile}">
+              <ui:SymbolIcon Symbol="Apps24" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            </Border>
+          </Grid>
+        </Border>
+      </UniformGrid>
+
+      <WrapPanel Margin="0,14,0,6">
+        <ui:TextBox Width="300" Height="34" Margin="0,0,10,8" VerticalContentAlignment="Center" PlaceholderText="{x:Static resources:Strings.Menu_Extensions_Page_SearchHint}" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <StackPanel Orientation="Horizontal" Margin="0,0,10,8">
+          <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="{x:Static resources:Strings.Menu_Extensions_Page_TypeLabel}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           <ComboBox Width="220" Height="34" VerticalContentAlignment="Center" ItemsSource="{Binding ExtensionTypes}" SelectedItem="{Binding SelectedExtensionType, Mode=TwoWay}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,10,8">
+          <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="{x:Static resources:Strings.Menu_Extensions_Page_StatusFilter}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <ComboBox Width="170" Height="34" VerticalContentAlignment="Center" ItemsSource="{Binding ExtensionStatuses}" SelectedItem="{Binding SelectedExtensionStatus, Mode=TwoWay}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,10,8">
+          <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="{x:Static resources:Strings.Menu_Extensions_Page_SortLabel}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <ComboBox Width="170" Height="34" VerticalContentAlignment="Center" ItemsSource="{Binding ExtensionSortOptions}" SelectedItem="{Binding SelectedExtensionSort, Mode=TwoWay}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+          <ui:Button x:Name="GridViewButton" Icon="Grid24" Padding="8,4" ToolTip="{x:Static resources:Strings.Menu_Extensions_Page_ViewGridTip}" Click="GridView_Click" />
+          <ui:Button x:Name="ListViewButton" Icon="DocumentBulletList24" Padding="8,4" Margin="8,0,0,0" ToolTip="{x:Static resources:Strings.Menu_Extensions_Page_ViewListTip}" Click="ListView_Click" />
         </StackPanel>
       </WrapPanel>
 
-      <TabControl x:Name="ExtensionTabs" Margin="0,4,0,0">
-        <TabItem>
-          <TabItem.Header>
-            <StackPanel Orientation="Horizontal">
-              <ui:SymbolIcon Symbol="Apps24" Margin="0,0,6,0" />
-              <TextBlock Text="Chivas Assets" />
-            </StackPanel>
-          </TabItem.Header>
-          <StackPanel Margin="10">
-            <ItemsControl x:Name="AssetList" ItemTemplate="{StaticResource AssetRow}" Focusable="False" />
-            <Border Visibility="{Binding EmptyStateVisibility}" Margin="0,8,0,0" Padding="28" CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" Background="{DynamicResource CardBackgroundBrush}">
-              <StackPanel HorizontalAlignment="Center">
-                <ui:SymbolIcon Symbol="Search24" FontSize="34" HorizontalAlignment="Center" Opacity="0.55" />
-                <TextBlock Margin="0,12,0,0" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" TextAlignment="Center" Text="{Binding EmptyStateTitle}" />
-                <TextBlock Margin="0,4,0,0" FontSize="12" Opacity="0.7" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="460" Text="{Binding EmptyStateSubtitle}" />
-              </StackPanel>
-            </Border>
-          </StackPanel>
-        </TabItem>
-      </TabControl>
+      <StackPanel Orientation="Horizontal" Margin="0,12,0,10">
+        <Border Width="3" CornerRadius="2" Margin="0,2,10,2" Background="{DynamicResource TextFillColorSecondaryBrush}" />
+        <TextBlock FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" Text="{x:Static resources:Strings.Menu_Extensions_Page_StatInstalled}" />
+      </StackPanel>
+
+      <ItemsControl x:Name="AssetList" ItemTemplate="{StaticResource AssetCard}" ItemsPanel="{StaticResource GridPanel}" Focusable="False" />
+      <Border Visibility="{Binding EmptyStateVisibility}" Margin="0,8,0,0" Padding="28" CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" Background="{DynamicResource CardBackgroundBrush}">
+        <StackPanel HorizontalAlignment="Center">
+          <ui:SymbolIcon Symbol="Search24" FontSize="34" HorizontalAlignment="Center" Opacity="0.55" />
+          <TextBlock Margin="0,12,0,0" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" TextAlignment="Center" Text="{Binding EmptyStateTitle}" />
+          <TextBlock Margin="0,4,0,0" FontSize="12" Opacity="0.7" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="460" Text="{Binding EmptyStateSubtitle}" />
+        </StackPanel>
+      </Border>
     </StackPanel>
 
     <Grid x:Name="DetailRoot" Visibility="Collapsed" Margin="0,0,14,14" SizeChanged="DetailRoot_SizeChanged">
@@ -142,7 +278,7 @@
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
       <StackPanel x:Name="DetailMain" Grid.Column="0" Margin="0,0,20,0">
-        <ui:Button Content="Back to extensions" Appearance="Transparent" Icon="ArrowLeft24" Padding="8,4,12,4" Margin="0,0,0,10" Click="BackToBrowse_Click" />
+        <ui:Button Content="{x:Static resources:Strings.Menu_Extensions_Page_DetailBack}" Appearance="Transparent" Icon="ArrowLeft24" Padding="8,4,12,4" Margin="0,0,0,10" Click="BackToBrowse_Click" />
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -154,7 +290,7 @@
           <StackPanel Grid.Column="1" Margin="16,4,0,0" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal">
               <TextBlock x:Name="DetailName" FontSize="24" FontWeight="SemiBold" />
-              <ui:Button x:Name="DetailSourceButton" Appearance="Transparent" Icon="Open24" Padding="6" Margin="6,0,0,0" ToolTip="Open the source page" Click="OpenSource_Click" />
+              <ui:Button x:Name="DetailSourceButton" Appearance="Transparent" Icon="Open24" Padding="6" Margin="6,0,0,0" ToolTip="{x:Static resources:Strings.Menu_Extensions_Page_OpenSourceTip}" Click="OpenSource_Click" />
             </StackPanel>
             <TextBlock x:Name="DetailAuthor" Margin="0,4,0,0" FontSize="13" />
             <TextBlock x:Name="DetailSummary" Margin="0,6,0,0" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
@@ -166,7 +302,7 @@
             <TabItem.Header>
               <StackPanel Orientation="Horizontal">
                 <ui:SymbolIcon Symbol="Info24" Margin="0,0,6,0" />
-                <TextBlock Text="Description" />
+                <TextBlock Text="{x:Static resources:Strings.Menu_Extensions_Page_DescTab}" />
               </StackPanel>
             </TabItem.Header>
             <StackPanel Margin="10">
@@ -178,21 +314,21 @@
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
               <StackPanel x:Name="RojoTools" Visibility="Collapsed">
-                <TextBlock Style="{StaticResource DetailLabel}" Text="Project tools" />
+                <TextBlock Style="{StaticResource DetailLabel}" Text="{x:Static resources:Strings.Menu_Extensions_Page_RojoTools}" />
                 <Grid>
                   <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <ui:TextBox Grid.Column="0" Height="34" Margin="0,0,8,0" VerticalContentAlignment="Center" PlaceholderText="Project folder" Text="{Binding RojoProjectPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding rojoenabler}" />
-                  <ui:Button Grid.Column="1" Height="34" Content="Browse" Click="BrowseRojoFolder_Click" IsEnabled="{Binding rojoenabler}" />
+                  <ui:Button Grid.Column="1" Height="34" Content="{x:Static resources:Strings.Menu_Extensions_Page_RojoBrowse}" Click="BrowseRojoFolder_Click" IsEnabled="{Binding rojoenabler}" />
                 </Grid>
                 <WrapPanel Margin="0,10,0,0">
-                  <ui:Button Margin="0,0,8,8" Content="New project" Click="RojoInit_Click" IsEnabled="{Binding rojoenabler}" />
-                  <ui:Button Margin="0,0,8,8" Content="{Binding RojoServeLabel}" Appearance="Primary" Click="RojoServe_Click" IsEnabled="{Binding rojoenabler}" />
-                  <ui:Button Margin="0,0,8,8" Content="Build place" Click="RojoBuild_Click" IsEnabled="{Binding rojoenabler}" />
-                  <ui:Button Margin="0,0,8,8" Content="Install Studio plugin" Click="RojoInstallPlugin_Click" IsEnabled="{Binding rojoenabler}" />
-                  <ui:Button Margin="0,0,0,8" Content="Open folder" Click="OpenRojo_Click" IsEnabled="{Binding rojoenabler}" />
+                  <ui:Button Margin="0,0,8,8" Content="{x:Static resources:Strings.Menu_Extensions_Page_RojoNew}" Click="RojoInit_Click" IsEnabled="{Binding rojoenabler}" />
+                  <ui:Button Margin="0,0,8,8" Content="{Binding RojoServeLabel}" Appearance="Primary" Click="RojoServe_Click" IsEnabled="{Binding rojoenabler}" ToolTip="{x:Static resources:Strings.Menu_Extensions_Page_RojoServeTip}" />
+                  <ui:Button Margin="0,0,8,8" Content="{x:Static resources:Strings.Menu_Extensions_Page_RojoBuild}" Click="RojoBuild_Click" IsEnabled="{Binding rojoenabler}" />
+                  <ui:Button Margin="0,0,8,8" Content="{x:Static resources:Strings.Menu_Extensions_Page_RojoPlugin}" Click="RojoInstallPlugin_Click" IsEnabled="{Binding rojoenabler}" />
+                  <ui:Button Margin="0,0,0,8" Content="{x:Static resources:Strings.Menu_Extensions_Page_RojoOpenFolder}" Click="OpenRojo_Click" IsEnabled="{Binding rojoenabler}" />
                 </WrapPanel>
               </StackPanel>
             </StackPanel>
@@ -201,7 +337,7 @@
             <TabItem.Header>
               <StackPanel Orientation="Horizontal">
                 <ui:SymbolIcon Symbol="History24" Margin="0,0,6,0" />
-                <TextBlock Text="Versions" />
+                <TextBlock Text="{x:Static resources:Strings.Menu_Extensions_Page_VersionsTab}" />
               </StackPanel>
             </TabItem.Header>
             <StackPanel Margin="10">
@@ -219,7 +355,7 @@
                           <TextBlock FontSize="15" FontWeight="SemiBold" Text="{Binding Title}" />
                           <TextBlock Margin="0,4,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Meta}" />
                         </StackPanel>
-                        <ui:Button Grid.Column="1" VerticalAlignment="Center" Appearance="Secondary" Content="Open on GitHub" Icon="Open24" Tag="{Binding Url}" Click="OpenRelease_Click" Visibility="{Binding HasUrl, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <ui:Button Grid.Column="1" VerticalAlignment="Center" Appearance="Secondary" Content="{x:Static resources:Strings.Menu_Extensions_Page_OpenGitHub}" Icon="Open24" Tag="{Binding Url}" Click="OpenRelease_Click" Visibility="{Binding HasUrl, Converter={StaticResource BooleanToVisibilityConverter}}" />
                       </Grid>
                     </Border>
                   </DataTemplate>
@@ -236,15 +372,15 @@
         <TextBlock x:Name="DetailStatus" Margin="0,10,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
         <Border Style="{StaticResource RowCard}" Margin="0,14,0,0" Padding="12">
           <StackPanel>
-            <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Works with" />
+            <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_Extensions_Page_WorksWith}" />
             <WrapPanel x:Name="DetailWorksWith" Margin="0,6,0,0" />
-            <TextBlock FontSize="12" Margin="0,4,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Version" />
+            <TextBlock FontSize="12" Margin="0,4,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_Extensions_Page_VersionLbl}" />
             <TextBlock x:Name="DetailVersion" Margin="0,4,0,0" FontSize="13" />
-            <TextBlock x:Name="DetailUpdatedLabel" FontSize="12" Margin="0,10,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Updated" />
+            <TextBlock x:Name="DetailUpdatedLabel" FontSize="12" Margin="0,10,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_Extensions_Page_UpdatedLbl}" />
             <TextBlock x:Name="DetailUpdated" Margin="0,4,0,0" FontSize="13" />
           </StackPanel>
         </Border>
-        <TextBlock Style="{StaticResource DetailLabel}" Text="Tags" />
+        <TextBlock Style="{StaticResource DetailLabel}" Text="{x:Static resources:Strings.Menu_Extensions_Page_TagsLbl}" />
         <ItemsControl x:Name="DetailTags" ItemTemplate="{StaticResource TagChip}" Focusable="False">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
@@ -252,7 +388,7 @@
             </ItemsPanelTemplate>
           </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <TextBlock Style="{StaticResource DetailLabel}" Text="Creators" />
+        <TextBlock Style="{StaticResource DetailLabel}" Text="{x:Static resources:Strings.Menu_Extensions_Page_CreatorsLbl}" />
         <TextBlock x:Name="DetailCreator" FontSize="13" />
       </StackPanel>
     </Grid>

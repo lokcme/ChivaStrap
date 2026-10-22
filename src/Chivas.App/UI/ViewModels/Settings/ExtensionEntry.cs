@@ -45,7 +45,7 @@ public sealed class ExtensionEntry : NotifyPropertyChangedViewModel
 
 	public string Version
 	{
-		get => _version.Length > 0 ? _version : GitHubRepo.Length > 0 ? "Checking version" : "No version for this content";
+		get => _version.Length > 0 ? _version : GitHubRepo.Length > 0 ? Chivas.Resources.Strings.Menu_Extensions_Page_EntryChecking : Chivas.Resources.Strings.Menu_Extensions_Page_EntryNoVersion;
 		private set
 		{
 			if (_version == value)
@@ -76,7 +76,7 @@ public sealed class ExtensionEntry : NotifyPropertyChangedViewModel
 				return;
 			}
 		}
-		Version = "No releases yet";
+		Version = Chivas.Resources.Strings.Menu_Extensions_Page_EntryNoReleases;
 	}
 
 	public string Updated { get; init; } = "";
@@ -103,9 +103,9 @@ public sealed class ExtensionEntry : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public string EnableLabel => IsEnabled ? "Disable" : "Enable";
+	public string EnableLabel => IsEnabled ? Chivas.Resources.Strings.Menu_Extensions_Page_EntryDisable : Chivas.Resources.Strings.Menu_Extensions_Page_EntryEnable;
 
-	public string StatusLabel => IsEnabled ? "Enabled" : "Not enabled";
+	public string StatusLabel => IsEnabled ? Chivas.Resources.Strings.Menu_Extensions_Page_EntryEnabled : Chivas.Resources.Strings.Menu_Extensions_Page_EntryDisabled;
 
 	public string OpenLabel
 	{

@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.Input;
 using Chivas.Integrations.CommunityMods;
+using Chivas.Resources;
 using Chivas.UI.Elements.Settings.Pages;
 using Chivas.Utility;
 
@@ -446,7 +447,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 
 		bool current = true;
 		IsBusy = true;
-		StatusText = "Loading mods from " + SourceName;
+		StatusText = string.Format(Strings.Menu_Mods_Code_LoadingFrom, SourceName);
 		try
 		{
 			int next = _page;

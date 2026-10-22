@@ -19,11 +19,6 @@ using Wpf.Ui.Controls;
 namespace Chivas.UI.Elements.Dialogs;
 
 public partial class ExceptionDialog : WpfUiWindow{
-	private static readonly int MaxGitHubUrlLength = 8192;
-
-	private static readonly int MaxLogLength = 7000;
-
-	private static readonly int MaxDetailsLength = 2000;
 	private readonly string _issueUrl;
 	private readonly string _backupIssueUrl;
 
@@ -35,42 +30,12 @@ public partial class ExceptionDialog : WpfUiWindow{
 		{
 			LocateLogFileButton.Content = Strings.Dialog_Exception_CopyLogContents;
 		}
-		string text = "https://github.com/lokcme/ChivaStrap";
 		string wikiUrl = App.ProjectHelpLink;
-		string text2 = HttpUtility.UrlEncode($"[BUG] {exception.GetType()}: {exception.Message}");
-		string details = exception.ToString();
-		if (!string.IsNullOrEmpty(Paths.UserProfile))
-		{
-			details = OperatingSystem.IsWindows() ? details.Replace(Paths.UserProfile, "%UserProfile%", StringComparison.OrdinalIgnoreCase) : details.Replace(Paths.UserProfile, "~", StringComparison.Ordinal);
-		}
-		if (details.Length > MaxDetailsLength)
-		{
-			details = details.Substring(0, MaxDetailsLength);
-		}
-		string baseIssueUrl = $"{text}/issues/new?template=bug_report.yml&title={text2}&version={HttpUtility.UrlEncode(App.Version)}&what-happened={HttpUtility.UrlEncode(details)}";
-		string log = App.Logger.AsDocument;
-		_issueUrl = baseIssueUrl;
-		for (int take = Math.Min(log.Length, MaxLogLength); take > 0; take /= 2)
-		{
-			string candidate = baseIssueUrl + "&log=" + HttpUtility.UrlEncode(log.Substring(log.Length - take));
-			if (candidate.Length <= MaxGitHubUrlLength)
-			{
-				_issueUrl = candidate;
-				break;
-			}
-		}
-		if (_issueUrl.Length > MaxGitHubUrlLength)
-		{
-			_issueUrl = text + "/issues/new?template=bug_report.yml&title=" + text2;
-			if (_issueUrl.Length > MaxGitHubUrlLength)
-			{
-				_issueUrl = text + "/issues/new?template=bug_report.yml";
-			}
-		}
+		_issueUrl = App.ProjectSupportLink;
 		HelpMessageMDTextBlock.MarkdownText = GetHelpMessage(wikiUrl, _issueUrl);
 		VersionText.Text = string.Format(Strings.Dialog_Exception_Version, App.Version);
 		ReportExceptionButton.Click += OnReportExceptionClick;
-		_backupIssueUrl = _issueUrl.Replace(text, App.ProjectFallbackRepository);
+		_backupIssueUrl = App.ProjectFallbackRepository + "/issues/new";
 		ReportExceptionBackupButton.Click += OnReportExceptionBackupClick;
 		LocateLogFileButton.Click += OnLocateLogFileClick;
 		CopyDetailsButton.Click += OnCopyDetailsClick;
@@ -143,7 +108,7 @@ public partial class ExceptionDialog : WpfUiWindow{
 	private void OnCopyFeedbackTick(object? sender, EventArgs e)
 	{
 		_copyFeedbackTimer?.Stop();
-		CopyDetailsButton.Content = "Copy";
+		CopyDetailsButton.Content = Strings.Menu_Dialog_ExceptionCopy;
 	}
 
 	private void OnDialogClosed(object? sender, EventArgs e)

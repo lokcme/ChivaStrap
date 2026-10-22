@@ -6258,7 +6258,7 @@ internal static class WindowAudit
 
 	private static void AuditAboutHeaderText(Chivas.UI.Elements.About.MainWindow window)
 	{
-		const string subtitleSource = "A simple yet advanced Bloxstrap fork.";
+		const string subtitleSource = "A desktop client for Roblox.";
 		window.Navigate(typeof(Chivas.UI.Elements.About.Pages.AboutPage));
 		Pump();
 		Pump();

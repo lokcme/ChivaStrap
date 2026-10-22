@@ -1296,11 +1296,11 @@ public static class LaunchHandler
 				if (runtimeKind == Chivas.Platform.RuntimeKind.Player)
 				{
 					AssetWarpAutoEnable.EnsureEnabled(allowPrompt: !App.LaunchSettings.QuietFlag.Active, userAction: false);
-					if (!App.Settings.Prop.AssetWarpEnabled)
+					if (!AssetProxyServer.IsRequired)
 					{
 						AssetProxyServer.Stop();
 					}
-					else if (App.Settings.Prop.AssetWarpPreloadEnabled && assetPreloadPlaceId > 0)
+					else if (App.Settings.Prop.AssetWarpEnabled && App.Settings.Prop.AssetWarpPreloadEnabled && assetPreloadPlaceId > 0)
 					{
 						AssetPreloadCache.SwitchSession(assetPreloadPlaceId);
 					}

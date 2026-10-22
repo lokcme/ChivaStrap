@@ -46,11 +46,11 @@ namespace Chivas.Models.Persistable
         public Dictionary<string, uint> OriginalNetworkMtuValues { get; set; } = [];
         public string BootstrapperTitle { get; set; } = App.ProjectName;
         public string BootstrapperIconCustomLocation { get; set; } = "";
-        public Theme Theme2 { get; set; } = Theme.Dark;
+        public Theme Theme2 { get; set; } = Theme.Chivas;
         public BackdropType WindowBackdrop { get; set; } = DefaultWindowBackdrop;
         public int WindowBackdropResetVersion { get; set; }
 
-        public static BackdropType DefaultWindowBackdrop => OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000) ? BackdropType.Aero : BackdropType.None;
+        public static BackdropType DefaultWindowBackdrop => BackdropType.None;
         public string? SelectedCustomTheme { get; set; } = null;
         public bool CheckForUpdates { get; set; } = true;
         public bool AssetWarpEnabled { get; set; } = false;
@@ -67,6 +67,8 @@ namespace Chivas.Models.Persistable
         public bool AssetWarpPreloadCrossGame { get; set; } = true;
         public bool AssetWarpPreloadFlagsOwned { get; set; }
         public Dictionary<string, string?> AssetWarpPreloadFlagBackup { get; set; } = [];
+        public bool AssetWarpCaFlagOwned { get; set; }
+        public string? AssetWarpCaFlagBackup { get; set; }
         public bool BlockRobloxTelemetry { get; set; }
         public bool RobloxMinimizeToTray { get; set; }
         public bool RobloxLaunchAtStartup { get; set; }
@@ -163,6 +165,7 @@ namespace Chivas.Models.Persistable
         public bool ClearFont { get; set; } = false;
 
         public bool Fleasion { get; set; } = false;
+        public bool FleasionNativeEngineEnabled { get; set; } = false;
         public bool RojoEnabled { get; set; } = false;
         public string RojoProjectPath { get; set; } = "";
         public string PlaceId { get; set; } = "";
@@ -346,6 +349,7 @@ namespace Chivas.Models.Persistable
         public Dictionary<string, string> SidebarIconImages { get; set; } = [];
         public List<string> SidebarOrder { get; set; } = [];
         public List<string> SidebarHiddenItems { get; set; } = [];
+        public bool TopSectionTabs { get; set; } = true;
 
         public double LibrarySidebarWidth { get; set; } = 225;
         public int UiZoomPercent { get; set; } = 100;

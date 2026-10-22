@@ -19,6 +19,7 @@ using System.Windows.Threading;
 using Microsoft.Win32;
 using Chivas.Models;
 using Chivas.Resources;
+using Chivas.Resources;
 using Chivas.UI.Elements.Dialogs;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Mvvm.Contracts;
@@ -498,22 +499,22 @@ public partial class FastFlagEditorPage : UiPage
 		Wpf.Ui.Common.SymbolRegular icon;
 		if (App.FastFlags.Prop.Count == 0)
 		{
-			text = "Go to FFlag Settings to add Preset FFlags.";
+			text = Strings.Menu_FastFlagEditor_Page_EmptyGoTo;
 			icon = Wpf.Ui.Common.SymbolRegular.Flag24;
 		}
 		else if (_searchFilter.Length != 0)
 		{
-			text = "No flags match your search.";
+			text = Strings.Menu_FastFlagEditor_Page_EmptySearch;
 			icon = Wpf.Ui.Common.SymbolRegular.Search24;
 		}
 		else if (!_showPresets)
 		{
-			text = "All of your flags are presets. Enable Show Preset Flags to view them.";
+			text = Strings.Menu_FastFlagEditor_Page_EmptyPresets;
 			icon = Wpf.Ui.Common.SymbolRegular.Flag24;
 		}
 		else
 		{
-			text = "Go to FFlag Settings to add Preset FFlags.";
+			text = Strings.Menu_FastFlagEditor_Page_EmptyGoTo;
 			icon = Wpf.Ui.Common.SymbolRegular.Flag24;
 		}
 		EmptyStateIcon.Symbol = icon;
@@ -524,10 +525,10 @@ public partial class FastFlagEditorPage : UiPage
 	private void UpdateCounters()
 	{
 		int total = App.FastFlags.Prop.Count;
-		TotalFlagsTextBlock.Text = "Flags added: " + total;
+		TotalFlagsTextBlock.Text = string.Format(Strings.Menu_FastFlagEditor_Page_TotalFlags, total);
 		double val = Math.Min((double)total * 0.2, 100.0);
 		string text = ((val % 1.0 == 0.0) ? val.ToString("0") : val.ToString("0.##"));
-		CrashRateTextBlock.Text = "Bloat: " + text + "%";
+		CrashRateTextBlock.Text = string.Format(Strings.Menu_FastFlagEditor_Page_Bloat, text);
 	}
 
 	private static Dictionary<string, string> SnapshotProp()
@@ -585,7 +586,7 @@ public partial class FastFlagEditorPage : UiPage
 
 	private void UpdateHistoryCount()
 	{
-		HistoryCountTextBlock.Text = ((_flagHistory.Count == 0) ? "No changes recorded" : $"{_flagHistory.Count} changes recorded");
+		HistoryCountTextBlock.Text = ((_flagHistory.Count == 0) ? Strings.Menu_FastFlagEditor_Page_HistoryNone : string.Format(Strings.Menu_FastFlagEditor_Page_HistoryCount, _flagHistory.Count));
 	}
 
 	private void UndoHistoryButton_Click(object sender, RoutedEventArgs e)
@@ -634,20 +635,20 @@ public partial class FastFlagEditorPage : UiPage
 			case FlagHistoryAction.Cleared:
 				if (entry.Snapshot == null)
 				{
-                        ShowInfoMessage("This entry cannot be reverted.");
+                        ShowInfoMessage(Strings.Menu_FastFlagEditor_Page_CannotRevert);
 					return;
 				}
 				RestoreSnapshot(entry.Snapshot);
 				break;
 			default:
-                    ShowInfoMessage("This entry cannot be reverted.");
+                    ShowInfoMessage(Strings.Menu_FastFlagEditor_Page_CannotRevert);
 				return;
 			}
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("FastFlagEditor::Undo", ex);
-			Frontend.ShowMessageBox("That change could not be reverted: " + ex.Message, MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_FastFlagEditor_Page_RevertFail, ex.Message), MessageBoxImage.Hand);
 			return;
 		}
 		_flagHistory.Remove(entry);
@@ -729,7 +730,7 @@ public partial class FastFlagEditorPage : UiPage
 				string? json = AddFastFlagDialog.TryDecodeBase64(dialog.Base64TextBox.Text);
 				if (json == null)
 				{
-					Frontend.ShowMessageBox("Invalid Base64 string!", MessageBoxImage.Hand);
+					Frontend.ShowMessageBox(Strings.Menu_FastFlagEditor_Page_InvalidBase64, MessageBoxImage.Hand);
 					break;
 				}
 				if (ImportJSON(json))
@@ -886,14 +887,14 @@ public partial class FastFlagEditorPage : UiPage
 			}
 			foreach (KeyValuePair<string, string> flag in dialog.AppliedFlags)
 				App.FastFlags.SetValue(flag.Key, flag.Value);
-			RecordHistory(FlagHistoryAction.Imported, dialog.AppliedFlags.Count + " flags from profile '" + dialog.AppliedProfileName + "'", null, null, snapshot);
+			RecordHistory(FlagHistoryAction.Imported, string.Format(Strings.Menu_FastFlagEditor_Page_ProfileImported, dialog.AppliedFlags.Count, dialog.AppliedProfileName), null, null, snapshot);
 			if (Chivas.Utility.Platform.IsLinux)
 				App.FastFlags.Save();
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("FastFlagEditor::Profiles", ex);
-			Frontend.ShowMessageBox("That profile could not be applied: " + ex.Message, MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_FastFlagEditor_Page_ProfileFail, ex.Message), MessageBoxImage.Hand);
 			return;
 		}
 		ReloadList();
@@ -1023,10 +1024,10 @@ public partial class FastFlagEditorPage : UiPage
 	{
 		if (App.FastFlags.Prop.Count == 0 && _allFlags.Count == 0)
 		{
-            ShowInfoMessage("There are no flags to delete.");
+            ShowInfoMessage(Strings.Menu_FastFlagEditor_Page_NothingToDelete);
 			return;
 		}
-		if (Frontend.ShowMessageBox("Are you sure you want to delete all flags?", MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		if (Frontend.ShowMessageBox(Strings.Menu_FastFlagEditor_Page_DeleteConfirm, MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
 		{
 			return;
 		}
@@ -1042,7 +1043,7 @@ public partial class FastFlagEditorPage : UiPage
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("An error occurred while deleting flags:\n" + ex.Message, MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_FastFlagEditor_Page_DeleteError, ex.Message), MessageBoxImage.Hand);
 			App.Logger.WriteException("FastFlagEditor::DeleteAll", ex);
 		}
 	}
@@ -1065,7 +1066,7 @@ public partial class FastFlagEditorPage : UiPage
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("Could not access the clipboard: " + ex.Message, MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_FastFlagEditor_Page_ClipboardError, ex.Message), MessageBoxImage.Hand);
 		}
 	}
 
@@ -1074,7 +1075,7 @@ public partial class FastFlagEditorPage : UiPage
 		Dictionary<string, object> prop = App.FastFlags.Prop;
 		if (prop.Count == 0)
 		{
-            ShowInfoMessage("There are no flags to copy.");
+            ShowInfoMessage(Strings.Menu_FastFlagEditor_Page_NothingToCopy);
 			return;
 		}
 
@@ -1092,7 +1093,7 @@ public partial class FastFlagEditorPage : UiPage
 				Dictionary<string, string> payload = prop.ToDictionary((KeyValuePair<string, object> x) => x.Key, (KeyValuePair<string, object> x) => x.Value?.ToString() ?? string.Empty);
 				string json = JsonSerializer.Serialize(payload, _indentedJson);
 				TrySetClipboard(Convert.ToBase64String(Encoding.UTF8.GetBytes(json)));
-                    ShowInfoMessage($"Copied {payload.Count} flags to the clipboard as Base64.");
+                    ShowInfoMessage(string.Format(Strings.Menu_FastFlagEditor_Page_CopiedBase64, payload.Count));
 				break;
 			}
 			case Chivas.UI.Elements.Dialogs.CopyFlagsFormat.GroupedJson:
@@ -1147,7 +1148,7 @@ public partial class FastFlagEditorPage : UiPage
 	{
 		if (App.FastFlags.Prop.Count == 0)
 		{
-            ShowInfoMessage("There are no flags to export.");
+            ShowInfoMessage(Strings.Menu_FastFlagEditor_Page_NothingToExport);
 			return;
 		}
         SaveJSONToFile(BuildGroupedJson());
@@ -1158,7 +1159,7 @@ public partial class FastFlagEditorPage : UiPage
 		SaveFileDialog saveFileDialog = new SaveFileDialog
 		{
 			Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt",
-			Title = "Save JSON or TXT File",
+			Title = Strings.Menu_FastFlagEditor_Page_SaveDialogTitle,
 			FileName = "ChivasExport.json"
 		};
 		if (saveFileDialog.ShowDialog() != true)
@@ -1173,12 +1174,12 @@ public partial class FastFlagEditorPage : UiPage
 				path += ".json";
 			}
 			File.WriteAllText(path, json);
-			Frontend.ShowMessageBox("JSON file saved successfully!", MessageBoxImage.Asterisk);
+			Frontend.ShowMessageBox(Strings.Menu_FastFlagEditor_Page_JsonSaved, MessageBoxImage.Asterisk);
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("FastFlagEditor::Export", ex);
-			Frontend.ShowMessageBox("The file could not be saved: " + ex.Message, MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_FastFlagEditor_Page_SaveFail, ex.Message), MessageBoxImage.Hand);
 		}
 	}
 

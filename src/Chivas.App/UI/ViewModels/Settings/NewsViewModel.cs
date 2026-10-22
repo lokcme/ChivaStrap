@@ -48,7 +48,7 @@ namespace Chivas.UI.ViewModels.Settings
         public partial ObservableCollection<NewsItem> NewsItems { get; set; } = new();
 
         [ObservableProperty]
-        public partial string LastUpdatedText { get; set; } = "Loading...";
+        public partial string LastUpdatedText { get; set; } = Chivas.Resources.Strings.Menu_Dialogs_Code_NewsLoading;
 
         [ObservableProperty] public partial bool IsLoading { get; set; } = true;
 
@@ -116,7 +116,7 @@ namespace Chivas.UI.ViewModels.Settings
         {
             try
             {
-                await SetLoadingAsync(true, "Loading...");
+                await SetLoadingAsync(true, Chivas.Resources.Strings.Menu_Dialogs_Code_NewsLoading);
 
                 string? json = null;
                 bool fromCache = false;
@@ -169,7 +169,7 @@ namespace Chivas.UI.ViewModels.Settings
 
                 if (!hasNewContent && fromCache)
                 {
-                    await SetLoadingAsync(false, $"Last updated: {DateTime.Now:G} (no new items)");
+                    await SetLoadingAsync(false, string.Format(Chivas.Resources.Strings.Menu_Dialogs_Code_NewsUpdatedNone, DateTime.Now.ToString("G")));
                     return;
                 }
 
@@ -236,7 +236,7 @@ namespace Chivas.UI.ViewModels.Settings
                     foreach (var n in items.OrderByDescending(i => i.Date))
                         NewsItems.Add(n);
 
-                    LastUpdatedText = $"Last updated: {DateTime.Now:G}";
+                    LastUpdatedText = string.Format(Chivas.Resources.Strings.Menu_Dialogs_Code_NewsUpdated, DateTime.Now.ToString("G"));
                     IsLoading = false;
                 });
             }
@@ -249,11 +249,13 @@ namespace Chivas.UI.ViewModels.Settings
                     NewsItems.Clear();
                     NewsItems.Add(new NewsItem
                     {
-                        Title = "Failed to load news",
+                        Title = Chivas.Resources.Strings.Menu_Dialogs_Code_NewsFailTitle,
                         Date = DateTime.Now,
-                        Content = ex.Message
+                        Content = Chivas.Resources.Strings.Menu_Dialogs_Code_NewsFailBody
                     });
-                    LastUpdatedText = $"Last checked: {DateTime.Now:G} (failed)";
+                    LastUpdatedText = string.Format(
+                        Chivas.Resources.Strings.Menu_Dialogs_Code_NewsLastChecked,
+                        DateTime.Now.ToString("G"));
                     IsLoading = false;
                 });
             }
@@ -286,7 +288,7 @@ namespace Chivas.UI.ViewModels.Settings
 
                 return dtos.Take(MaxNewsItems).Select(d => new NewsItem
                 {
-                    Title = d.Title?.Trim() ?? "Untitled",
+                    Title = d.Title?.Trim() ?? Chivas.Resources.Strings.Menu_Dialogs_Code_NewsUntitled,
                     Content = d.Content?.Trim() ?? string.Empty,
                     Date = ParseDate(d.Date),
                     ImageUrl = d.ImageUrl?.Trim() ?? string.Empty

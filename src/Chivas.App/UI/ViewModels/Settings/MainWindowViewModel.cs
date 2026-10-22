@@ -32,6 +32,10 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 
 	public ICommand OpenAboutCommand => new RelayCommand(OpenAbout);
 
+	public EventHandler? RequestOpenLibraryEvent;
+
+	public ICommand OpenLibraryCommand => new RelayCommand(() => RequestOpenLibraryEvent?.Invoke(this, EventArgs.Empty));
+
 	public ICommand SaveSettingsCommand => new AsyncRelayCommand(SaveSettingsAsync);
 
 	public ICommand SaveAndLaunchSettingsCommand => new AsyncRelayCommand(SaveAndLaunchSettingsAsync);
@@ -169,7 +173,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 			App.Logger.WriteException("MainWindowViewModel::SaveSettings", ex);
 			if (showErrors)
 			{
-				Frontend.ShowMessageBox("Settings could not be saved. Check the logs and try again.", MessageBoxImage.Warning);
+				Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_SaveFail, MessageBoxImage.Warning);
 			}
 			return false;
 		}
@@ -198,7 +202,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 		{
 			if (showErrors)
 			{
-				Frontend.ShowMessageBox("Some settings could not be saved. Check the logs and try again.", MessageBoxImage.Warning);
+				Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_SavePartialFail, MessageBoxImage.Warning);
 			}
 			return false;
 		}

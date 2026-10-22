@@ -44,8 +44,8 @@
     <ui:CardExpander Margin="0,12,0,0" IsExpanded="False">
       <HeaderedContentControl.Header>
         <StackPanel>
-          <TextBlock FontSize="14" FontWeight="Medium" Text="Game shortcut" />
-          <TextBlock Margin="0,2,0,0" FontSize="12" Text="Launch a game now or create a reusable desktop shortcut" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+          <TextBlock FontSize="14" FontWeight="Medium" Text="{x:Static resources:Strings.Menu_Shortcuts_Page_Title}" />
+          <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Menu_Shortcuts_Page_TitleDesc}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
         </StackPanel>
       </HeaderedContentControl.Header>
       <Grid>
@@ -68,32 +68,32 @@
           <TextBlock Width="120" Margin="0,8,0,0" FontSize="14" FontWeight="SemiBold" TextAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding DisplayGameName}" ToolTip="{Binding DisplayGameName}" />
         </StackPanel>
         <StackPanel Grid.Column="1">
-          <TextBlock FontSize="16" FontWeight="SemiBold" Text="Destination" />
-          <TextBlock Margin="0,2,0,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Use the place ID from the Roblox game URL." TextWrapping="Wrap" />
-          <TextBlock Text="Game ID" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-          <ui:TextBox Margin="0,4,0,0" PlaceholderText="Example: 1818" Text="{Binding GameID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          <TextBlock FontSize="16" FontWeight="SemiBold" Text="{x:Static resources:Strings.Menu_Shortcuts_Page_Destination}" />
+          <TextBlock Margin="0,2,0,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Menu_Shortcuts_Page_DestinationDesc}" TextWrapping="Wrap" />
+          <TextBlock Text="{x:Static resources:Strings.Menu_Shortcuts_Page_GameId}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <ui:TextBox Margin="0,4,0,0" PlaceholderText="{x:Static resources:Strings.Menu_Shortcuts_Page_GameIdHint}" Text="{Binding GameID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           <Grid Margin="0,12,0,0">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel>
-              <TextBlock FontWeight="Medium" Text="Private server" />
-              <TextBlock Margin="0,2,12,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Use a private server share link or access code" TextWrapping="Wrap" />
+              <TextBlock FontWeight="Medium" Text="{x:Static resources:Strings.Menu_Shortcuts_Page_PrivateServer}" />
+              <TextBlock Margin="0,2,12,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_Shortcuts_Page_PrivateServerDesc}" TextWrapping="Wrap" />
             </StackPanel>
             <ui:ToggleSwitch Grid.Column="1" VerticalAlignment="Center" AutomationProperties.Name="Private server" IsChecked="{Binding IsPrivateServer, Mode=TwoWay}" />
           </Grid>
           <StackPanel Margin="0,10,0,0" Visibility="{Binding IsPrivateServer, Converter={StaticResource BoolToVisibilityConverter}}">
-            <TextBlock Text="Share link or access code" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-            <ui:TextBox Margin="0,4,0,0" PlaceholderText="Paste the complete private server link" Text="{Binding PrivateServerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Text="{x:Static resources:Strings.Menu_Shortcuts_Page_ShareLink}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <ui:TextBox Margin="0,4,0,0" PlaceholderText="{x:Static resources:Strings.Menu_Shortcuts_Page_ShareLinkHint}" Text="{Binding PrivateServerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </StackPanel>
           <StackPanel Margin="0,10,0,0">
-            <TextBlock Text="Server instance ID" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-            <ui:TextBox Margin="0,4,0,0" PlaceholderText="Optional public server instance" IsEnabled="{Binding IsPublicServer}" Text="{Binding GameInstanceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Text="{x:Static resources:Strings.Menu_Shortcuts_Page_InstanceId}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <ui:TextBox Margin="0,4,0,0" PlaceholderText="{x:Static resources:Strings.Menu_Shortcuts_Page_InstanceIdDesc}" IsEnabled="{Binding IsPublicServer}" Text="{Binding GameInstanceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </StackPanel>
           <StackPanel Margin="0,16,0,0" Orientation="Horizontal">
-            <ui:Button x:Name="LaunchGameButton" Appearance="Primary" Icon="Play24" Content="Launch game" Click="BtnLaunchGame_Click" />
-            <ui:Button x:Name="CreateGameShortcutButton" Margin="8,0,0,0" Icon="Desktop24" Content="Create desktop shortcut" Click="BtnCreateShortcut_Click" />
+            <ui:Button x:Name="LaunchGameButton" Appearance="Primary" Icon="Play24" Content="{x:Static resources:Strings.Menu_Shortcuts_Page_LaunchGame}" Click="BtnLaunchGame_Click" />
+            <ui:Button x:Name="CreateGameShortcutButton" Margin="8,0,0,0" Icon="Desktop24" Content="{x:Static resources:Strings.Menu_Shortcuts_Page_CreateShortcut}" Click="BtnCreateShortcut_Click" />
           </StackPanel>
         </StackPanel>
       </Grid>

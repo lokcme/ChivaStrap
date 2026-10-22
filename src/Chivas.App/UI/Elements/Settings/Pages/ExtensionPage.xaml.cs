@@ -48,7 +48,9 @@ public partial class ExtensionPage : UiPage
 		DynamicRenderSystem.Prefetch(_assets.Select(a => a.Icon).Where(i => i.Length > 0), 128);
 		foreach (ExtensionEntry asset in _assets)
 			asset.RefreshEnabled();
+		RefreshStats();
 		ApplyAssetFilter();
+		ApplyViewMode();
 		_ = PrefetchVersionsAsync();
 	}
 
@@ -75,15 +77,22 @@ public partial class ExtensionPage : UiPage
 
 	private void Vm_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 	{
-		if (e.PropertyName is nameof(ExtensionViewModel.SearchText) or nameof(ExtensionViewModel.SelectedExtensionType))
+		if (e.PropertyName is nameof(ExtensionViewModel.SearchText) or nameof(ExtensionViewModel.SelectedExtensionType) or nameof(ExtensionViewModel.SelectedExtensionStatus) or nameof(ExtensionViewModel.SelectedExtensionSort))
 		{
 			ApplyAssetFilter();
+			return;
+		}
+		if (e.PropertyName == nameof(ExtensionViewModel.IsGridView))
+		{
+			ApplyViewMode();
 			return;
 		}
 		if (e.PropertyName is "fleasionenabler" or "rishadeenabler" or "apidumpenabler" or "rojoenabler")
 		{
 			foreach (ExtensionEntry asset in _assets)
 				asset.RefreshEnabled();
+			RefreshStats();
+			ApplyAssetFilter();
 			if (_detailItem is ExtensionEntry entry)
 				RefreshDetailButtons(entry);
 			return;
@@ -106,12 +115,60 @@ public partial class ExtensionPage : UiPage
 	{
 		string query = _vm.SearchText.Trim();
 		string type = _vm.SelectedExtensionType;
+		string status = _vm.SelectedExtensionStatus;
+		bool filterEnabled = status == _vm.ExtensionStatuses[1];
+		bool filterDisabled = status == _vm.ExtensionStatuses[2];
 		foreach (ExtensionEntry asset in _assets)
 		{
 			bool show = (type == ExtensionViewModel.TypeAll || asset.Type == type)
+				&& (!filterEnabled || asset.IsEnabled)
+				&& (!filterDisabled || !asset.IsEnabled)
 				&& (query.Length == 0 || asset.SearchText.Contains(query, StringComparison.OrdinalIgnoreCase) || asset.Name.Contains(query, StringComparison.OrdinalIgnoreCase));
 			asset.Visible = show;
 		}
+		ApplyAssetSort();
+	}
+
+	private void ApplyAssetSort()
+	{
+		string sort = _vm.SelectedExtensionSort;
+		System.Collections.Generic.List<ExtensionEntry> view = new System.Collections.Generic.List<ExtensionEntry>(_assets);
+		System.Collections.Generic.IReadOnlyList<string> opts = _vm.ExtensionSortOptions;
+		if (sort == opts[1])
+			view.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.CurrentCultureIgnoreCase));
+		else if (sort == opts[2])
+			view.Sort((a, b) => string.Compare(b.Name, a.Name, StringComparison.CurrentCultureIgnoreCase));
+		else if (sort == opts[3])
+			view.Sort((a, b) =>
+			{
+				int byState = b.IsEnabled.CompareTo(a.IsEnabled);
+				return byState != 0 ? byState : string.Compare(a.Name, b.Name, StringComparison.CurrentCultureIgnoreCase);
+			});
+		AssetList.ItemsSource = view;
+	}
+
+	private void RefreshStats()
+	{
+		_vm.UpdateStats(_assets.Count, _assets.Count(a => a.IsEnabled));
+	}
+
+	private void ApplyViewMode()
+	{
+		bool grid = _vm.IsGridView;
+		AssetList.ItemsPanel = (ItemsPanelTemplate)FindResource(grid ? "GridPanel" : "ListPanel");
+		AssetList.Margin = grid ? new Thickness(0.0) : new Thickness(0.0, 0.0, -12.0, 0.0);
+		GridViewButton.Appearance = grid ? ControlAppearance.Primary : ControlAppearance.Secondary;
+		ListViewButton.Appearance = grid ? ControlAppearance.Secondary : ControlAppearance.Primary;
+	}
+
+	private void GridView_Click(object sender, RoutedEventArgs e) => _vm.IsGridView = true;
+
+	private void ListView_Click(object sender, RoutedEventArgs e) => _vm.IsGridView = false;
+
+	private void MenuSource_Click(object sender, RoutedEventArgs e)
+	{
+		if (sender is FrameworkElement { Tag: ExtensionEntry { HasSource: true } asset })
+			Utilities.OpenWebLink(asset.Source);
 	}
 
 	private void ViewAsset_Click(object sender, RoutedEventArgs e)
@@ -333,8 +390,16 @@ public partial class ExtensionPage : UiPage
 		{
 			try
 			{
-				if (Process.GetProcessesByName("Fleasion").Length == 0)
-					Process.Start(exe);
+				if (!ExtensionViewModel.IsFleasionRunning())
+				{
+					ProcessStartInfo psi = new ProcessStartInfo(exe, "--no-dashboard")
+					{
+						UseShellExecute = false,
+						WorkingDirectory = directory
+					};
+					psi.Environment["FLEASION_NO_FILE_LOG"] = "1";
+					Process.Start(psi);
+				}
 				return;
 			}
 			catch (Exception ex)

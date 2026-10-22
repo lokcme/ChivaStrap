@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using CommunityToolkit.Mvvm.Input;
 using Chivas.Enums;
+using Chivas.Resources;
 using Chivas.Models.Attributes;
 using Chivas.UI.Elements.Dialogs;
 using Chivas.Utility;
@@ -112,7 +113,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		set
 		{
 			if (App.Settings.Prop.CursorType != value)
-				Run("Could not change the cursor style", () => CursorManager.ApplyStyle(value));
+				Run(Strings.Menu_Mods_Code_CursorErrStyle, () => CursorManager.ApplyStyle(value));
 			NotifyStyle();
 		}
 	}
@@ -188,7 +189,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		string? path = PickImage(slot == CursorSlot.ShiftLock ? "Choose a shift lock icon" : "Choose a cursor image");
 		if (path == null)
 			return;
-		Run("Could not use that image", () =>
+		Run(Strings.Menu_Mods_Code_CursorErrUseImage, () =>
 		{
 			CursorManager.SetImage(slot, path);
 			if (slot != CursorSlot.ShiftLock && !IsCustom)
@@ -200,7 +201,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 
 	private void ClearImage(CursorSlot slot)
 	{
-		Run("Could not remove that image", () => CursorManager.ClearImage(slot));
+		Run(Strings.Menu_Mods_Code_CursorErrRemoveImage, () => CursorManager.ClearImage(slot));
 		RefreshSlots();
 	}
 
@@ -209,7 +210,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		string? path = PickImage("Choose your custom cursor");
 		if (path == null)
 			return;
-		Run("Could not use that image", () =>
+		Run(Strings.Menu_Mods_Code_CursorErrUseImage, () =>
 		{
 			foreach (CursorSlot slot in CursorManager.OneImageSlots)
 				CursorManager.SetImage(slot, path);
@@ -222,7 +223,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 
 	private void RemoveCustomCursor()
 	{
-		Run("Could not remove the custom cursor", () =>
+		Run(Strings.Menu_Mods_Code_CursorErrRemoveCursor, () =>
 		{
 			foreach (CursorSlot slot in CursorManager.OneImageSlots)
 				CursorManager.ClearImage(slot);
@@ -238,7 +239,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		string? path = PickImage(slot == CursorSlot.ShiftLock ? "Choose a shift lock icon for this set" : "Choose a cursor image for this set");
 		if (path == null)
 			return;
-		Run("Could not add that image to the set", () => CursorManager.SetSetImage(name, slot, path));
+		Run(Strings.Menu_Mods_Code_CursorErrAddSetImage, () => CursorManager.SetSetImage(name, slot, path));
 		RefreshSetSlots();
 	}
 
@@ -247,7 +248,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		string? name = _selectedSet;
 		if (name == null)
 			return;
-		Run("Could not remove that image from the set", () => CursorManager.ClearSetImage(name, slot));
+		Run(Strings.Menu_Mods_Code_CursorErrRemoveSetImage, () => CursorManager.ClearSetImage(name, slot));
 		RefreshSetSlots();
 	}
 
@@ -257,7 +258,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		if (name == null)
 			return;
 		string? created = null;
-		Run("Could not create the cursor set", () => created = CursorManager.CreateSet(name));
+		Run(Strings.Menu_Mods_Code_CursorErrCreateSet, () => created = CursorManager.CreateSet(name));
 		if (created != null)
 			ReloadSets(created);
 	}
@@ -267,7 +268,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		string? name = _selectedSet;
 		if (name == null)
 			return;
-		Run("Could not use that cursor set", () => CursorManager.UseSet(name));
+		Run(Strings.Menu_Mods_Code_CursorErrUseSet, () => CursorManager.UseSet(name));
 		NotifyStyle();
 		RefreshSlots();
 	}
@@ -277,9 +278,9 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		string? name = _selectedSet;
 		if (name == null)
 			return;
-		if (Frontend.ShowMessageBox("Replace the images in \"" + name + "\" with your current custom cursor and shift lock icon?", MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		if (Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_CursorReplaceAsk, name), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
 			return;
-		Run("Could not copy your cursor into the set", () => CursorManager.CopyCurrentToSet(name));
+		Run(Strings.Menu_Mods_Code_CursorErrCopySet, () => CursorManager.CopyCurrentToSet(name));
 		RefreshSetSlots();
 	}
 
@@ -292,7 +293,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		if (name == null)
 			return;
 		string? renamed = null;
-		Run("Could not rename the cursor set", () => renamed = CursorManager.RenameSet(oldName, name));
+		Run(Strings.Menu_Mods_Code_CursorErrRenameSet, () => renamed = CursorManager.RenameSet(oldName, name));
 		ReloadSets(renamed ?? oldName);
 	}
 
@@ -301,9 +302,9 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		string? name = _selectedSet;
 		if (name == null)
 			return;
-		if (Frontend.ShowMessageBox("Delete the cursor set \"" + name + "\"? This cannot be undone.", MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		if (Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_CursorDeleteAsk, name), MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
 			return;
-		Run("Could not delete the cursor set", () => CursorManager.DeleteSet(name));
+		Run(Strings.Menu_Mods_Code_CursorErrDeleteSet, () => CursorManager.DeleteSet(name));
 		ReloadSets(null);
 	}
 
@@ -311,13 +312,13 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 	{
 		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
 		{
-			Title = "Import a cursor set",
+			Title = Strings.Menu_Dialogs_Code_CursorImportTitle,
 			Filter = "Zip files (*.zip)|*.zip"
 		};
 		if (dialog.ShowDialog() != true)
 			return;
 		string? imported = null;
-		Run("Could not import that zip", () => imported = CursorManager.ImportSet(dialog.FileName));
+		Run(Strings.Menu_Mods_Code_CursorErrImportZip, () => imported = CursorManager.ImportSet(dialog.FileName));
 		if (imported != null)
 			ReloadSets(imported);
 	}
@@ -329,14 +330,14 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 			return;
 		Microsoft.Win32.SaveFileDialog dialog = new Microsoft.Win32.SaveFileDialog
 		{
-			Title = "Export cursor set",
+			Title = Strings.Menu_Dialogs_Code_CursorExportTitle,
 			FileName = name + ".zip",
 			Filter = "Zip files (*.zip)|*.zip"
 		};
 		if (dialog.ShowDialog() != true)
 			return;
 		bool exported = false;
-		Run("Could not export the cursor set", () =>
+		Run(Strings.Menu_Mods_Code_CursorErrExportSet, () =>
 		{
 			CursorManager.ExportSet(name, dialog.FileName);
 			exported = true;

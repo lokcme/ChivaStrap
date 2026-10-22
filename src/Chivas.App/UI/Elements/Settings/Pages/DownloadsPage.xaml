@@ -92,13 +92,13 @@
                             <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="7,2" CornerRadius="6" Background="#CC1E1E24" Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <StackPanel Orientation="Horizontal">
                                     <ui:SymbolIcon Symbol="CheckmarkCircle16" FontSize="12" Foreground="{DynamicResource SystemFillColorSuccessBrush}" VerticalAlignment="Center" />
-                                    <TextBlock Text="Installed" FontSize="11" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static resources:Strings.Menu_Downloads_Page_Installed}" FontSize="11" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Border>
                             <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="7,2" CornerRadius="6" Background="#CC1E1E24" Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <StackPanel Orientation="Horizontal">
                                     <ui:SymbolIcon Symbol="ArrowSync16" FontSize="12" Foreground="{DynamicResource AccentFillColorDefaultBrush}" VerticalAlignment="Center" />
-                                    <TextBlock Text="Update" FontSize="11" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static resources:Strings.Menu_Downloads_Page_Update}" FontSize="11" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Border>
                             <Border VerticalAlignment="Bottom" Margin="1" Padding="10,8" CornerRadius="0,0,10,10" Background="#CC1E1E24" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -148,22 +148,22 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <ComboBox x:Name="FilterCombo" Grid.Column="0" MinWidth="118" Margin="6,0,0,0" VerticalAlignment="Center" Padding="10,5" BorderThickness="0" Background="Transparent" SelectedIndex="0" SelectionChanged="FilterCombo_SelectionChanged">
-                            <ComboBoxItem Content="Everything" />
-                            <ComboBoxItem Content="Roblox" />
-                            <ComboBoxItem Content="Classic" />
+                            <ComboBoxItem Content="{x:Static resources:Strings.Menu_Downloads_Page_Everything}" />
+                            <ComboBoxItem Content="{x:Static resources:Strings.Menu_Integrations_Page_Roblox}" />
+                            <ComboBoxItem Content="{x:Static resources:Strings.Menu_Downloads_Page_Classic}" />
                         </ComboBox>
                         <Rectangle Grid.Column="1" Width="1" Margin="4,10" Fill="{DynamicResource ControlElevationBorderBrush}" />
                         <TextBox x:Name="SearchBox" Grid.Column="2" Margin="4,0,6,0" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" FontSize="13" TextChanged="SearchBox_TextChanged" />
-                        <TextBlock x:Name="SearchPlaceholder" Grid.Column="2" Margin="14,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Search your installs" IsHitTestVisible="False" />
+                        <TextBlock x:Name="SearchPlaceholder" Grid.Column="2" Margin="14,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_Downloads_Page_SearchInstalls}" IsHitTestVisible="False" />
                     </Grid>
                 </Border>
-                <ui:Button Grid.Column="2" Height="44" Margin="10,0,0,0" Padding="14,0" Icon="FolderOpen24" Content="Install folder" Appearance="Secondary" Command="{Binding OpenRootCommand}" />
+                <ui:Button Grid.Column="2" Height="44" Margin="10,0,0,0" Padding="14,0" Icon="FolderOpen24" Content="{x:Static resources:Strings.Menu_Downloads_Page_InstallFolder}" Appearance="Secondary" Command="{Binding OpenRootCommand}" />
             </Grid>
 
             <ui:DynamicScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,10,0">
                 <StackPanel>
                     <StackPanel x:Name="RobloxSection">
-                        <TextBlock Text="Roblox" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10" />
+                        <TextBlock Text="{x:Static resources:Strings.Menu_Integrations_Page_Roblox}" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10" />
                         <ItemsControl x:Name="RobloxItems" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource PosterCardTemplate}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -180,8 +180,8 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Classic clients" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="Map" FontSize="12" Opacity="0.7" Margin="0,0,8,0" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="0" Text="{x:Static resources:Strings.Menu_Downloads_Page_ClassicClients}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{x:Static resources:Strings.Menu_Downloads_Page_Map}" FontSize="12" Opacity="0.7" Margin="0,0,8,0" VerticalAlignment="Center" />
                             <ComboBox Grid.Column="2" MinWidth="170" Padding="10,5" ItemsSource="{Binding ClientMaps}" SelectedItem="{Binding SelectedClassicMap, Mode=TwoWay}" VerticalAlignment="Center" />
                         </Grid>
                         <ItemsControl x:Name="ClassicItems" ItemsSource="{Binding ClientItems}" ItemTemplate="{StaticResource PosterCardTemplate}">
@@ -198,7 +198,7 @@
 
         <Border x:Name="DetailPanel" Grid.Column="1" CornerRadius="12" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" Margin="0,0,0,4" Visibility="Collapsed">
             <Grid>
-                <TextBlock Text="Pick an install on the left to see its details." FontSize="13" Opacity="0.6" Margin="24" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{x:Static resources:Strings.Menu_Downloads_Page_PickInstall}" FontSize="13" Opacity="0.6" Margin="24" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Visibility" Value="Visible" />
@@ -260,7 +260,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Version" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="0" Text="{x:Static resources:Strings.Menu_Downloads_Page_Version}" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
                                     <Border Grid.Column="1" MaxWidth="150" Padding="10,5" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
                                         <TextBlock Text="{Binding VersionText}" FontSize="12" TextTrimming="CharacterEllipsis" ToolTip="{Binding VersionText}" />
                                     </Border>
@@ -283,7 +283,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Size" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="0" Text="{x:Static resources:Strings.Menu_Downloads_Page_Size}" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
                                     <Border Grid.Column="1" Padding="10,5" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
                                         <TextBlock Text="{Binding SizeText}" FontSize="12" />
                                     </Border>
@@ -294,15 +294,15 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Addons" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="0" Text="{x:Static resources:Strings.Menu_Downloads_Page_Addons}" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
                                     <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                        <Button x:Name="FleasionAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="Fleasion, open in Extensions" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Button x:Name="FleasionAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="{x:Static resources:Strings.Menu_Downloads_Page_FleasionTip}" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <ui:SymbolIcon Symbol="CubeLink20" FontSize="18" />
                                         </Button>
-                                        <Button x:Name="RiShadeAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="RiShade, open in Extensions" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Button x:Name="RiShadeAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="{x:Static resources:Strings.Menu_Downloads_Page_RiShadeTip}" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Image Width="20" Height="20" util:DynamicRenderSystem.LazyImageSource="https://raw.githubusercontent.com/lokcme/RiShade/main/Images/RiShde.png" />
                                         </Button>
-                                        <Button x:Name="RojoAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="Rojo, open in Extensions" Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Button x:Name="RojoAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="{x:Static resources:Strings.Menu_Downloads_Page_RojoTip}" Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Image Width="20" Height="20" util:DynamicRenderSystem.LazyImageSource="https://github.com/rojo-rbx.png" />
                                         </Button>
                                     </StackPanel>
@@ -317,7 +317,7 @@
                                         </Grid.ColumnDefinitions>
                                         <ui:SymbolIcon Grid.Column="0" Symbol="Folder24" FontSize="15" Foreground="{DynamicResource AccentFillColorDefaultBrush}" VerticalAlignment="Center" />
                                         <TextBlock Grid.Column="1" Text="{Binding LocationText}" FontSize="12" Margin="8,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                        <ui:Button Grid.Column="2" Width="26" Height="26" Padding="0" Appearance="Transparent" Icon="ArrowSwap20" FontSize="14" ToolTip="Change install location" Command="{Binding ChangeLocationCommand}" />
+                                        <ui:Button Grid.Column="2" Width="26" Height="26" Padding="0" Appearance="Transparent" Icon="ArrowSwap20" FontSize="14" ToolTip="{x:Static resources:Strings.Menu_Downloads_Page_ChangeLocation}" Command="{Binding ChangeLocationCommand}" />
                                     </Grid>
                                 </Border>
 
@@ -340,7 +340,7 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Column="0" Text="{Binding ProgressDetail}" FontSize="11" Opacity="0.7" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                        <ui:Button Grid.Column="1" Padding="8,3" FontSize="11" Appearance="Secondary" Content="Cancel" Command="{Binding CancelCommand}" />
+                                        <ui:Button Grid.Column="1" Padding="8,3" FontSize="11" Appearance="Secondary" Content="{x:Static resources:Strings.Menu_Downloads_Page_Cancel}" Command="{Binding CancelCommand}" />
                                     </Grid>
                                 </StackPanel>
                             </StackPanel>
@@ -357,10 +357,10 @@
                             <ColumnDefinition Width="8" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <ui:Button Grid.Column="0" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="FolderOpen24" FontSize="18" ToolTip="Open install folder" Command="{Binding OpenFolderCommand}" />
-                        <ui:Button Grid.Column="2" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="DocumentSearch24" FontSize="18" ToolTip="Verify files" AutomationProperties.Name="Verify files" IsEnabled="{Binding CanVerify}" Command="{Binding VerifyCommand}" />
+                        <ui:Button Grid.Column="0" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="FolderOpen24" FontSize="18" ToolTip="{x:Static resources:Strings.Menu_Downloads_Page_OpenFolder}" Command="{Binding OpenFolderCommand}" />
+                        <ui:Button Grid.Column="2" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="DocumentSearch24" FontSize="18" ToolTip="{x:Static resources:Strings.Menu_Downloads_Page_VerifyFiles}" AutomationProperties.Name="Verify files" IsEnabled="{Binding CanVerify}" Command="{Binding VerifyCommand}" />
                         <ui:Button Grid.Column="4" Height="42" Icon="ArrowDownload24" IconForeground="White" Foreground="White" FontSize="15" FontWeight="SemiBold" Appearance="Primary" Content="{Binding PrimaryButtonText}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
-                        <ui:Button Grid.Column="6" Width="42" Height="42" Padding="0" Appearance="Danger" Icon="Delete24" FontSize="18" ToolTip="Uninstall" IsEnabled="{Binding CanUninstall}" Command="{Binding UninstallCommand}" />
+                        <ui:Button Grid.Column="6" Width="42" Height="42" Padding="0" Appearance="Danger" Icon="Delete24" FontSize="18" ToolTip="{x:Static resources:Strings.Menu_Downloads_Page_Uninstall}" IsEnabled="{Binding CanUninstall}" Command="{Binding UninstallCommand}" />
                     </Grid>
                 </Grid>
             </Grid>

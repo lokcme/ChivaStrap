@@ -144,7 +144,7 @@ namespace Chivas.UI.ViewModels.Settings
                     return;
                 if (!_parent.TryBeginOperation())
                 {
-                    Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
+                    Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_WaitOp, MessageBoxImage.Warning);
                     return;
                 }
                 string root = _appData.Directory;
@@ -381,7 +381,7 @@ namespace Chivas.UI.ViewModels.Settings
                 }
                 if (!_parent.TryBeginOperation())
                 {
-                    Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
+                    Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_WaitOp, MessageBoxImage.Warning);
                     return false;
                 }
 
@@ -467,7 +467,7 @@ namespace Chivas.UI.ViewModels.Settings
                 }
                 if (!_parent.TryBeginOperation())
                 {
-                    Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
+                    Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_WaitOp, MessageBoxImage.Warning);
                     return;
                 }
                 string removalMessage = $"Remove {Title}? This deletes {SizeText} of installed files. You can reinstall it any time.";
@@ -564,12 +564,12 @@ namespace Chivas.UI.ViewModels.Settings
                 }
                 if (!_parent.TryBeginOperation())
                 {
-                    Frontend.ShowMessageBox("Wait for the current operation to finish before changing the install location.", MessageBoxImage.Warning);
+                    Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_WaitOpLocation, MessageBoxImage.Warning);
                     return;
                 }
                 var dialog = new OpenFolderDialog
                 {
-                    Title = $"Choose where to install {Title}",
+                    Title = string.Format(Strings.Menu_Dialogs_Code_ChooseInstallTitle, Title),
                     Multiselect = false
                 };
                 if (dialog.ShowDialog() != true || string.IsNullOrWhiteSpace(dialog.FolderName))
@@ -923,7 +923,7 @@ namespace Chivas.UI.ViewModels.Settings
                     return;
                 if (!_parent.TryBeginOperation())
                 {
-                    Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
+                    Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_WaitOp, MessageBoxImage.Warning);
                     return;
                 }
                 SetBusy(true, "Verifying");
@@ -1032,10 +1032,10 @@ namespace Chivas.UI.ViewModels.Settings
                     return;
                 if (!_parent.TryBeginOperation())
                 {
-                    Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
+                    Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_WaitOp, MessageBoxImage.Warning);
                     return;
                 }
-                if (confirm && Frontend.ShowMessageBox("These are a WIP and may not work all entirely yet and may produce errors, I will still continue to work on these fixes.", MessageBoxImage.Warning, MessageBoxButton.OKCancel, MessageBoxResult.OK) != MessageBoxResult.OK)
+                if (confirm && Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_WIPConfirm, MessageBoxImage.Warning, MessageBoxButton.OKCancel, MessageBoxResult.OK) != MessageBoxResult.OK)
                 {
                     _parent.EndOperation();
                     return;
@@ -1075,7 +1075,7 @@ namespace Chivas.UI.ViewModels.Settings
                     return;
                 if (!_parent.TryBeginOperation())
                 {
-                    Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
+                    Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_WaitOp, MessageBoxImage.Warning);
                     return;
                 }
                 if (Frontend.ShowMessageBox($"Remove {Title}? This deletes {SizeText} of installed files. You can reinstall it any time.", MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
@@ -1385,14 +1385,14 @@ namespace Chivas.UI.ViewModels.Settings
         {
             var dialog = new OpenFolderDialog
             {
-                Title = "Locate your ChivasClient folder",
+                Title = Strings.Menu_Dialogs_Code_LocateClient,
                 Multiselect = false
             };
             if (dialog.ShowDialog() != true || string.IsNullOrWhiteSpace(dialog.FolderName))
                 return;
             if (!ClassicClients.IsValidSource(dialog.FolderName))
             {
-                Frontend.ShowMessageBox("That folder does not look like an ChivasClient installation. It must contain ChivasClient.WebServer.exe and a data\\clients folder.", MessageBoxImage.Warning);
+                Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_BadClientFolder, MessageBoxImage.Warning);
                 return;
             }
             App.Settings.Prop.ClassicSourceLocation = dialog.FolderName;
@@ -1427,7 +1427,7 @@ namespace Chivas.UI.ViewModels.Settings
             GraphPoints = new PointCollection();
             ActiveItem = item;
             IsDownloading = true;
-            GraphTitle = "Downloading " + item.Title;
+            GraphTitle = string.Format(Strings.Menu_Dialogs_Code_GraphDownloading, item.Title);
             OnPropertyChanged(nameof(ActiveItem));
             CurrentSpeedText = "0 B/s";
             PeakSpeedText = "0 B/s";
@@ -1454,7 +1454,7 @@ namespace Chivas.UI.ViewModels.Settings
         internal void EndActiveDownload()
         {
             IsDownloading = false;
-            GraphTitle = "No active download";
+            GraphTitle = Strings.Menu_Dialogs_Code_GraphIdle;
             OnPropertyChanged(nameof(IsDownloading));
             OnPropertyChanged(nameof(GraphTitle));
         }

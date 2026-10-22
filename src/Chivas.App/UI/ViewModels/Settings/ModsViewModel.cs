@@ -105,9 +105,9 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	private string _customSkyboxUp = string.Empty;
 
-	private string _fontManagerStatus = "Loading the font catalog...";
+	private string _fontManagerStatus = Strings.Menu_Mods_Code_FontLoading;
 
-	private string _skyboxManagerStatus = "Loading skyboxes...";
+	private string _skyboxManagerStatus = Strings.Menu_Mods_Code_SkyLoading;
 
 	private string _activePreviewFontPath = string.Empty;
 
@@ -191,7 +191,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	private bool _managedModsBusy;
 
-	private string _managedModsEmptyTitle = "Your managed mod library is empty";
+	private string _managedModsEmptyTitle = Strings.Menu_Dialogs_Code_ManagedEmptyInit;
 
 	private string _managedModsEmptyDescription = "Add a mod to create its indexed folder, then place its files inside.";
 
@@ -2288,7 +2288,7 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		if (!Chivas.Utility.PlatformShell.TryOpenFolder(Paths.Mods))
 		{
-			Frontend.ShowMessageBox("The mods folder could not be opened. It is at " + Paths.Mods, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_ModsFolderFail, Paths.Mods), MessageBoxImage.Warning);
 		}
 	}
 
@@ -2316,7 +2316,7 @@ public ICommand PickCursorColorCommand { get; }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::ChooseCustomFontDialog", ex);
-			Frontend.ShowMessageBox("The font picker could not be opened.", MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(Strings.Menu_Mods_Code_FontPickerFail, MessageBoxImage.Hand);
 			return;
 		}
 		CancellationTokenSource cancellation = new();
@@ -2331,7 +2331,7 @@ public ICommand PickCursorColorCommand { get; }
 				return;
 			if (!TryCreatePreviewFontFamily(importedPath, out _))
 			{
-				Frontend.ShowMessageBox("That font could not be loaded safely.", MessageBoxImage.Hand);
+				Frontend.ShowMessageBox(Strings.Menu_Mods_Code_FontUnsafeLoad, MessageBoxImage.Hand);
 				return;
 			}
 			App.Settings.Prop.CustomFontLocation = string.Empty;
@@ -2346,7 +2346,7 @@ public ICommand PickCursorColorCommand { get; }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::ChooseCustomFont", ex);
-			Frontend.ShowMessageBox("That font could not be imported safely.", MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(Strings.Menu_Mods_Code_FontUnsafeImport, MessageBoxImage.Hand);
 		}
 		finally
 		{
@@ -2391,7 +2391,7 @@ public ICommand PickCursorColorCommand { get; }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::ApplyGoogleFont", ex);
-			FontManagerStatus = "Could not prepare this font. Try again.";
+			FontManagerStatus = Strings.Menu_Mods_Code_FontFailPrepare;
 		}
 		finally
 		{
@@ -2408,7 +2408,7 @@ public ICommand PickCursorColorCommand { get; }
 		previous?.Cancel();
 		previous?.Dispose();
 		FontManagerBusy = true;
-		FontManagerStatus = "Loading the font catalog...";
+		FontManagerStatus = Strings.Menu_Mods_Code_FontLoading;
 		try
 		{
 			IReadOnlyList<GoogleFontOption> fonts = await GoogleFontsService.LoadCatalogAsync(force, cancellation.Token);
@@ -2432,7 +2432,7 @@ public ICommand PickCursorColorCommand { get; }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::LoadGoogleFonts", ex);
-			FontManagerStatus = "Could not load fonts. Select refresh to try again.";
+			FontManagerStatus = Strings.Menu_Mods_Code_FontFailLoad;
 		}
 		finally
 		{
@@ -2516,7 +2516,7 @@ public ICommand PickCursorColorCommand { get; }
 		previous?.Cancel();
 		previous?.Dispose();
 		SkyboxManagerBusy = true;
-		SkyboxManagerStatus = force ? "Refreshing skyboxes..." : "Loading skyboxes...";
+		SkyboxManagerStatus = force ? Strings.Menu_Mods_Code_SkyRefreshing : Strings.Menu_Mods_Code_SkyLoading;
 		bool online = false;
 		List<string> names = [];
 		try
@@ -2651,7 +2651,7 @@ public ICommand PickCursorColorCommand { get; }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::SkyboxPicker", ex);
-			Frontend.ShowMessageBox("The image picker could not be opened.", MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(Strings.Menu_Mods_Code_ImagePickerFail, MessageBoxImage.Hand);
 			return null;
 		}
 	}
@@ -2701,7 +2701,7 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		if (!CustomSkyboxCanApply)
 		{
-			Frontend.ShowMessageBox("Choose all six faces or use one image for every side first.", MessageBoxImage.Information);
+			Frontend.ShowMessageBox(Strings.Menu_Mods_Code_SkyboxNeedFaces, MessageBoxImage.Information);
 			return;
 		}
 		CancellationTokenSource cancellation = new();
@@ -2734,7 +2734,7 @@ public ICommand PickCursorColorCommand { get; }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::ApplyCustomSkybox", ex);
-			Frontend.ShowMessageBox("The custom skybox could not be saved:\n" + ex.Message, MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_SkyboxSaveFail, ex.Message), MessageBoxImage.Hand);
 		}
 		finally
 		{
@@ -2751,7 +2751,7 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		if (CustomSkyboxBusy || !HasCustomSkybox)
 			return;
-		if (Frontend.ShowMessageBox("Remove your saved custom skybox?", MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+		if (Frontend.ShowMessageBox(Strings.Menu_Mods_Code_SkyboxRemoveAsk, MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
 			return;
 		try
 		{
@@ -2768,7 +2768,7 @@ public ICommand PickCursorColorCommand { get; }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::RemoveCustomSkybox", ex);
-			Frontend.ShowMessageBox("The custom skybox could not be removed:\n" + ex.Message, MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_SkyboxRemoveFail, ex.Message), MessageBoxImage.Hand);
 		}
 	}
 
@@ -2827,7 +2827,7 @@ public ICommand PickCursorColorCommand { get; }
 				}
 				catch (Exception ex)
 				{
-					Frontend.ShowMessageBox("Failed to remove " + text + ":\n" + ex.Message, MessageBoxImage.Hand);
+					Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_RemoveFail, text, ex.Message), MessageBoxImage.Hand);
 				}
 			}
 		}
@@ -2843,7 +2843,7 @@ public ICommand PickCursorColorCommand { get; }
 		Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
 		{
 			Filter = "Audio files|*.ogg;*.oga;*.wav;*.wave;*.mp3;*.mp2;*.mpa;*.flac;*.aac;*.m4a;*.mp4;*.wma;*.aif;*.aiff;*.aifc;*.opus;*.webm;*.3gp;*.3g2;*.ac3;*.amr|All files|*.*",
-			Title = "Select a Custom Death Sound"
+			Title = Strings.Menu_Dialogs_Code_DeathSoundTitle
 		};
 
 		if (openFileDialog.ShowDialog() != true)
@@ -2885,13 +2885,13 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		catch (InvalidDataException ex)
 		{
-			Frontend.ShowMessageBox("Failed to add death sound:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_DeathSoundFail, ex.Message), MessageBoxImage.Warning);
 			return;
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::AddCustomDeathSound", ex);
-			Frontend.ShowMessageBox("Failed to add death sound:\n" + ex.Message, MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_DeathSoundFail, ex.Message), MessageBoxImage.Hand);
 			return;
 		}
 
@@ -2910,7 +2910,7 @@ public ICommand PickCursorColorCommand { get; }
 	public void RemoveCustomDeathSound()
 	{
 		CancelDeathSoundConversion();
-        RemoveCustomFile(DeathSoundFiles, Path.Combine(Paths.Mods, "content", "sounds"), "No custom death sound found to remove.", delegate
+        RemoveCustomFile(DeathSoundFiles, Path.Combine(Paths.Mods, "content", "sounds"), Strings.Menu_Dialogs_Code_NoDeathSound, delegate
 		{
 			try
 			{
@@ -2959,7 +2959,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		if (!string.IsNullOrEmpty(error))
 		{
-			Frontend.ShowMessageBox("The death sound could not be converted:\n" + error, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_DeathSoundConvert, error), MessageBoxImage.Warning);
 		}
 	}
 
@@ -3098,7 +3098,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			Microsoft.Win32.OpenFileDialog dialog = new()
 			{
-				Title = "Choose homepage background",
+				Title = Strings.Menu_Dialogs_Code_HomepageBgTitle,
 				Filter = "All supported media|*.png;*.apng;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.dib;*.gif;*.webp;*.tif;*.tiff;*.ico;*.wdp;*.jxr;*.hdp;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif;*.mp4;*.m4v;*.webm;*.avi;*.mov;*.wmv;*.mpeg;*.mpg;*.mkv|All image files|*.*|Videos|*.mp4;*.m4v;*.webm;*.avi;*.mov;*.wmv;*.mpeg;*.mpg;*.mkv|All files|*.*"
 			};
 			if (dialog.ShowDialog() != true)
@@ -3119,7 +3119,7 @@ public ICommand PickCursorColorCommand { get; }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::ChooseHomepageBackgroundMedia", ex);
-			Frontend.ShowMessageBox("The background media could not be opened.", MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(Strings.Menu_Mods_Code_BgMediaFail, MessageBoxImage.Hand);
 		}
 	}
 
@@ -3259,7 +3259,7 @@ public ICommand PickCursorColorCommand { get; }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::LoadManagedMods", ex);
-			Frontend.ShowMessageBox("The managed mod library could not be loaded:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_LibraryLoadFail, ex.Message), MessageBoxImage.Warning);
 		}
 		finally
 		{
@@ -3312,8 +3312,8 @@ public ICommand PickCursorColorCommand { get; }
 				ManagedMods.Add(item);
 		}
 		bool searchHasNoResults = ManagedMods.Count == 0 && _allManagedMods.Count > 0 && !string.IsNullOrEmpty(query);
-		ManagedModsEmptyTitle = searchHasNoResults ? "No Mods match your search" : "No Mods found";
-		ManagedModsEmptyDescription = searchHasNoResults ? "Try a different name or identifier." : "Roblox is better with mods. Add your first mod to create its indexed folder, then place its files inside.";
+		ManagedModsEmptyTitle = searchHasNoResults ? Strings.Menu_Mods_Code_EmptyTitleSearch : Strings.Menu_Mods_Code_EmptyTitleNone;
+		ManagedModsEmptyDescription = searchHasNoResults ? Strings.Menu_Mods_Code_EmptyDescSearch : Strings.Menu_Mods_Code_EmptyDescNone;
 	}
 
 	private async Task AddManagedModAsync()
@@ -3330,7 +3330,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("The mod could not be added:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_ModAddFail, ex.Message), MessageBoxImage.Warning);
 		}
 		finally
 		{
@@ -3368,7 +3368,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("The mod could not be renamed:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_ModRenameFail, ex.Message), MessageBoxImage.Warning);
 		}
 		finally
 		{
@@ -3392,7 +3392,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("The mod could not be removed:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_ModRemoveFail, ex.Message), MessageBoxImage.Warning);
 		}
 		finally
 		{
@@ -3412,7 +3412,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("The mod order could not be changed:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_ModOrderFail, ex.Message), MessageBoxImage.Warning);
 		}
 		finally
 		{
@@ -3440,7 +3440,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("The mod state could not be saved:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_ModStateFail, ex.Message), MessageBoxImage.Warning);
 		}
 		finally
 		{
@@ -3523,7 +3523,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("The managed mod library could not be opened:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_LibraryOpenFail, ex.Message), MessageBoxImage.Warning);
 		}
 	}
 
@@ -3539,7 +3539,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("The mod folder could not be opened:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_ModFolderFail, ex.Message), MessageBoxImage.Warning);
 		}
 	}
 
@@ -3547,7 +3547,7 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		if (!Chivas.Utility.PlatformShell.TryOpenFolder(folder))
 		{
-			Frontend.ShowMessageBox("The folder could not be opened. It is at " + folder, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Mods_Code_FolderOpenFail, folder), MessageBoxImage.Warning);
 		}
 	}
 
@@ -3561,7 +3561,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("The mod identifier could not be copied:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_ModIdCopyFail, ex.Message), MessageBoxImage.Warning);
 		}
 	}
 
@@ -3610,12 +3610,12 @@ public ICommand PickCursorColorCommand { get; }
 			if (dialog.ShowDialog() != true)
 				return;
 			File.WriteAllBytes(dialog.FileName, cursor);
-			Frontend.ShowMessageBox("Crosshair CUR saved to:\n" + dialog.FileName);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_CrosshairCurSaved, dialog.FileName));
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::DownloadCurFile", ex);
-			Frontend.ShowMessageBox("Failed to generate cursor:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_CrosshairGenFail, ex.Message), MessageBoxImage.Warning);
 		}
 	}
 
@@ -3635,12 +3635,12 @@ public ICommand PickCursorColorCommand { get; }
 			if (dialog.ShowDialog() != true)
 				return;
 			File.WriteAllBytes(dialog.FileName, png);
-			Frontend.ShowMessageBox("Crosshair PNG saved to:\n" + dialog.FileName);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_CrosshairPngSaved, dialog.FileName));
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::DownloadPngFile", ex);
-			Frontend.ShowMessageBox("Failed to save PNG:\n" + ex.Message, MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_PngSaveFail, ex.Message), MessageBoxImage.Warning);
 		}
 	}
 
@@ -4065,7 +4065,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public bool ExplorerHasStatus => !string.IsNullOrEmpty(_explorerStatusMessage);
 
-	public string ExplorerItemCountText => ModFiles.Count == 1 ? "1 item" : $"{ModFiles.Count} items";
+	public string ExplorerItemCountText => ModFiles.Count == 1 ? Strings.Menu_Mods_Code_CountOne : string.Format(Strings.Menu_Mods_Code_CountMany, ModFiles.Count);
 
 	private string ResolveRobloxPlayerDir(bool forceRefresh = false)
 	{
@@ -4149,7 +4149,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
 		{
-			Title = "Select replacement for " + SelectedModFile.Name,
+			Title = string.Format(Strings.Menu_Dialogs_Code_ReplaceTitle, SelectedModFile.Name),
 			Filter = "Compatible files|*.png;*.jpg;*.jpeg;*.bmp;*.ogg;*.mp3;*.wav;*.mesh;*.rbxm;*.rbxmx;*.json|All files|*.*"
 		};
 		if (openFileDialog.ShowDialog() != true)
@@ -4197,12 +4197,12 @@ public ICommand PickCursorColorCommand { get; }
 			{
 				File.Copy(openFileDialog.FileName, text, overwrite: true);
 			}
-			Frontend.ShowMessageBox("Successfully replaced " + SelectedModFile.Name + " in your Mods folder!", MessageBoxImage.Asterisk);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_ReplaceOk, SelectedModFile.Name), MessageBoxImage.Asterisk);
 			RefreshModFiles();
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("Failed to replace file: " + ex.Message, MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_ReplaceFail, ex.Message), MessageBoxImage.Hand);
 		}
 	}
 
@@ -4227,7 +4227,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog
 		{
-			Title = "Export " + SelectedModFile.Name,
+			Title = string.Format(Strings.Menu_Dialogs_Code_ExportTitle, SelectedModFile.Name),
 			FileName = SelectedModFile.Name,
 			Filter = "Original Type|*." + SelectedModFile.Type.ToLower() + "|All files|*.*"
 		};
@@ -4238,11 +4238,11 @@ public ICommand PickCursorColorCommand { get; }
 		try
 		{
 			File.Copy(SelectedModFile.FullPath, saveFileDialog.FileName, overwrite: true);
-			Frontend.ShowMessageBox("Exported to " + Path.GetFileName(saveFileDialog.FileName), MessageBoxImage.Asterisk);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_ExportedOk, Path.GetFileName(saveFileDialog.FileName)), MessageBoxImage.Asterisk);
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("Export failed: " + ex.Message, MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_ExportFail, ex.Message), MessageBoxImage.Hand);
 		}
 	}
 
@@ -4440,7 +4440,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	private void DeleteModFile()
 	{
-		if (SelectedModFile == null || !IsSafeExplorerPath(SelectedModFile.FullPath) || Frontend.ShowMessageBox("Are you sure you want to delete " + SelectedModFile.Name + "?", MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		if (SelectedModFile == null || !IsSafeExplorerPath(SelectedModFile.FullPath) || Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_DeleteConfirm, SelectedModFile.Name), MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
 		{
 			return;
 		}
@@ -4458,7 +4458,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("Error deleting file: " + ex.Message, MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_DeleteFail, ex.Message), MessageBoxImage.Hand);
 		}
 	}
 

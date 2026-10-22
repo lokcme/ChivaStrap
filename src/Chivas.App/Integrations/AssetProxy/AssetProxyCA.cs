@@ -351,6 +351,16 @@ internal static partial class AssetProxyCA
 			}
 		}
 
+		// Recent Roblox players also load the trust bundle copied into the
+		// shared logs directory. Patch it alongside the version-local bundle;
+		// otherwise every proxied asset fails TLS verification even though the
+		// version folder contains the Chivas CA.
+		PatchStandaloneBundle(
+			Path.Combine(Paths.LocalAppData, "Roblox", "logs", "cacert.pem"),
+			caPem,
+			ref patched,
+			ref failed);
+
 		App.Logger?.WriteLine(LOG_IDENT, "Roblox trust bundles ready: " + patched + ", not updated: " + failed);
 		if (patched > 0)
 		{
@@ -584,6 +594,27 @@ internal static partial class AssetProxyCA
 			if (!File.Exists(bundle))
 				continue;
 			RemoveFromBundle(bundle, keepThumbprint);
+		}
+		string sharedBundle = Path.Combine(Paths.LocalAppData, "Roblox", "logs", "cacert.pem");
+		if (File.Exists(sharedBundle))
+		{
+			RemoveFromBundle(sharedBundle, keepThumbprint);
+		}
+	}
+
+	private static void PatchStandaloneBundle(string path, string caPem, ref int patched, ref int failed)
+	{
+		if (!File.Exists(path))
+			return;
+		try
+		{
+			PatchBundle(path, caPem);
+			patched++;
+		}
+		catch (Exception ex)
+		{
+			failed++;
+			App.Logger?.WriteLine(LOG_IDENT, "Trust bundle could not be updated for " + path + ": " + ex.Message);
 		}
 	}
 

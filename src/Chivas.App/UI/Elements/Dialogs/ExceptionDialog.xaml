@@ -99,7 +99,7 @@
                      Content="{x:Static resources:Strings.Dialog_Exception_Report}" />
           <ui:Button Name="ReportExceptionBackupButton" Height="30" Margin="0,0,6,0" Padding="4,0"
                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                     Content="Report on backup" />
+                     Content="{x:Static resources:Strings.Menu_Dialog_ExceptionBackup}" />
           <ui:Button Name="LocateLogFileButton" Height="30" Padding="4,0"
                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
                      Content="{x:Static resources:Strings.Common_OpenLogFile}" />
@@ -117,7 +117,7 @@
                      Text="{Binding Version, Mode=OneTime}" />
           <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <ui:Button Name="CopyDetailsButton" Height="30" MinWidth="92" Margin="0,0,6,0" Padding="10,0"
-                       HorizontalContentAlignment="Center" Icon="Copy16" Content="Copy" />
+                       HorizontalContentAlignment="Center" Icon="Copy16" Content="{x:Static resources:Strings.Menu_Dialog_ExceptionCopy}" />
             <ui:Button Name="CloseButton" Height="30" MinWidth="92" Padding="10,0"
                        HorizontalContentAlignment="Center"
                        Appearance="Primary" Content="{x:Static resources:Strings.Common_Close}" />

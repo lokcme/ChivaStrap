@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Chivas.Core.AssetProxy;
+using Chivas.Resources;
 using Chivas.Enums.FlagPresets;
 using Chivas.Integrations.AssetProxy;
 using Chivas.Resources;
@@ -608,7 +609,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			App.FastFlags.SetPreset("Rendering.Framerate", (value == 0) ? null : ((object)value));
 			if (value > 240)
 			{
-				Frontend.ShowMessageBox("Going above 240 FPS is not recommended, as this may cause latency issues.", MessageBoxImage.Exclamation);
+				Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_FPSHigh, MessageBoxImage.Exclamation);
 				App.FastFlags.SetPreset("Rendering.LimitFramerate", "False");
 			}
 			else
@@ -633,7 +634,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			App.FastFlags.SetPreset("Rendering.Shaders", (value == 0) ? null : value.ToString());
 			if (value < -64000000)
 			{
-				Frontend.ShowMessageBox("Going below -64000000 is not recommended for Performance.", MessageBoxImage.Exclamation);
+				Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_FPSLow, MessageBoxImage.Exclamation);
 			}
 		}
 	}
@@ -1862,12 +1863,13 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			if (!value)
 			{
 				App.Settings.Prop.AssetWarpEnabled = false;
-				App.Settings.Prop.AssetWarpCertificateApproved = false;
+				if (!App.Settings.Prop.FleasionNativeEngineEnabled)
+					App.Settings.Prop.AssetWarpCertificateApproved = false;
 				AssetProxyServer.ReconcileRuntimeState();
 				App.FastFlags.SaveDeferred();
 				App.Settings.SaveDeferred();
 			}
-			if (!value && Chivas.Utility.Platform.IsLinux)
+			if (!value && !App.Settings.Prop.FleasionNativeEngineEnabled && Chivas.Utility.Platform.IsLinux)
 			{
 				_ = RemoveLinuxAssetWarpCertificateAsync();
 			}
@@ -1912,7 +1914,33 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		{
 			App.Settings.Prop.AssetWarpEnabled = false;
 			App.Settings.Prop.AssetWarpCertificateApproved = false;
-			Frontend.ShowMessageBox("AssetWarp could not install its local certificate: " + ex.Message, MessageBoxImage.Error);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_CertFail, ex.Message), MessageBoxImage.Error);
+			return false;
+		}
+	}
+
+	public static bool TryEnableFleasionNativeEngine()
+	{
+		if (App.Settings.Prop.AssetWarpCertificateApproved)
+		{
+			return true;
+		}
+		const string prompt = "The Fleasion native engine routes only its replacement rules through Chivas' secure local proxy. This does not enable AssetWarp or change any of its settings. Administrator permission is needed to temporarily install the local certificate used by the proxy. Enable the Fleasion native engine?";
+		if (Frontend.ShowMessageBox(prompt, MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		{
+			return false;
+		}
+		try
+		{
+			AssetProxyServer.PrepareCertificate();
+			App.Settings.Prop.AssetWarpCertificateApproved = true;
+			App.FastFlags.SaveDeferred();
+			App.Settings.SaveDeferred();
+			return true;
+		}
+		catch (Exception ex)
+		{
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_CertFail, ex.Message), MessageBoxImage.Error);
 			return false;
 		}
 	}
@@ -2088,7 +2116,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			{
 				return;
 			}
-			if (value && Frontend.ShowMessageBox("Preloading makes some content load more slowly at first to reduce stuttering. You will most likely notice more input lag. Enable preloading anyway?", MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+			if (value && Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_PreloadConfirm, MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
 			{
 				OnPropertyChanged(nameof(AssetWarpPreloadEnabled));
 				return;

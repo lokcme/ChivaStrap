@@ -1,32 +1,40 @@
-﻿<ui:UiPage x:Class="Chivas.UI.Elements.About.Pages.AboutPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Chivas.UI.Elements.Controls" xmlns:models="clr-namespace:Chivas.UI.ViewModels" xmlns:resources="clr-namespace:Chivas.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Chivas.Utility" Title="AboutPage" Scrollable="True" KeyDown="UiPage_KeyDown">
+﻿<ui:UiPage x:Class="Chivas.UI.Elements.About.Pages.AboutPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:models="clr-namespace:Chivas.UI.ViewModels" xmlns:resources="clr-namespace:Chivas.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Chivas.Utility" Title="AboutPage" Scrollable="True">
   <ui:UiPage.Resources>
-    <Storyboard x:Key="EggStoryboard">
-      <DoubleAnimation Storyboard.TargetName="Image1" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" Duration="0:0:3" />
-      <DoubleAnimation Storyboard.TargetName="Image2" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:3" />
-    </Storyboard>
-    <Style x:Key="AboutSectionTitle" TargetType="{x:Type TextBlock}">
-      <Setter Property="Margin" Value="0,24,0,0" />
-      <Setter Property="FontSize" Value="18" />
+    <Color x:Key="AboutRedGlow">#8E1F16</Color>
+    <SolidColorBrush x:Key="AboutAccentBrush" Color="#FF7F6E" />
+    <SolidColorBrush x:Key="AboutRingBrush" Color="#D43A2A" />
+    <Style x:Key="AboutGroupHeader" TargetType="{x:Type TextBlock}">
+      <Setter Property="Margin" Value="0,22,0,0" />
+      <Setter Property="FontSize" Value="13" />
       <Setter Property="FontWeight" Value="SemiBold" />
-    </Style>
-    <Style x:Key="AboutSectionSubtitle" TargetType="{x:Type TextBlock}">
-      <Setter Property="Margin" Value="0,2,0,0" />
       <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
-      <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
-    <BitmapImage x:Key="ErikImage" UriSource="pack://application:,,,/Resources/Erik.png" DecodePixelHeight="176" CacheOption="OnLoad" CreateOptions="IgnoreColorProfile" />
-    <Style x:Key="ErikButton" TargetType="{x:Type Button}">
+    <Style x:Key="AboutCard" TargetType="{x:Type Border}">
+      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+      <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
+    </Style>
+    <Style x:Key="AboutTile" TargetType="{x:Type Border}">
+      <Setter Property="Width" Value="48" />
+      <Setter Property="Height" Value="48" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Background" Value="#20000000" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+    </Style>
+    <Style x:Key="AboutLinkCard" TargetType="{x:Type Button}">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Padding" Value="0" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+      <Setter Property="Padding" Value="16" />
+      <Setter Property="Margin" Value="6,0,6,12" />
       <Setter Property="Cursor" Value="Hand" />
-      <Setter Property="Focusable" Value="False" />
-      <Setter Property="SnapsToDevicePixels" Value="True" />
-      <Setter Property="RenderTransformOrigin" Value="0.5,1" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="{x:Type Button}">
-            <Border Background="Transparent">
+            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="12" Padding="{TemplateBinding Padding}">
               <ContentPresenter />
             </Border>
           </ControlTemplate>
@@ -34,138 +42,192 @@
       </Setter>
       <Style.Triggers>
         <Trigger Property="IsMouseOver" Value="True">
-          <Setter Property="Opacity" Value="0.88" />
+          <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
         </Trigger>
       </Style.Triggers>
-    </Style>    <Style x:Key="ContributorAvatar" TargetType="{x:Type Border}">
-      <Setter Property="Width" Value="44" />
-      <Setter Property="Height" Value="44" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-      <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
-      <Setter Property="Clip">
-        <Setter.Value>
-          <RectangleGeometry RadiusX="22" RadiusY="22" Rect="0,0,44,44" />
-        </Setter.Value>
-      </Setter>
     </Style>
   </ui:UiPage.Resources>
   <StackPanel Margin="0,0,18,18">
-    <ui:Card Padding="20,18">
+    <Border Style="{StaticResource AboutCard}" ClipToBounds="True">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" Width="104" Height="104" Margin="22,22,0,22" VerticalAlignment="Center" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Chivas.png" />
+        <StackPanel Grid.Column="1" Margin="20,0,12,0" VerticalAlignment="Center">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock VerticalAlignment="Center" FontSize="34" FontWeight="SemiBold" Text="Chivas" />
+            <Border Margin="12,0,0,0" Padding="10,3" VerticalAlignment="Center" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
+              <TextBlock FontSize="13" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding VersionTag, Mode=OneTime}" />
+            </Border>
+          </StackPanel>
+          <TextBlock Margin="0,6,0,0" FontSize="14" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_About_Tagline}" TextWrapping="Wrap" />
+        </StackPanel>
+        <Grid Grid.Column="2">
+          <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+              <GradientStop Offset="0" Color="#00000000" />
+              <GradientStop Offset="1" Color="{StaticResource AboutRedGlow}" />
+            </LinearGradientBrush>
+          </Grid.Background>
+          <Image Width="150" Height="150" Opacity="0.28" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Chivas.png" />
+        </Grid>
+      </Grid>
+    </Border>
+
+    <TextBlock Style="{StaticResource AboutGroupHeader}" Text="{x:Static resources:Strings.Menu_About_LinksHeader}" />
+    <UniformGrid Margin="-6,12,-6,0" Columns="2">
+      <Button Style="{StaticResource AboutLinkCard}" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/lokcme/ChivaStrap">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Border Grid.Column="0" Style="{StaticResource AboutTile}">
+            <ui:SymbolIcon Symbol="Code24" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource AboutAccentBrush}" />
+          </Border>
+          <StackPanel Grid.Column="1" Margin="14,0,8,0" VerticalAlignment="Center">
+            <TextBlock FontSize="15" FontWeight="SemiBold" Text="{x:Static resources:Strings.Menu_About_LinkGithubTitle}" />
+          </StackPanel>
+          <ui:SymbolIcon Grid.Column="2" Symbol="ArrowRight24" FontSize="18" VerticalAlignment="Center" Foreground="{StaticResource AboutAccentBrush}" />
+        </Grid>
+      </Button>
+      <Button Style="{StaticResource AboutLinkCard}" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://chivababy.netlify.app/strap">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Border Grid.Column="0" Style="{StaticResource AboutTile}">
+            <ui:SymbolIcon Symbol="BookQuestionMark24" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource AboutAccentBrush}" />
+          </Border>
+          <StackPanel Grid.Column="1" Margin="14,0,8,0" VerticalAlignment="Center">
+            <TextBlock FontSize="15" FontWeight="SemiBold" Text="{x:Static resources:Strings.Menu_About_LinkHelpTitle}" />
+            <TextBlock Margin="0,2,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_About_LinkHelpDesc}" />
+          </StackPanel>
+          <ui:SymbolIcon Grid.Column="2" Symbol="ArrowRight24" FontSize="18" VerticalAlignment="Center" Foreground="{StaticResource AboutAccentBrush}" />
+        </Grid>
+      </Button>
+      <Button Style="{StaticResource AboutLinkCard}" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://chivababy.netlify.app/support">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Border Grid.Column="0" Style="{StaticResource AboutTile}">
+            <ui:SymbolIcon Symbol="BookExclamationMark24" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource AboutAccentBrush}" />
+          </Border>
+          <StackPanel Grid.Column="1" Margin="14,0,8,0" VerticalAlignment="Center">
+            <TextBlock FontSize="15" FontWeight="SemiBold" Text="{x:Static resources:Strings.Menu_About_LinkReportTitle}" />
+            <TextBlock Margin="0,2,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_About_LinkReportDesc}" />
+          </StackPanel>
+          <ui:SymbolIcon Grid.Column="2" Symbol="ArrowRight24" FontSize="18" VerticalAlignment="Center" Foreground="{StaticResource AboutAccentBrush}" />
+        </Grid>
+      </Button>
+      <Button Style="{StaticResource AboutLinkCard}" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://discord.gg/xna6HKTG6T">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Border Grid.Column="0" Style="{StaticResource AboutTile}">
+            <ui:SymbolIcon Symbol="Chat48" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource AboutAccentBrush}" />
+          </Border>
+          <StackPanel Grid.Column="1" Margin="14,0,8,0" VerticalAlignment="Center">
+            <TextBlock FontSize="15" FontWeight="SemiBold" Text="{x:Static resources:Strings.Menu_About_LinkDiscordTitle}" />
+            <TextBlock Margin="0,2,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_About_LinkDiscordDesc}" />
+          </StackPanel>
+          <ui:SymbolIcon Grid.Column="2" Symbol="ArrowRight24" FontSize="18" VerticalAlignment="Center" Foreground="{StaticResource AboutAccentBrush}" />
+        </Grid>
+      </Button>
+    </UniformGrid>
+
+    <Grid Margin="0,10,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="11*" />
+        <ColumnDefinition Width="9*" />
+      </Grid.ColumnDefinitions>
+      <StackPanel Grid.Column="0" Margin="0,0,6,0">
+        <TextBlock Style="{StaticResource AboutGroupHeader}" Margin="0" Text="{x:Static resources:Strings.Menu_About_CreatorHeader}" />
+        <Border Style="{StaticResource AboutCard}" Margin="0,12,0,0" Padding="18">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Width="88" Height="88" CornerRadius="44" BorderThickness="2" BorderBrush="{StaticResource AboutRingBrush}">
+              <Border Width="84" Height="84" CornerRadius="42" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border.Clip>
+                  <EllipseGeometry Center="42,42" RadiusX="42" RadiusY="42" />
+                </Border.Clip>
+                <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="https://github.com/lokcme.png" />
+              </Border>
+            </Border>
+            <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
+              <TextBlock FontSize="18" FontWeight="SemiBold" Text="lokcme" />
+              <TextBlock Margin="0,2,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_About_CreatorRole}" />
+              <ui:Button Margin="0,10,0,0" HorizontalAlignment="Left" Appearance="Secondary" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/lokcme">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                  <TextBlock VerticalAlignment="Center" Text="{x:Static resources:Strings.Menu_About_ViewProfile}" />
+                  <TextBlock Margin="6,0,0,0" VerticalAlignment="Center" Text="↗" />
+                </StackPanel>
+              </ui:Button>
+            </StackPanel>
+          </Grid>
+        </Border>
+      </StackPanel>
+      <StackPanel Grid.Column="1" Margin="6,0,0,0">
+        <TextBlock Style="{StaticResource AboutGroupHeader}" Margin="0" Text="{x:Static resources:Strings.Menu_About_AppInfoHeader}" />
+        <UniformGrid Margin="0,12,0,0" Columns="2">
+          <Border Style="{StaticResource AboutCard}" Margin="0,0,6,0" Padding="14">
+            <StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon Symbol="Box24" FontSize="16" VerticalAlignment="Center" Foreground="{StaticResource AboutAccentBrush}" />
+                <TextBlock Margin="8,0,0,0" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_About_VersionLabel}" />
+              </StackPanel>
+              <TextBlock Margin="0,10,0,0" FontSize="22" FontWeight="SemiBold" Text="{Binding VersionNumber, Mode=OneTime}" />
+            </StackPanel>
+          </Border>
+          <Border Style="{StaticResource AboutCard}" Margin="6,0,0,0" Padding="14">
+            <StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon Symbol="History24" FontSize="16" VerticalAlignment="Center" Foreground="{StaticResource AboutAccentBrush}" />
+                <TextBlock Margin="8,0,0,0" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_About_LastUpdatedLabel}" />
+              </StackPanel>
+              <TextBlock Margin="0,10,0,0" FontSize="19" FontWeight="SemiBold" Text="{Binding BuildDate, Mode=OneTime}" />
+              <TextBlock Margin="0,2,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding BuildTime, Mode=OneTime}" />
+            </StackPanel>
+          </Border>
+        </UniformGrid>
+      </StackPanel>
+    </Grid>
+
+    <Button Style="{StaticResource AboutLinkCard}" Margin="0,12,0,0" Click="ThirdParty_Click">
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Width="64" Height="64" VerticalAlignment="Center">
-          <Image x:Name="Image1" Source="pack://application:,,,/Chivas.png" RenderOptions.BitmapScalingMode="HighQuality" />
-          <Image x:Name="Image2" Source="pack://application:,,,/Resources/BootstrapperStyles/ByfronDialog/Matt.png" RenderOptions.BitmapScalingMode="HighQuality" Opacity="0" />
-        </Grid>
-        <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
-          <StackPanel Orientation="Horizontal">
-            <TextBlock VerticalAlignment="Center" FontSize="24" FontWeight="SemiBold" Text="Chivas" />
-            <Border Margin="10,2,0,0" Padding="8,2" VerticalAlignment="Center" CornerRadius="1" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
-              <TextBlock FontSize="12" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Version, Mode=OneTime}" />
-            </Border>
-          </StackPanel>
-          <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="A simple yet advanced Bloxstrap fork." TextWrapping="Wrap" />
+        <Border Grid.Column="0" Style="{StaticResource AboutTile}">
+          <ui:SymbolIcon Symbol="Info24" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource AboutAccentBrush}" />
+        </Border>
+        <StackPanel Grid.Column="1" Margin="14,0,8,0" VerticalAlignment="Center">
+          <TextBlock FontSize="15" FontWeight="SemiBold" Text="{x:Static resources:Strings.Menu_About_ThirdPartyTitle}" />
+          <TextBlock Margin="0,2,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_About_ThirdPartyDesc}" />
         </StackPanel>
-        <Button Grid.Column="2" Margin="24,0,6,0" VerticalAlignment="Bottom" Style="{StaticResource ErikButton}" ToolTip="Thank you, Erik" Click="ErikButton_Click">
-          <Image Height="74" Stretch="Uniform" Source="{StaticResource ErikImage}" RenderOptions.BitmapScalingMode="HighQuality" />
-        </Button>
+        <ui:SymbolIcon Grid.Column="2" Symbol="ArrowRight24" FontSize="18" VerticalAlignment="Center" Foreground="{StaticResource AboutAccentBrush}" />
       </Grid>
-    </ui:Card>
-    <UniformGrid Margin="-4,8,-4,0" Columns="2">
-      <ui:Anchor Margin="4" HorizontalAlignment="Stretch" Content="{x:Static resources:Strings.Menu_About_GithubRepository}" Icon="Code24" NavigateUri="https://github.com/lokcme/ChivaStrap" />
-      <ui:Anchor Margin="4" HorizontalAlignment="Stretch" Content="{x:Static resources:Strings.Menu_About_HelpInformation}" Icon="BookQuestionMark24" NavigateUri="https://chivatyys.netlify.app/" />
-      <ui:Anchor Margin="4" HorizontalAlignment="Stretch" Content="{x:Static resources:Strings.Menu_About_ReportIssue}" Icon="BookExclamationMark24" NavigateUri="https://github.com/lokcme/ChivaStrap/issues" />
-      <ui:Anchor Margin="4" HorizontalAlignment="Stretch" Content="{x:Static resources:Strings.Menu_About_DiscordServer}" Icon="Chat48" NavigateUri="https://discord.gg/xna6HKTG6T" />
-    </UniformGrid>
-    <TextBlock Style="{StaticResource AboutSectionTitle}" Text="Owner" />
-    <TextBlock Style="{StaticResource AboutSectionSubtitle}" Text="Creador y dueño de ChivaStrap." />
-    <UniformGrid Margin="-4,6,-4,0" Columns="2">
-      <UniformGrid.Resources>
-        <Style TargetType="{x:Type ui:Card}" BasedOn="{StaticResource {x:Type ui:Card}}">
-          <Setter Property="VerticalAlignment" Value="Stretch" />
-        </Style>
-      </UniformGrid.Resources>
-      <ui:Card Margin="4" Padding="12">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Border Style="{StaticResource ContributorAvatar}">
-            <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="https://github.com/lokcme.png" />
-          </Border>
-          <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-            <TextBlock FontSize="15" FontWeight="SemiBold" Text="lokcme" />
-            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Dueño de ChivaStrap." TextWrapping="Wrap" />
-          </StackPanel>
-        </Grid>
-      </ui:Card>
-    </UniformGrid>
-    <StackPanel Visibility="{Binding BuildInformationVisibility, Mode=OneTime}">
-      <TextBlock Style="{StaticResource AboutSectionTitle}" Text="Build Information" />
-      <ui:Card Margin="0,10,0,0" Padding="16,10">
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-          </Grid.RowDefinitions>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="Updated" />
-          <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,4,0,4" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding BuildTimestamp, Mode=OneTime}" />
-          <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="Version" />
-          <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,4,0,4" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Version, Mode=OneTime}" />
-          <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="Commit Hash" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}" />
-          <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,4,0,4" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}">
-            <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="{Binding BuildCommitHashUrl, Mode=OneTime}" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
-              <TextBlock Text="{Binding CommitHash, Mode=OneTime}" />
-            </Hyperlink>
-          </TextBlock>
-        </Grid>
-      </ui:Card>
-    </StackPanel>
-    <TextBlock Style="{StaticResource AboutSectionTitle}" Text="Third Party Notices" />
-    <ui:Card Margin="0,10,0,0" Padding="16,12">
-      <TextBlock Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="This software contains source code provided by NVIDIA Corporation. Frame generation uses the NVIDIA Optical Flow SDK FRUC library on supported NVIDIA GPUs." TextWrapping="Wrap" />
-    </ui:Card>
-    <ui:Card Margin="0,10,0,0" Padding="16,12">
-      <StackPanel>
-        <TextBlock FontSize="14" FontWeight="Medium" Text="Old Roblox TopBar UI" />
-        <TextBlock Margin="0,6,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="The classic topbar option rebuilds two community mods. The 2014 to 2015 topbar and game menu artwork and behaviour come from &quot;2014-2015 Topbar and Menu (Improvised GUI)&quot; by HockuTM. Hiding the modern topbar uses &quot;NoGuiRBX, Hide TopBar!&quot; by Einshine. Both are used with thanks under their Creative Commons BY NC ND 4.0 terms, their files are downloaded straight from GameBanana rather than bundled, and neither author is affiliated with Chivas." />
-        <TextBlock Margin="0,6,0,0">
-          <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://gamebanana.com/mods/711267" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
-            <TextBlock Text="2014-2015 Topbar and Menu by HockuTM" />
-          </Hyperlink>
-        </TextBlock>
-        <TextBlock Margin="0,2,0,0">
-          <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://gamebanana.com/mods/620117" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
-            <TextBlock Text="NoGuiRBX, Hide TopBar! by Einshine" />
-          </Hyperlink>
-        </TextBlock>
-      </StackPanel>
-    </ui:Card>
-    <ui:Card Margin="0,10,0,0" Padding="16,12">
-      <StackPanel>
-        <TextBlock FontSize="14" FontWeight="Medium" Text="Community Mods" />
-        <TextBlock Margin="0,6,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="Community Mods lists Roblox submissions from GameBanana and Kliko's Mods, maintained by TheKliko for Kliko's modloader. Chivas is not affiliated with or endorsed by either. All mods, images and descriptions belong to their authors, who are credited on every listing. Chivas only reads their public data and never uploads anything on your behalf." />
-        <TextBlock Margin="0,6,0,0">
-          <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://gamebanana.com/games/2879" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
-            <TextBlock Text="gamebanana.com/games/2879" />
-          </Hyperlink>
-        </TextBlock>
-        <TextBlock Margin="0,2,0,0">
-          <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/klikos-modloader/marketplace" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
-            <TextBlock Text="github.com/klikos-modloader/marketplace" />
-          </Hyperlink>
-        </TextBlock>
-      </StackPanel>
-    </ui:Card>
+    </Button>
+
+    <TextBlock Margin="0,22,0,0" FontSize="13" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+      <Run Text="♡  " /><Run Text="{x:Static resources:Strings.Menu_About_MadeWithPrefix}" /><Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/lokcme" Foreground="{StaticResource AboutAccentBrush}"><Run Text="lokcme" /></Hyperlink><Run Text="{x:Static resources:Strings.Menu_About_MadeWithSuffix}" />
+    </TextBlock>
   </StackPanel>
 </ui:UiPage>

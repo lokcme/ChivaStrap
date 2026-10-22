@@ -51,17 +51,15 @@ public partial class App : Application
 
 	public const string ProjectFallbackReleaseListApi = "https://api.github.com/repos/lokcme/ChivaStrap/releases?per_page=20";
 
-	public const string ProjectHelpLink = "https://chivatyys.netlify.app/";
+	public const string ProjectHelpLink = "https://chivababy.netlify.app/";
 
-	public const string ProjectDonateLink = "https://github.com/sponsors/lokcme";
+	public const string ProjectLogoUrl = "https://cdn.jsdelivr.net/gh/lokcme/ChivaStrap@main/src/Chivas.App/Chivas.png";
 
-	public const string ProjectLogoUrl = "https://raw.githubusercontent.com/lokcme/ChivaStrap/main/src/Chivas.App/Chivas.png";
+	public const string RpcLoadingImageUrl = "https://cdn.jsdelivr.net/gh/lokcme/ChivaStrap@main/assets/Images/rpc-loading.gif";
 
-	public const string RpcLoadingImageUrl = "https://raw.githubusercontent.com/lokcme/ChivaStrap/main/assets/Images/rpc-loading.gif";
-
-	public const string ProjectSupportLink = "https://github.com/lokcme/ChivaStrap/issues/new";
+	public const string ProjectSupportLink = "https://chivababy.netlify.app/support";
 	public const string ProjectFallbackSupportLink = ProjectFallbackRepository + "/issues/new";
-	public const string ProjectIssuesLink = "https://github.com/lokcme/ChivaStrap/issues";
+	public const string ProjectIssuesLink = "https://chivababy.netlify.app/support";
 	public const string ProjectFallbackIssuesLink = ProjectFallbackRepository + "/issues";
 
 	public const string RobloxPlayerAppName = "RobloxPlayerBeta";
@@ -1326,6 +1324,14 @@ public partial class App : Application
 		TimedLoad("State", () => State.Load());
 		TimedLoad("Roblox state", () => RobloxState.Load());
 		TimedLoad("Settings", () => Settings.Load());
+		// Fleasion is no longer exposed or used by Chivas. Clear any settings
+		// left by older builds so its proxy cannot be started accidentally.
+		if (Settings.Prop.Fleasion || Settings.Prop.FleasionNativeEngineEnabled)
+		{
+			Settings.Prop.Fleasion = false;
+			Settings.Prop.FleasionNativeEngineEnabled = false;
+			Settings.SaveDeferred();
+		}
 		ResetWindowBackdropOnce();
 		TimedLoad("FastFlags", () => FastFlags.Load(alertFailure: false));
 	}

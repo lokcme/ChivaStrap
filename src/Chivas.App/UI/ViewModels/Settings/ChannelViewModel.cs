@@ -703,7 +703,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 			await Task.Run(() => RobloxInstallCompression.EnsureExtracted(new Chivas.AppData.RobloxPlayerData())).ConfigureAwait(true);
 		WindowsRegistry.RegisterPlayer();
 		if (enabled && WindowsRegistry.DirectPlayerExecutable() == null)
-			Frontend.ShowMessageBox("Roblox is not installed yet. Launch it once through Chivas, after that it opens without Chivas.", MessageBoxImage.Information);
+			Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_NotInstalled, MessageBoxImage.Information);
 	}
 
 	private static CancellationTokenSource? _compressionCancellation;
@@ -1342,7 +1342,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		int code = DisplaySystem.ApplyMode(device, mode.Width, mode.Height, mode.RefreshRate);
 		if (code != DisplaySystem.Success)
 		{
-			Frontend.ShowMessageBox("Failed to change resolution: " + DisplaySystem.DescribeError(code), MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_ResolutionFail, DisplaySystem.DescribeError(code)), MessageBoxImage.Hand);
 			SyncSelectedResolutionToCurrent();
 			return;
 		}
@@ -1352,7 +1352,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 			_revertMode = previous;
 			_autoReverted = false;
 			_revertTimer.Start();
-			MessageBoxResult result = Frontend.ShowMessageBox("Keep this resolution? It will revert automatically in 15 seconds if you do not confirm.", MessageBoxImage.Question, MessageBoxButton.YesNo);
+			MessageBoxResult result = Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_KeepResolution, MessageBoxImage.Question, MessageBoxButton.YesNo);
 			_revertTimer.Stop();
 			if (_autoReverted || result != MessageBoxResult.Yes)
 			{
@@ -1585,9 +1585,9 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		{
 			if (string.Equals(text.TrimEnd('\\'), Paths.Base.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
 			{
-				Frontend.ShowMessageBox("Chivas is already installed at that location.", MessageBoxImage.Asterisk);
+				Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_AlreadyInstalled, MessageBoxImage.Asterisk);
 			}
-			else if (Frontend.ShowMessageBox("Chivas will be moved to:\n" + text + "\n\nIt will restart automatically when done. Close Roblox first if it is running.\n\nContinue?", MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) == MessageBoxResult.Yes)
+			else if (Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_MoveConfirm, text), MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) == MessageBoxResult.Yes)
 			{
 				Chivas.Installer.RelocateInstall(text);
 			}

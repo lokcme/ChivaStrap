@@ -1,5 +1,5 @@
 ﻿<p align="center">
-<a href="https://chivatyys.netlify.app/">
+<a href="https://chivababy.netlify.app/">
 <img src="https://github.com/lokcme/ChivaStrap/blob/main/src/Chivas.App/Chivas.png" alt="preview" width="100px"/>
 </a>
 </p>
@@ -12,7 +12,7 @@
 
 <p align="center">
   <a href="https://github.com/lokcme/ChivaStrap/releases/latest">Latest release</a> |
-  <a href="https://chivatyys.netlify.app/pages/documentation">Documentation</a> |
+  <a href="https://chivababy.netlify.app/strap">Documentation</a> |
   <a href="https://discord.gg/5tJBqBH8ck">Discord</a>
 </p>
 
@@ -47,7 +47,8 @@
 ## Quick Install
 
 ```powershell
-irm https://chivatyys.netlify.app/quick-install | iex
+irm https://github.com/lokcme/ChivaStrap/releases/latest/download/Chivas.exe -OutFile Chivas.exe
+Start-Process .\Chivas.exe
 ```
 
 ---

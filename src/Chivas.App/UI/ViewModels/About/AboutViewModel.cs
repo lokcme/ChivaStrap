@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Windows;
 using Chivas.Extensions;
 using Chivas.Models.Attributes;
 using Chivas.Resources;
@@ -8,6 +9,14 @@ namespace Chivas.UI.ViewModels.About;
 public class AboutViewModel : NotifyPropertyChangedViewModel
 {
 	public string Version => string.Format(Strings.Menu_About_Version, App.Version);
+
+	public string VersionTag => "v" + App.Version;
+
+	public string VersionNumber => App.Version;
+
+	public string BuildDate => BuildMetadata.Timestamp.ToString("dd MMM yyyy", new CultureInfo("es-DO")).Replace(".", "").ToUpperInvariant();
+
+	public string BuildTime => BuildMetadata.Timestamp.ToString("h:mm:ss tt", CultureInfo.InvariantCulture);
 
 	public BuildMetadataAttribute BuildMetadata => App.BuildMetadata;
 

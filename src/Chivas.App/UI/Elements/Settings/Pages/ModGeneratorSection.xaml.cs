@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Microsoft.Win32;
+using Chivas.Resources;
 using Chivas.Utility;
 
 namespace Chivas.UI.Elements.Settings.Pages;
@@ -91,8 +92,8 @@ public partial class ModGeneratorSection : UserControl
 			_logoImage = settings.LogoImage;
 			if (modId != null && settings.GeneratedUtc != default)
 			{
-				StatusText.Text = "Last generated " + settings.GeneratedUtc.ToLocalTime().ToString("g") + ". It rebuilds itself when Roblox updates.";
-				GenerateButton.Content = "Regenerate mod";
+				StatusText.Text = string.Format(Strings.Menu_Mods_Gen_LastGenerated, settings.GeneratedUtc.ToLocalTime().ToString("g"));
+				GenerateButton.Content = Strings.Menu_Mods_Gen_Regenerate;
 			}
 		}
 		finally
@@ -126,7 +127,7 @@ public partial class ModGeneratorSection : UserControl
 			RecolorIconFont = IconFontToggle.IsChecked == true,
 			IncludeUiTextures = UiTexturesToggle.IsChecked == true,
 			LogoImage = _logoImage,
-			ModName = string.IsNullOrWhiteSpace(ModNameBox.Text) ? "Generated UI theme" : ModNameBox.Text.Trim()
+			ModName = string.IsNullOrWhiteSpace(ModNameBox.Text) ? Strings.Menu_Mods_Gen_ModNameDefault : ModNameBox.Text.Trim()
 		};
 	}
 
@@ -135,11 +136,11 @@ public partial class ModGeneratorSection : UserControl
 		switch (settings.Fill)
 		{
 			case ModGeneratorFill.Solid when !ModGenerator.TryParseColor(settings.SolidColor, out _):
-				return "Enter a colour as a hex code, for example #FF3B5C.";
+				return Strings.Menu_Mods_Gen_ValidateSolid;
 			case ModGeneratorFill.Gradient when !ModGenerator.TryParseColor(GradientStartBox.Text, out _) || !ModGenerator.TryParseColor(GradientEndBox.Text, out _):
-				return "Enter a start and end colour as hex codes.";
+				return Strings.Menu_Mods_Gen_ValidateGradient;
 			case ModGeneratorFill.Image when string.IsNullOrWhiteSpace(settings.FillImage) || !File.Exists(settings.FillImage):
-				return "Choose an image to fill the icons with.";
+				return Strings.Menu_Mods_Gen_ValidateImage;
 			default:
 				return null;
 		}
@@ -231,9 +232,9 @@ public partial class ModGeneratorSection : UserControl
 
 	private void UpdateImageLabels()
 	{
-		FillImageText.Text = string.IsNullOrWhiteSpace(_fillImage) ? "No image chosen" : Path.GetFileName(_fillImage);
+		FillImageText.Text = string.IsNullOrWhiteSpace(_fillImage) ? Strings.Menu_Mods_Gen_NoImage : Path.GetFileName(_fillImage);
 		bool hasLogo = !string.IsNullOrWhiteSpace(_logoImage);
-		LogoText.Text = hasLogo ? Path.GetFileName(_logoImage) : "Replaces the Roblox logo in the menu and loading screen";
+		LogoText.Text = hasLogo ? Path.GetFileName(_logoImage) : Strings.Menu_Mods_Gen_LogoDefault;
 		ClearLogoButton.Visibility = hasLogo ? Visibility.Visible : Visibility.Collapsed;
 	}
 
@@ -310,10 +311,10 @@ public partial class ModGeneratorSection : UserControl
 		}
 		BeforeImage.Source = preview.Before;
 		AfterImage.Source = preview.After;
-		PreviewCaption.Text = preview.NamedIcons > 0 ? "Real icons from your Roblox build" : "A slice of a real icon sheet";
+		PreviewCaption.Text = preview.NamedIcons > 0 ? Strings.Menu_Mods_Gen_PreviewReal : Strings.Menu_Mods_Gen_PreviewSlice;
 		PreviewNote.Text = preview.NamedIcons > 0
-			? preview.NamedIcons.ToString("N0", CultureInfo.CurrentCulture) + " named icons were read from this Roblox build."
-			: "The icon layout could not be read from this build, so icons are found from the sheets instead.";
+			? string.Format(Strings.Menu_Mods_Gen_PreviewCount, preview.NamedIcons.ToString("N0", CultureInfo.CurrentCulture))
+			: Strings.Menu_Mods_Gen_PreviewUnreadable;
 		ShowFontPreview(preview, settings.RecolorIconFont);
 	}
 
@@ -387,7 +388,7 @@ public partial class ModGeneratorSection : UserControl
 		{
 			await ModGenerator.GenerateAsync(settings, progress, _generateCts.Token);
 			StatusText.Text = "";
-			GenerateButton.Content = "Regenerate mod";
+			GenerateButton.Content = Strings.Menu_Mods_Gen_Regenerate;
 			if (DataContext is Chivas.UI.ViewModels.Settings.ModsViewModel mods && mods.RefreshManagedModsCommand.CanExecute(null))
 			{
 				mods.RefreshManagedModsCommand.Execute(null);
@@ -395,12 +396,12 @@ public partial class ModGeneratorSection : UserControl
 		}
 		catch (OperationCanceledException)
 		{
-			StatusText.Text = "Generation was cancelled, your previous mod was left as it was.";
+			StatusText.Text = Strings.Menu_Mods_Gen_Cancelled;
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine("ModGeneratorSection", "Generation failed: " + ex.Message);
-			StatusText.Text = "The mod could not be generated: " + ex.Message;
+			StatusText.Text = string.Format(Strings.Menu_Mods_Gen_GenFail, ex.Message);
 		}
 		finally
 		{

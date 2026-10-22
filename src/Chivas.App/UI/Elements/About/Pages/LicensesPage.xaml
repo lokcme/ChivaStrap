@@ -31,5 +31,41 @@
 	  <data:LicenseEntry Name="Bibata Cursor" Url="https://github.com/ful1e5/Bibata_Cursor/blob/v2.0.7/LICENSE" License="GPL 3.0" />
       <data:LicenseEntry Name="Twemoji Mozilla" Url="https://github.com/mozilla/twemoji-colr/blob/master/LICENSE.md" License="CC BY 4.0" />
     </ItemsControl>
+    <TextBlock Margin="0,20,0,0" FontSize="16" FontWeight="Medium" Text="Third-Party Notices" />
+    <ui:Card Margin="0,10,0,0" Padding="16,12">
+      <TextBlock Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="This software contains source code provided by NVIDIA Corporation. Frame generation uses the NVIDIA Optical Flow SDK FRUC library on supported NVIDIA GPUs." TextWrapping="Wrap" />
+    </ui:Card>
+    <ui:Card Margin="0,10,0,0" Padding="16,12">
+      <StackPanel>
+        <TextBlock FontSize="14" FontWeight="Medium" Text="Old Roblox TopBar UI" />
+        <TextBlock Margin="0,6,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="The classic topbar option rebuilds two community mods. The 2014 to 2015 topbar and game menu artwork and behaviour come from &quot;2014-2015 Topbar and Menu (Improvised GUI)&quot; by HockuTM. Hiding the modern topbar uses &quot;NoGuiRBX, Hide TopBar!&quot; by Einshine. Both are used with thanks under their Creative Commons BY NC ND 4.0 terms, their files are downloaded straight from GameBanana rather than bundled, and neither author is affiliated with Chivas." />
+        <TextBlock Margin="0,6,0,0">
+          <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://gamebanana.com/mods/711267" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+            <TextBlock Text="2014-2015 Topbar and Menu by HockuTM" />
+          </Hyperlink>
+        </TextBlock>
+        <TextBlock Margin="0,2,0,0">
+          <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://gamebanana.com/mods/620117" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+            <TextBlock Text="NoGuiRBX, Hide TopBar! by Einshine" />
+          </Hyperlink>
+        </TextBlock>
+      </StackPanel>
+    </ui:Card>
+    <ui:Card Margin="0,10,0,0" Padding="16,12">
+      <StackPanel>
+        <TextBlock FontSize="14" FontWeight="Medium" Text="Community Mods" />
+        <TextBlock Margin="0,6,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="Community Mods lists Roblox submissions from GameBanana and the official ChivaStrap mods repository. All mods, images and descriptions belong to their authors, who are credited on every listing. Chivas only reads their public data and never uploads anything on your behalf." />
+        <TextBlock Margin="0,6,0,0">
+          <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://gamebanana.com/games/2879" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+            <TextBlock Text="gamebanana.com/games/2879" />
+          </Hyperlink>
+        </TextBlock>
+        <TextBlock Margin="0,2,0,0">
+            <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/lokcme/ChivaStrapMods" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+              <TextBlock Text="github.com/lokcme/ChivaStrapMods" />
+          </Hyperlink>
+        </TextBlock>
+      </StackPanel>
+    </ui:Card>
   </StackPanel>
 </ui:UiPage>

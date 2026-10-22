@@ -27,7 +27,7 @@
     </Grid.RowDefinitions>
 
     <TextBlock Grid.Row="0" Margin="0,0,0,14" Style="{StaticResource FastFlagsCaption}" TextWrapping="Wrap"
-               Text="Manage your FastFlags. A checkmark in Preset means the flag is available in FFlag Settings, while a cross means it is not." />
+               Text="{x:Static resources:Strings.Menu_FastFlagEditor_Page_Intro}" />
 
     <WrapPanel Grid.Row="1" Orientation="Horizontal">
       <ui:Button Width="110" Margin="0,0,10,12" Content="{x:Static resources:Strings.Menu_FastFlagEditor_AddNew}" Icon="AddCircle24" Click="AddButton_Click" />
@@ -48,8 +48,8 @@
           </Style>
         </FrameworkElement.Style>
       </ui:Button>
-      <ui:Button Margin="0,0,10,12" Content="Delete all" Icon="Delete48" Click="DeleteAllButton_Click" />
-      <ui:Button Width="95" Margin="0,0,10,12" VerticalAlignment="Top" Content="Profiles" Icon="Edit28" Click="FlagProfiles_Click" />
+      <ui:Button Margin="0,0,10,12" Content="{x:Static resources:Strings.Menu_FastFlagEditor_Page_DeleteAll}" Icon="Delete48" Click="DeleteAllButton_Click" />
+      <ui:Button Width="95" Margin="0,0,10,12" VerticalAlignment="Top" Content="{x:Static resources:Strings.Menu_FastFlagEditor_Page_Profiles}" Icon="Edit28" Click="FlagProfiles_Click" />
       <ToggleButton Name="TogglePresetsButton" Margin="0,0,10,12" VerticalAlignment="Top" Content="{x:Static resources:Strings.Menu_FastFlagEditor_ShowPresetFlags}" Click="ToggleButton_Click" />
     </WrapPanel>
 
@@ -71,12 +71,12 @@
           <UIElement.RenderTransform>
             <TranslateTransform x:Name="SuggestionTranslateTransform" X="10" />
           </UIElement.RenderTransform>
-          <Run Text="Looking For" /> <Run Name="SuggestionKeywordRun" FontWeight="Bold" Text="" /> <Run Text="?" /></TextBlock>
+          <Run Text="{x:Static resources:Strings.Menu_FastFlagEditor_Page_LookingFor}" /> <Run Name="SuggestionKeywordRun" FontWeight="Bold" Text="" /> <Run Text="?" /></TextBlock>
       </Grid>
 
       <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="14,0,0,0" VerticalAlignment="Center">
-        <TextBlock Name="TotalFlagsTextBlock" Style="{StaticResource FastFlagsCounter}" Text="Flags added: 0" />
-        <TextBlock Name="CrashRateTextBlock" Style="{StaticResource FastFlagsCounter}" Margin="0" Text="Bloat: 0%" />
+        <TextBlock Name="TotalFlagsTextBlock" Style="{StaticResource FastFlagsCounter}" Text="Flags agregados: 0" />
+        <TextBlock Name="CrashRateTextBlock" Style="{StaticResource FastFlagsCounter}" Margin="0" Text="Sobrecarga: 0%" />
       </StackPanel>
     </Grid>
 
@@ -98,7 +98,7 @@
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 CellEditEnding="DataGrid_CellEditEnding">
         <DataGrid.Columns>
-          <DataGridTemplateColumn Header="Tags" Width="230" IsReadOnly="True" CanUserSort="False">
+          <DataGridTemplateColumn Header="{x:Static resources:Strings.Menu_FastFlagEditor_Page_TagsCol}" Width="230" IsReadOnly="True" CanUserSort="False">
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <ItemsControl ItemsSource="{Binding VisibleTags}">
@@ -119,7 +119,7 @@
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridTemplateColumn x:Name="PresetColumn" Header="Preset" Width="60" IsReadOnly="True" CanUserSort="False">
+          <DataGridTemplateColumn x:Name="PresetColumn" Header="{x:Static resources:Strings.Menu_FastFlagEditor_Page_PresetCol}" Width="60" IsReadOnly="True" CanUserSort="False">
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <Image Width="20" Height="20" HorizontalAlignment="Center"
@@ -151,25 +151,25 @@
 
     <StackPanel Name="EmptyStatePanel" Grid.Row="3" Margin="24" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Visibility="Collapsed">
       <ui:SymbolIcon Name="EmptyStateIcon" Symbol="Flag24" FontSize="42" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-      <TextBlock Name="EmptyStateTextBlock" Margin="0,12,0,0" FontSize="14" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Go to FFlag Settings to add Preset FFlags." />
+      <TextBlock Name="EmptyStateTextBlock" Margin="0,12,0,0" FontSize="14" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Menu_FastFlagEditor_Page_EmptyGoTo}" />
     </StackPanel>
 
     <WrapPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
       <ui:Button Width="140" VerticalAlignment="Center" Content="{x:Static resources:Strings.Menu_FastFlagEditor_ExportJson}" Icon="ArrowExit20" Margin="0,0,10,0" Click="ExportJSONButton_Click" />
-      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="Find" Icon="Book24" Click="FlagFind_Click" />
-      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="Copy flags" Icon="Clipboard16" Click="CopyFlagsButton_Click" />
+      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="{x:Static resources:Strings.Menu_FastFlagEditor_Page_Find}" Icon="Book24" Click="FlagFind_Click" />
+      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="{x:Static resources:Strings.Menu_FastFlagEditor_Page_CopyFlags}" Icon="Clipboard16" Click="CopyFlagsButton_Click" />
     </WrapPanel>
 
-    <Expander Grid.Row="5" Margin="0,6,0,0" Background="{DynamicResource ControlFillColorTertiaryBrush}" ExpandDirection="Up" Header="FFlag History" IsExpanded="False" ToolTip="Tracks every change you make to your flags this session. Select an entry and press Undo Selected, or double click it, to revert that change.">
+    <Expander Grid.Row="5" Margin="0,6,0,0" Background="{DynamicResource ControlFillColorTertiaryBrush}" ExpandDirection="Up" Header="{x:Static resources:Strings.Menu_FastFlagEditor_Page_HistoryHeader}" IsExpanded="False" ToolTip="{x:Static resources:Strings.Menu_FastFlagEditor_Page_HistoryTooltip}">
       <Grid Margin="8,6,8,8">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-          <ui:Button Content="Undo Selected" Icon="ArrowUndo24" Margin="0,0,10,0" Click="UndoHistoryButton_Click" />
-          <ui:Button Content="Clear History" Icon="Delete24" Margin="0,0,10,0" Click="ClearHistoryButton_Click" />
-          <TextBlock Name="HistoryCountTextBlock" VerticalAlignment="Center" Style="{StaticResource FastFlagsCaption}" Text="No changes recorded" />
+          <ui:Button Content="{x:Static resources:Strings.Menu_FastFlagEditor_Page_UndoSelected}" Icon="ArrowUndo24" Margin="0,0,10,0" Click="UndoHistoryButton_Click" />
+          <ui:Button Content="{x:Static resources:Strings.Menu_FastFlagEditor_Page_ClearHistory}" Icon="Delete24" Margin="0,0,10,0" Click="ClearHistoryButton_Click" />
+          <TextBlock Name="HistoryCountTextBlock" VerticalAlignment="Center" Style="{StaticResource FastFlagsCaption}" Text="Sin cambios registrados" />
         </StackPanel>
         <ListBox Name="HistoryListBox" Grid.Row="1" MaxHeight="200" Background="Transparent" BorderThickness="0" FontSize="13"
                  Foreground="{DynamicResource TextFillColorPrimaryBrush}"
@@ -179,7 +179,7 @@
                  MouseDoubleClick="HistoryListBox_MouseDoubleClick">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <TextBlock TextWrapping="Wrap" Text="{Binding}" ToolTip="Double click to revert this change" />
+              <TextBlock TextWrapping="Wrap" Text="{Binding}" ToolTip="{x:Static resources:Strings.Menu_FastFlagEditor_Page_HistoryItemTooltip}" />
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ListBox>

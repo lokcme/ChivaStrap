@@ -2644,4 +2644,3400 @@ Your other flags were left unchanged.</value>
   <data name="Menu.FastFlags.Page.GameCreator.Description" xml:space="preserve">
     <value>Uses your current Roblox user ID for intercepted game creator metadata</value>
   </data>
+  <data name="Menu.FastFlagEditor.Page.Intro" xml:space="preserve">
+    <value>Manage your FastFlags. A checkmark in Preset means the flag is available in FFlag Settings, while a cross means it is not.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.DeleteAll" xml:space="preserve">
+    <value>Delete all</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.Profiles" xml:space="preserve">
+    <value>Profiles</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.Find" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.CopyFlags" xml:space="preserve">
+    <value>Copy flags</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.LookingFor" xml:space="preserve">
+    <value>Looking For</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.TotalFlags" xml:space="preserve">
+    <value>Flags added: {0}</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.Bloat" xml:space="preserve">
+    <value>Bloat: {0}%</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.TagsCol" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.PresetCol" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.EmptyGoTo" xml:space="preserve">
+    <value>Go to FFlag Settings to add Preset FFlags.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.HistoryHeader" xml:space="preserve">
+    <value>FFlag History</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.HistoryTooltip" xml:space="preserve">
+    <value>Tracks every change you make to your flags this session. Select an entry and press Undo Selected, or double click it, to revert that change.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.UndoSelected" xml:space="preserve">
+    <value>Undo Selected</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.ClearHistory" xml:space="preserve">
+    <value>Clear History</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.HistoryNone" xml:space="preserve">
+    <value>No changes recorded</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.HistoryCount" xml:space="preserve">
+    <value>{0} changes recorded</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.HistoryItemTooltip" xml:space="preserve">
+    <value>Double click to revert this change</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.EmptySearch" xml:space="preserve">
+    <value>No flags match your search.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.EmptyPresets" xml:space="preserve">
+    <value>All of your flags are presets. Enable Show Preset Flags to view them.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.RevertFail" xml:space="preserve">
+    <value>That change could not be reverted: {0}</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.CannotRevert" xml:space="preserve">
+    <value>This entry cannot be reverted.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.InvalidBase64" xml:space="preserve">
+    <value>Invalid Base64 string!</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.ProfileFail" xml:space="preserve">
+    <value>That profile could not be applied: {0}</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.ProfileImported" xml:space="preserve">
+    <value>{0} flags from profile '{1}'</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.NothingToDelete" xml:space="preserve">
+    <value>There are no flags to delete.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.DeleteConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete all flags?</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.DeleteError" xml:space="preserve">
+    <value>An error occurred while deleting flags:
+{0}</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.NothingToCopy" xml:space="preserve">
+    <value>There are no flags to copy.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.CopiedBase64" xml:space="preserve">
+    <value>Copied {0} flags to the clipboard as Base64.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.ClipboardError" xml:space="preserve">
+    <value>Could not access the clipboard: {0}</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.NothingToExport" xml:space="preserve">
+    <value>There are no flags to export.</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.JsonSaved" xml:space="preserve">
+    <value>JSON file saved successfully!</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.SaveFail" xml:space="preserve">
+    <value>The file could not be saved: {0}</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Page.SaveDialogTitle" xml:space="preserve">
+    <value>Save JSON or TXT File</value>
+  </data>
+  <data name="Menu.StatusBar.SaveAndLaunch" xml:space="preserve">
+    <value>Save and Launch</value>
+  </data>
+  <data name="Menu.StatusBar.SaveAndLaunchStudio" xml:space="preserve">
+    <value>Save and Launch Studio</value>
+  </data>
+  <data name="Menu.StatusBar.InstallStudio" xml:space="preserve">
+    <value>Install Studio</value>
+  </data>
+  <data name="Menu.StatusBar.LaunchTargetTitle" xml:space="preserve">
+    <value>Choose Roblox version</value>
+  </data>
+  <data name="Menu.StatusBar.LaunchTargetSubtitle" xml:space="preserve">
+    <value>Select what Save and Launch should start.</value>
+  </data>
+  <data name="Menu.StatusBar.CloseTooltip" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="About.ErikThanks" xml:space="preserve">
+    <value>Thank you, Erik</value>
+  </data>
+  <data name="Menu.Mods.Page.FindMods" xml:space="preserve">
+    <value>Find Mods</value>
+  </data>
+  <data name="Menu.Mods.Page.FindModsDesc" xml:space="preserve">
+    <value>Browse community mods on GameBanana.</value>
+  </data>
+  <data name="Menu.Mods.Page.ModExplorer" xml:space="preserve">
+    <value>Mod Explorer</value>
+  </data>
+  <data name="Menu.Mods.Page.ModExplorerDesc" xml:space="preserve">
+    <value>View and manage files in your Roblox installation.</value>
+  </data>
+  <data name="Menu.Mods.Page.TabCustomize" xml:space="preserve">
+    <value>Customize</value>
+  </data>
+  <data name="Menu.Mods.Page.ApplyModsTo" xml:space="preserve">
+    <value>Apply mods to</value>
+  </data>
+  <data name="Menu.Mods.Page.SectionCursor" xml:space="preserve">
+    <value>Cursor</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorStyleHeader" xml:space="preserve">
+    <value>Cursor style</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorStyleDesc" xml:space="preserve">
+    <value>Use the Roblox cursor, a built in style, or your own images.</value>
+  </data>
+  <data name="Menu.Mods.Page.CustomCursorHeader" xml:space="preserve">
+    <value>Custom Cursor</value>
+  </data>
+  <data name="Menu.Mods.Page.CustomCursorDesc" xml:space="preserve">
+    <value>Use one image for the pointer, out of reach and text cursors.</value>
+  </data>
+  <data name="Menu.Mods.Page.Choose" xml:space="preserve">
+    <value>Choose</value>
+  </data>
+  <data name="Menu.Mods.Page.Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Menu.Mods.Page.DragCursorHeader" xml:space="preserve">
+    <value>Custom Drag Cursor</value>
+  </data>
+  <data name="Menu.Mods.Page.DragCursorDesc" xml:space="preserve">
+    <value>Shown while dragging in Roblox Studio.</value>
+  </data>
+  <data name="Menu.Mods.Page.ShiftlockHeader" xml:space="preserve">
+    <value>Custom Shiftlock</value>
+  </data>
+  <data name="Menu.Mods.Page.ShiftlockDesc" xml:space="preserve">
+    <value>Shown in the middle of the screen while shift lock is on. Works with every cursor style.</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsHeader" xml:space="preserve">
+    <value>Custom Cursor Sets</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsDesc" xml:space="preserve">
+    <value>Keep several cursor sets ready and switch between them in one click.</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsEmpty" xml:space="preserve">
+    <value>No cursor sets yet. Press New to make one, or import a zip.</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsNew" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsImport" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsFolder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsFolderTip" xml:space="preserve">
+    <value>Open the cursor sets folder</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsUse" xml:space="preserve">
+    <value>Use this set</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsCopy" xml:space="preserve">
+    <value>Copy current cursor</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsCopyTip" xml:space="preserve">
+    <value>Replace this set with your current custom cursor and shift lock icon</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsRename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Menu.Mods.Page.CursorSetsDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Menu.Mods.Page.SectionInterface" xml:space="preserve">
+    <value>Interface</value>
+  </data>
+  <data name="Menu.Mods.Page.TopBarHeader" xml:space="preserve">
+    <value>Old Roblox TopBar UI</value>
+  </data>
+  <data name="Menu.Mods.Page.TopBarDesc" xml:space="preserve">
+    <value>The 2014 to 2015 topbar and game menu, as an overlay.</value>
+  </data>
+  <data name="Menu.Mods.Page.PS4Header" xml:space="preserve">
+    <value>PS4 Button Icons</value>
+  </data>
+  <data name="Menu.Mods.Page.PS4Desc" xml:space="preserve">
+    <value>Swaps the Xbox button prompts for the official PS4 ones.</value>
+  </data>
+  <data name="Menu.Mods.Page.HideCoreGuiHeader" xml:space="preserve">
+    <value>Hide every CoreGui icon</value>
+  </data>
+  <data name="Menu.Mods.Page.HideCoreGuiDesc" xml:space="preserve">
+    <value>Blanks the remaining Roblox interface art. Locked on while the old topbar is on.</value>
+  </data>
+  <data name="Menu.Mods.Page.SectionSounds" xml:space="preserve">
+    <value>Sounds</value>
+  </data>
+  <data name="Menu.Mods.Page.DeathSoundHeader" xml:space="preserve">
+    <value>Custom Death Sound</value>
+  </data>
+  <data name="Menu.Mods.Page.DeathSoundDesc" xml:space="preserve">
+    <value>Replaces the death sound with your own audio.</value>
+  </data>
+  <data name="Menu.Mods.Page.DeathSoundChoose" xml:space="preserve">
+    <value>Choose Sound...</value>
+  </data>
+  <data name="Menu.Mods.Page.DeathSoundRemove" xml:space="preserve">
+    <value>Remove Custom Death Sound</value>
+  </data>
+  <data name="Menu.Mods.Page.Volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="Menu.Mods.Page.SectionAppearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxHeader" xml:space="preserve">
+    <value>Skybox Manager</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxDesc" xml:space="preserve">
+    <value>Choose a skybox once. Chivas downloads and applies it safely when Roblox starts.</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxCustom" xml:space="preserve">
+    <value>Custom skybox</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxCustomDesc" xml:space="preserve">
+    <value>Use one image or choose every cube face.</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxOneImage" xml:space="preserve">
+    <value>Use one image for every side</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxBack" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxDown" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxFront" xml:space="preserve">
+    <value>Front</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxLeft" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxRight" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxUp" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxRemoveCustom" xml:space="preserve">
+    <value>Remove custom</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxSaveUse" xml:space="preserve">
+    <value>Save and use</value>
+  </data>
+  <data name="Menu.Mods.Page.SkyboxRefresh" xml:space="preserve">
+    <value>Refresh skyboxes</value>
+  </data>
+  <data name="Menu.Mods.Page.FontHeader" xml:space="preserve">
+    <value>Font Manager</value>
+  </data>
+  <data name="Menu.Mods.Page.FontDesc" xml:space="preserve">
+    <value>Use a local font or use google fonts</value>
+  </data>
+  <data name="Menu.Mods.Page.FontChooseLocal" xml:space="preserve">
+    <value>Choose local font</value>
+  </data>
+  <data name="Menu.Mods.Page.FontRemove" xml:space="preserve">
+    <value>Remove font</value>
+  </data>
+  <data name="Menu.Mods.Page.FontUse" xml:space="preserve">
+    <value>Use font</value>
+  </data>
+  <data name="Menu.Mods.Page.FontRefresh" xml:space="preserve">
+    <value>Refresh fonts</value>
+  </data>
+  <data name="Menu.Mods.Page.FontSize" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenTitle" xml:space="preserve">
+    <value>Mod Generator</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenStyle" xml:space="preserve">
+    <value>Style</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenSolid" xml:space="preserve">
+    <value>Solid colour</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenGradient" xml:space="preserve">
+    <value>Gradient</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenImage" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenColour" xml:space="preserve">
+    <value>Colour</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenColoursNote" xml:space="preserve">
+    <value>Colours, the middle one is optional</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenStart" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenMiddle" xml:space="preserve">
+    <value>Middle</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenEnd" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenAngle" xml:space="preserve">
+    <value>Angle</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenImageNote" xml:space="preserve">
+    <value>Every icon is filled with this image, cropped to its shape</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenChooseImage" xml:space="preserve">
+    <value>Choose image</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenNoImage" xml:space="preserve">
+    <value>No image chosen</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenIconSizes" xml:space="preserve">
+    <value>Icon sizes</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenIconSizesNote" xml:space="preserve">
+    <value>Roblox picks a size for your screen, all sizes is safest</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenAllSizes" xml:space="preserve">
+    <value>All sizes</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGen1x" xml:space="preserve">
+    <value>1x only</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGen2x" xml:space="preserve">
+    <value>2x only</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGen3x" xml:space="preserve">
+    <value>3x only</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenRecolorFont" xml:space="preserve">
+    <value>Recolour the new icon font</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenRecolorFontNote" xml:space="preserve">
+    <value>Roblox draws most new menu and top bar icons with the Builder Icons font instead of images. Images use their average colour here</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenKeepShading" xml:space="preserve">
+    <value>Keep icon shading</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenKeepShadingNote" xml:space="preserve">
+    <value>Two tone icons keep their darker details instead of becoming one flat shape</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenKeepColored" xml:space="preserve">
+    <value>Keep coloured icons</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenKeepColoredNote" xml:space="preserve">
+    <value>Leaves badges, currency, reactions, logos and other full colour art untouched</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenRecolorShapes" xml:space="preserve">
+    <value>Also recolour buttons, bubbles and backgrounds</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenRecolorShapesNote" xml:space="preserve">
+    <value>These shapes are normally tinted by Roblox while it runs, so they stay untouched unless you want everything themed</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenRecolorTextures" xml:space="preserve">
+    <value>Also recolour other UI textures</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenRecolorTexturesNote" xml:space="preserve">
+    <value>Includes the loose in game and app textures such as settings, chat, player list and inspect menu icons</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenCustomLogo" xml:space="preserve">
+    <value>Custom Roblox logo</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenCustomLogoNote" xml:space="preserve">
+    <value>Replaces the Roblox logo in menus, the app and the loading screen</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenRemove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenChoose" xml:space="preserve">
+    <value>Choose</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenModName" xml:space="preserve">
+    <value>Mod name</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenModNameHint" xml:space="preserve">
+    <value>Generated UI theme</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenPreview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenPreviewCaption" xml:space="preserve">
+    <value>Real icons from your Roblox build</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenPreviewOriginal" xml:space="preserve">
+    <value>Original</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenPreviewGenerated" xml:space="preserve">
+    <value>Generated</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenPreviewFont" xml:space="preserve">
+    <value>Icon font</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenStatusReady" xml:space="preserve">
+    <value>Ready to generate</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Menu.Mods.Page.ModGenGenerate" xml:space="preserve">
+    <value>Generate mod</value>
+  </data>
+  <data name="Menu.Mods.Page.HelpFixes" xml:space="preserve">
+    <value>Help and fixes</value>
+  </data>
+  <data name="Menu.Mods.Page.TabModPacks" xml:space="preserve">
+    <value>Mod Packs</value>
+  </data>
+  <data name="Menu.Mods.Page.SourceChivasMods" xml:space="preserve">
+    <value>Chivas Mods</value>
+  </data>
+  <data name="Menu.Mods.Page.SearchModsHint" xml:space="preserve">
+    <value>Search Roblox mods</value>
+  </data>
+  <data name="Menu.Mods.Page.Categories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="Menu.Mods.Page.CategoriesAll" xml:space="preserve">
+    <value>All categories</value>
+  </data>
+  <data name="Menu.Mods.Page.EmptyNoPacks" xml:space="preserve">
+    <value>No mod packs to show</value>
+  </data>
+  <data name="Menu.Mods.Page.EmptyNoPacksDesc" xml:space="preserve">
+    <value>Anything that fails the Roblox and safety checks is hidden, so a category can legitimately look empty.</value>
+  </data>
+  <data name="Menu.Mods.Page.CardPage" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="Menu.Mods.Page.CardView" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Menu.Mods.Page.CardLoadMore" xml:space="preserve">
+    <value>Load more</value>
+  </data>
+  <data name="Menu.Mods.Page.DetailBack" xml:space="preserve">
+    <value>Back to mod packs</value>
+  </data>
+  <data name="Menu.Mods.Page.DetailBy" xml:space="preserve">
+    <value>   by </value>
+  </data>
+  <data name="Menu.Mods.Page.DetailDownload" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="Menu.Mods.Page.DetailApplyMine" xml:space="preserve">
+    <value>Apply to My Mods</value>
+  </data>
+  <data name="Menu.Mods.Page.DetailApplyChivas" xml:space="preserve">
+    <value>Apply for Chivas</value>
+  </data>
+  <data name="Menu.Mods.Page.DetailApplyFleasion" xml:space="preserve">
+    <value>Apply for Fleasion</value>
+  </data>
+  <data name="Menu.Mods.Page.DetailOpenPage" xml:space="preserve">
+    <value>Open the mod page</value>
+  </data>
+  <data name="Menu.Mods.Page.DetailDescTab" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Menu.Mods.Page.DetailGalleryTab" xml:space="preserve">
+    <value>Gallery</value>
+  </data>
+  <data name="Menu.Mods.Page.DetailLicense" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="Menu.Mods.Page.DetailCommentsNone" xml:space="preserve">
+    <value>No comments have been posted yet.</value>
+  </data>
+  <data name="Menu.Mods.Page.DetailUpdatesNone" xml:space="preserve">
+    <value>No updates have been published.</value>
+  </data>
+  <data name="Menu.Mods.Page.DetailIssuesNone" xml:space="preserve">
+    <value>No issues are currently listed.</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsTab" xml:space="preserve">
+    <value>My Mods</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsAdd" xml:space="preserve">
+    <value>Add Mod</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsOpenLibrary" xml:space="preserve">
+    <value>Open Library</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsSearchHint" xml:space="preserve">
+    <value>Search Mods...</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsOr" xml:space="preserve">
+    <value>OR</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsDragHint" xml:space="preserve">
+    <value>Drag mod to change apply order</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsToggleHint" xml:space="preserve">
+    <value>Enable or disable this mod</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsOpenFolderHint" xml:space="preserve">
+    <value>Open mod folder</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsEditHint" xml:space="preserve">
+    <value>Edit mod options</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsEditOptions" xml:space="preserve">
+    <value>Edit options</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsRenameHint" xml:space="preserve">
+    <value>Rename mod</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsCopyIdHint" xml:space="preserve">
+    <value>Copy full mod identifier</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsRemoveHint" xml:space="preserve">
+    <value>Remove mod</value>
+  </data>
+  <data name="Menu.Mods.Page.TabOverlays" xml:space="preserve">
+    <value>Overlays</value>
+  </data>
+  <data name="Menu.Mods.Page.OverlaysEnable" xml:space="preserve">
+    <value>Enable Overlays</value>
+  </data>
+  <data name="Menu.Mods.Page.OverlaysEnableDesc" xml:space="preserve">
+    <value>Turns every overlay below on or off.</value>
+  </data>
+  <data name="Menu.Mods.Page.OverlaysBackground" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="Menu.Mods.Page.HomepageBg" xml:space="preserve">
+    <value>Homepage background</value>
+  </data>
+  <data name="Menu.Mods.Page.HomepageBgDesc" xml:space="preserve">
+    <value>Replace the dark Roblox home background with a color, gradient, image or video</value>
+  </data>
+  <data name="Menu.Mods.Page.OverlayStyle" xml:space="preserve">
+    <value>Style</value>
+  </data>
+  <data name="Menu.Mods.Page.OverlayStyleDesc" xml:space="preserve">
+    <value>What to show behind the home page.</value>
+  </data>
+  <data name="Menu.Mods.Page.OverlayColor" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="Menu.Mods.Page.OverlayColors" xml:space="preserve">
+    <value>Colors</value>
+  </data>
+  <data name="Menu.Mods.Page.OverlayColorsDesc" xml:space="preserve">
+    <value>Start and end of the gradient.</value>
+  </data>
+  <data name="Menu.Mods.Page.OverlayDirection" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="Menu.Mods.Page.OverlayFile" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Menu.Mods.Page.OverlaysDisplay" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="Menu.Mods.Page.ScreenColor" xml:space="preserve">
+    <value>Screen color</value>
+  </data>
+  <data name="Menu.Mods.Page.Brightness" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="Menu.Mods.Page.Saturation" xml:space="preserve">
+    <value>Saturation</value>
+  </data>
+  <data name="Menu.Mods.Page.HundredNormal" xml:space="preserve">
+    <value>100 is normal.</value>
+  </data>
+  <data name="Menu.Mods.Page.Contrast" xml:space="preserve">
+    <value>Contrast</value>
+  </data>
+  <data name="Menu.Mods.Page.Warmth" xml:space="preserve">
+    <value>Warmth</value>
+  </data>
+  <data name="Menu.Mods.Page.WarmthDesc" xml:space="preserve">
+    <value>Negative is cooler, positive is warmer.</value>
+  </data>
+  <data name="Menu.Mods.Page.Smoothing" xml:space="preserve">
+    <value>Smoothing and frames</value>
+  </data>
+  <data name="Menu.Mods.Page.AntiAliasing" xml:space="preserve">
+    <value>Anti aliasing</value>
+  </data>
+  <data name="Menu.Mods.Page.AntiAliasingDesc" xml:space="preserve">
+    <value>Smooths jagged edges using your GPU.</value>
+  </data>
+  <data name="Menu.Mods.Page.MotionBlur" xml:space="preserve">
+    <value>Motion blur</value>
+  </data>
+  <data name="Menu.Mods.Page.MotionBlurDesc" xml:space="preserve">
+    <value>Adds a motion trail to movement, masked to moving areas so the interface stays sharp.</value>
+  </data>
+  <data name="Menu.Mods.Page.CustomMotionBlur" xml:space="preserve">
+    <value>Custom motion blur</value>
+  </data>
+  <data name="Menu.Mods.Page.CustomMotionBlurDesc" xml:space="preserve">
+    <value>100 is Normal, 200 is Extreme, and it goes up to 500.</value>
+  </data>
+  <data name="Menu.Mods.Page.FrameGen" xml:space="preserve">
+    <value>Frame generation</value>
+  </data>
+  <data name="Menu.Mods.Page.FrameGenDesc" xml:space="preserve">
+    <value>Adds generated frames between real ones. Adds a little input delay.</value>
+  </data>
+  <data name="Menu.Mods.Page.ShowGenFrames" xml:space="preserve">
+    <value>Show generated frames</value>
+  </data>
+  <data name="Menu.Mods.Page.ShowGenFramesDesc" xml:space="preserve">
+    <value>Displays how many frames are being generated.</value>
+  </data>
+  <data name="Menu.Mods.Page.FixFrameCap" xml:space="preserve">
+    <value>Fix frame cap</value>
+  </data>
+  <data name="Menu.Mods.Page.ColorBlindness" xml:space="preserve">
+    <value>Color blindness</value>
+  </data>
+  <data name="Menu.Mods.Page.ColorBlindnessDesc" xml:space="preserve">
+    <value>Recolors the screen so colors are easier to tell apart</value>
+  </data>
+  <data name="Menu.Mods.Page.CBType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Menu.Mods.Page.Protanopia" xml:space="preserve">
+    <value>Protanopia (red/green)</value>
+  </data>
+  <data name="Menu.Mods.Page.Deuteranopia" xml:space="preserve">
+    <value>Deuteranopia (red/green)</value>
+  </data>
+  <data name="Menu.Mods.Page.Tritanopia" xml:space="preserve">
+    <value>Tritanopia (blue/yellow)</value>
+  </data>
+  <data name="Menu.Mods.Page.Strength" xml:space="preserve">
+    <value>Strength</value>
+  </data>
+  <data name="Menu.Mods.Page.Simulate" xml:space="preserve">
+    <value>Simulate instead</value>
+  </data>
+  <data name="Menu.Mods.Page.SimulateDesc" xml:space="preserve">
+    <value>Shows what color blind people see rather than correcting it.</value>
+  </data>
+  <data name="Menu.Mods.Page.InGameTools" xml:space="preserve">
+    <value>In game tools</value>
+  </data>
+  <data name="Menu.Mods.Page.Clock" xml:space="preserve">
+    <value>Clock</value>
+  </data>
+  <data name="Menu.Mods.Page.ClockDesc" xml:space="preserve">
+    <value>Shows the time in the corner while you play.</value>
+  </data>
+  <data name="Menu.Mods.Page.TimeZone" xml:space="preserve">
+    <value>Time zone</value>
+  </data>
+  <data name="Menu.Mods.Page.TimeZoneDesc" xml:space="preserve">
+    <value>System follows this computer.</value>
+  </data>
+  <data name="Menu.Mods.Page.Clock24" xml:space="preserve">
+    <value>24 hour clock</value>
+  </data>
+  <data name="Menu.Mods.Page.Clock24Desc" xml:space="preserve">
+    <value>14:30 instead of 2:30 PM.</value>
+  </data>
+  <data name="Menu.Mods.Page.Crosshair" xml:space="preserve">
+    <value>Crosshair</value>
+  </data>
+  <data name="Menu.Mods.Page.CrosshairDesc" xml:space="preserve">
+    <value>Draw your own crosshair over the game</value>
+  </data>
+  <data name="Menu.Mods.Page.Shape" xml:space="preserve">
+    <value>Shape</value>
+  </data>
+  <data name="Menu.Mods.Page.GifLink" xml:space="preserve">
+    <value>GIF link</value>
+  </data>
+  <data name="Menu.Mods.Page.GifLinkDesc" xml:space="preserve">
+    <value>Animated GIF URL to use as the crosshair.</value>
+  </data>
+  <data name="Menu.Mods.Page.ColorsFill" xml:space="preserve">
+    <value>Colors</value>
+  </data>
+  <data name="Menu.Mods.Page.FillOutline" xml:space="preserve">
+    <value>Fill and outline.</value>
+  </data>
+  <data name="Menu.Mods.Page.Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Menu.Mods.Page.Thickness" xml:space="preserve">
+    <value>Thickness</value>
+  </data>
+  <data name="Menu.Mods.Page.CenterGap" xml:space="preserve">
+    <value>Center gap</value>
+  </data>
+  <data name="Menu.Mods.Page.Opacity" xml:space="preserve">
+    <value>Opacity</value>
+  </data>
+  <data name="Menu.Mods.Page.Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="Menu.Mods.Page.Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Menu.Mods.Page.CodeDesc" xml:space="preserve">
+    <value>Share or paste a crosshair code.</value>
+  </data>
+  <data name="Menu.Mods.Page.Generate" xml:space="preserve">
+    <value>Generate</value>
+  </data>
+  <data name="Menu.Mods.Page.Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Menu.Mods.Page.SaveFile" xml:space="preserve">
+    <value>Save as file</value>
+  </data>
+  <data name="Menu.Mods.Page.Pick" xml:space="preserve">
+    <value>Pick</value>
+  </data>
+  <data name="Menu.Mods.Page.ExplorerTitle" xml:space="preserve">
+    <value>Mod Explorer</value>
+  </data>
+  <data name="Menu.Mods.Page.ExplorerDesc" xml:space="preserve">
+    <value>Browse Roblox assets, preview files, and create mod replacements.</value>
+  </data>
+  <data name="Menu.Mods.Page.ExplorerClose" xml:space="preserve">
+    <value>Close Mod Explorer</value>
+  </data>
+  <data name="Menu.Mods.Page.ExplorerBack" xml:space="preserve">
+    <value>Go back</value>
+  </data>
+  <data name="Menu.Mods.Page.ExplorerSearchHint" xml:space="preserve">
+    <value>Search this folder</value>
+  </data>
+  <data name="Menu.Mods.Page.ColName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Menu.Mods.Page.ColType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Menu.Mods.Page.ColStatus" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Menu.Mods.Page.ColSize" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Menu.Mods.Page.ColModified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOps" xml:space="preserve">
+    <value>File Operations</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsDetails" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsReplace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsReplaceTip" xml:space="preserve">
+    <value>Choose a local replacement for this asset</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsAdjust" xml:space="preserve">
+    <value>Adjust</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsAdjustTip" xml:space="preserve">
+    <value>Rotate, flip, or resize this image</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsRecolor" xml:space="preserve">
+    <value>Recolor</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsRecolorTip" xml:space="preserve">
+    <value>Tint this image</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsExportTip" xml:space="preserve">
+    <value>Save this file to your computer</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsOpenFolder" xml:space="preserve">
+    <value>Open folder</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Menu.Mods.Page.FileOpsFindMods" xml:space="preserve">
+    <value>Find mods</value>
+  </data>
+  <data name="Menu.Mods.Page.ApplyModsDesc" xml:space="preserve">
+    <value>Choose whether your mods are applied to the Roblox player, Roblox Studio, or both.</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsAddTip" xml:space="preserve">
+    <value>Add a mod</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsRefreshTip" xml:space="preserve">
+    <value>Refresh the list</value>
+  </data>
+  <data name="Menu.Mods.Page.MyModsOpenLibraryTip" xml:space="preserve">
+    <value>Open the mod library folder</value>
+  </data>
+  <data name="Menu.Mods.Code.FontLoading" xml:space="preserve">
+    <value>Loading the font catalog...</value>
+  </data>
+  <data name="Menu.Mods.Code.FontFailPrepare" xml:space="preserve">
+    <value>Could not prepare this font. Try again.</value>
+  </data>
+  <data name="Menu.Mods.Code.FontFailLoad" xml:space="preserve">
+    <value>Could not load fonts. Select refresh to try again.</value>
+  </data>
+  <data name="Menu.Mods.Code.SkyLoading" xml:space="preserve">
+    <value>Loading skyboxes...</value>
+  </data>
+  <data name="Menu.Mods.Code.SkyRefreshing" xml:space="preserve">
+    <value>Refreshing skyboxes...</value>
+  </data>
+  <data name="Menu.Mods.Code.RemoveFail" xml:space="preserve">
+    <value>Failed to remove {0}:
+{1}</value>
+  </data>
+  <data name="Menu.Mods.Code.DeathSoundFail" xml:space="preserve">
+    <value>Failed to add death sound:
+{0}</value>
+  </data>
+  <data name="Menu.Mods.Code.DeathSoundConvert" xml:space="preserve">
+    <value>The death sound could not be converted:
+{0}</value>
+  </data>
+  <data name="Menu.Mods.Code.ModsFolderFail" xml:space="preserve">
+    <value>The mods folder could not be opened. It is at {0}</value>
+  </data>
+  <data name="Menu.Mods.Code.FontPickerFail" xml:space="preserve">
+    <value>The font picker could not be opened.</value>
+  </data>
+  <data name="Menu.Mods.Code.FontUnsafeLoad" xml:space="preserve">
+    <value>That font could not be loaded safely.</value>
+  </data>
+  <data name="Menu.Mods.Code.FontUnsafeImport" xml:space="preserve">
+    <value>That font could not be imported safely.</value>
+  </data>
+  <data name="Menu.Mods.Code.ImagePickerFail" xml:space="preserve">
+    <value>The image picker could not be opened.</value>
+  </data>
+  <data name="Menu.Mods.Code.SkyboxNeedFaces" xml:space="preserve">
+    <value>Choose all six faces or use one image for every side first.</value>
+  </data>
+  <data name="Menu.Mods.Code.SkyboxSaveFail" xml:space="preserve">
+    <value>The custom skybox could not be saved:
+{0}</value>
+  </data>
+  <data name="Menu.Mods.Code.SkyboxRemoveAsk" xml:space="preserve">
+    <value>Remove your saved custom skybox?</value>
+  </data>
+  <data name="Menu.Mods.Code.SkyboxRemoveFail" xml:space="preserve">
+    <value>The custom skybox could not be removed:
+{0}</value>
+  </data>
+  <data name="Menu.Mods.Code.BgMediaFail" xml:space="preserve">
+    <value>The background media could not be opened.</value>
+  </data>
+  <data name="Menu.Mods.Code.LibraryLoadFail" xml:space="preserve">
+    <value>The managed mod library could not be loaded:
+{0}</value>
+  </data>
+  <data name="Menu.Mods.Code.ModAddFail" xml:space="preserve">
+    <value>The mod could not be added:
+{0}</value>
+  </data>
+  <data name="Menu.Mods.Code.ModRenameFail" xml:space="preserve">
+    <value>The mod could not be renamed:
+{0}</value>
+  </data>
+  <data name="Menu.Mods.Code.ModRemoveFail" xml:space="preserve">
+    <value>The mod could not be removed:
+{0}</value>
+  </data>
+  <data name="Menu.Mods.Code.ModOrderFail" xml:space="preserve">
+    <value>The mod order could not be changed:
+{0}</value>
+  </data>
+  <data name="Menu.Mods.Code.ModStateFail" xml:space="preserve">
+    <value>The mod state could not be saved:
+{0}</value>
+  </data>
+  <data name="Menu.Mods.Code.LibraryOpenFail" xml:space="preserve">
+    <value>The managed mod library could not be opened:
+{0}</value>
+  </data>
+  <data name="Menu.Mods.Code.ModFolderFail" xml:space="preserve">
+    <value>The mod folder could not be opened:
+{0}</value>
+  </data>
+  <data name="Menu.Mods.Code.FolderOpenFail" xml:space="preserve">
+    <value>The folder could not be opened. It is at {0}</value>
+  </data>
+  <data name="Menu.Mods.Code.EmptyTitleSearch" xml:space="preserve">
+    <value>No Mods match your search</value>
+  </data>
+  <data name="Menu.Mods.Code.EmptyTitleNone" xml:space="preserve">
+    <value>No Mods found</value>
+  </data>
+  <data name="Menu.Mods.Code.EmptyDescSearch" xml:space="preserve">
+    <value>Try a different name or identifier.</value>
+  </data>
+  <data name="Menu.Mods.Code.EmptyDescNone" xml:space="preserve">
+    <value>Roblox is better with mods. Add your first mod to create its indexed folder, then place its files inside.</value>
+  </data>
+  <data name="Menu.Mods.Code.CountOne" xml:space="preserve">
+    <value>1 item</value>
+  </data>
+  <data name="Menu.Mods.Code.CountMany" xml:space="preserve">
+    <value>{0} items</value>
+  </data>
+  <data name="Menu.Mods.Code.LoadingFrom" xml:space="preserve">
+    <value>Loading mods from {0}</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorReplaceAsk" xml:space="preserve">
+    <value>Replace the images in &quot;{0}&quot; with your current custom cursor and shift lock icon?</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorDeleteAsk" xml:space="preserve">
+    <value>Delete the cursor set &quot;{0}&quot;? This cannot be undone.</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrStyle" xml:space="preserve">
+    <value>Could not change the cursor style</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrUseImage" xml:space="preserve">
+    <value>Could not use that image</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrRemoveImage" xml:space="preserve">
+    <value>Could not remove that image</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrRemoveCursor" xml:space="preserve">
+    <value>Could not remove the custom cursor</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrAddSetImage" xml:space="preserve">
+    <value>Could not add that image to the set</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrRemoveSetImage" xml:space="preserve">
+    <value>Could not remove that image from the set</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrCreateSet" xml:space="preserve">
+    <value>Could not create the cursor set</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrUseSet" xml:space="preserve">
+    <value>Could not use that cursor set</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrCopySet" xml:space="preserve">
+    <value>Could not copy your cursor into the set</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrRenameSet" xml:space="preserve">
+    <value>Could not rename the cursor set</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrDeleteSet" xml:space="preserve">
+    <value>Could not delete the cursor set</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrImportZip" xml:space="preserve">
+    <value>Could not import that zip</value>
+  </data>
+  <data name="Menu.Mods.Code.CursorErrExportSet" xml:space="preserve">
+    <value>Could not export the cursor set</value>
+  </data>
+  <data name="Menu.Mods.Gen.ValidateSolid" xml:space="preserve">
+    <value>Enter a colour as a hex code, for example #FF3B5C.</value>
+  </data>
+  <data name="Menu.Mods.Gen.ValidateGradient" xml:space="preserve">
+    <value>Enter a start and end colour as hex codes.</value>
+  </data>
+  <data name="Menu.Mods.Gen.ValidateImage" xml:space="preserve">
+    <value>Choose an image to fill the icons with.</value>
+  </data>
+  <data name="Menu.Mods.Gen.NoImage" xml:space="preserve">
+    <value>No image chosen</value>
+  </data>
+  <data name="Menu.Mods.Gen.LogoDefault" xml:space="preserve">
+    <value>Replaces the Roblox logo in menus, the app and the loading screen</value>
+  </data>
+  <data name="Menu.Mods.Gen.PreviewReal" xml:space="preserve">
+    <value>Real icons from your Roblox build</value>
+  </data>
+  <data name="Menu.Mods.Gen.PreviewSlice" xml:space="preserve">
+    <value>A slice of a real icon sheet</value>
+  </data>
+  <data name="Menu.Mods.Gen.PreviewCount" xml:space="preserve">
+    <value>{0} named icons were read from this Roblox build.</value>
+  </data>
+  <data name="Menu.Mods.Gen.PreviewUnreadable" xml:space="preserve">
+    <value>The icon layout could not be read from this build, so icons are found from the sheets instead.</value>
+  </data>
+  <data name="Menu.Mods.Gen.LastGenerated" xml:space="preserve">
+    <value>Last generated {0}. It rebuilds itself when Roblox updates.</value>
+  </data>
+  <data name="Menu.Mods.Gen.Cancelled" xml:space="preserve">
+    <value>Generation was cancelled, your previous mod was left as it was.</value>
+  </data>
+  <data name="Menu.Mods.Gen.GenFail" xml:space="preserve">
+    <value>The mod could not be generated: {0}</value>
+  </data>
+  <data name="Menu.Mods.Gen.Regenerate" xml:space="preserve">
+    <value>Regenerate mod</value>
+  </data>
+  <data name="Menu.Mods.Gen.ModNameDefault" xml:space="preserve">
+    <value>Generated UI theme</value>
+  </data>
+  <data name="Menu.More.Page.Intro" xml:space="preserve">
+    <value>Extra pages grouped under More in the sidebar.</value>
+  </data>
+  <data name="Menu.More.Page.Global" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="Menu.More.Page.GlobalDesc" xml:space="preserve">
+    <value>Edit Roblox's own in game settings.</value>
+  </data>
+  <data name="Menu.More.Page.News" xml:space="preserve">
+    <value>News</value>
+  </data>
+  <data name="Menu.More.Page.NewsDesc" xml:space="preserve">
+    <value>Read Chivas news, updates and forum posts.</value>
+  </data>
+  <data name="Menu.Appearance.Page.TabApplication" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="Menu.Appearance.Page.BgUIHeader" xml:space="preserve">
+    <value>Background and UI</value>
+  </data>
+  <data name="Menu.Appearance.Page.BgUIDesc" xml:space="preserve">
+    <value>Customize background ui and options</value>
+  </data>
+  <data name="Menu.Appearance.Page.SnowHeader" xml:space="preserve">
+    <value>Background Snow</value>
+  </data>
+  <data name="Menu.Appearance.Page.SnowDesc" xml:space="preserve">
+    <value>Adds Snow to Chivass background</value>
+  </data>
+  <data name="Menu.Appearance.Page.GradientMoveHeader" xml:space="preserve">
+    <value>Gradient Movement</value>
+  </data>
+  <data name="Menu.Appearance.Page.GradientMoveDesc" xml:space="preserve">
+    <value>Adds a Gradient Movement with Cursor</value>
+  </data>
+  <data name="Menu.Appearance.Page.SmoothScrollHeader" xml:space="preserve">
+    <value>Smooth ScrollBar</value>
+  </data>
+  <data name="Menu.Appearance.Page.SmoothScrollDesc" xml:space="preserve">
+    <value>Adds smooth scrollbar movement instantly</value>
+  </data>
+  <data name="Menu.Appearance.Page.ClearFontHeader" xml:space="preserve">
+    <value>Clear Font</value>
+  </data>
+  <data name="Menu.Appearance.Page.ClearFontDesc" xml:space="preserve">
+    <value>Uses sharper text rendering after Chivas restarts</value>
+  </data>
+  <data name="Menu.Appearance.Page.BgSettingsHeader" xml:space="preserve">
+    <value>Background Settings</value>
+  </data>
+  <data name="Menu.Appearance.Page.BgSettingsDesc" xml:space="preserve">
+    <value>Import a background image/video/gif and adjust opacity settings. Gradient opacity is set from the image lighting on import, and you can change it after.</value>
+  </data>
+  <data name="Menu.Appearance.Page.GradientOpacity" xml:space="preserve">
+    <value>Gradient Opacity</value>
+  </data>
+  <data name="Menu.Appearance.Page.DarkOverlay" xml:space="preserve">
+    <value>Dark Overlay</value>
+  </data>
+  <data name="Menu.Appearance.Page.DisplayEverywhere" xml:space="preserve">
+    <value>Display everywhere</value>
+  </data>
+  <data name="Menu.Appearance.Page.ImportBg" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Menu.Appearance.Page.RemoveBg" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Menu.Appearance.Page.GlobalThemeDesc" xml:space="preserve">
+    <value>Check out some of our built-in custom themes!</value>
+  </data>
+  <data name="Menu.Appearance.Page.EditorBtn" xml:space="preserve">
+    <value>Editor</value>
+  </data>
+  <data name="Menu.Appearance.Page.WindowBackdropHeader" xml:space="preserve">
+    <value>Window Backdrop</value>
+  </data>
+  <data name="Menu.Appearance.Page.WindowBackdropDesc" xml:space="preserve">
+    <value>Choose the material behind Chivas windows.</value>
+  </data>
+  <data name="Menu.Appearance.Page.AppFontHeader" xml:space="preserve">
+    <value>Application Font</value>
+  </data>
+  <data name="Menu.Appearance.Page.AppFontDesc" xml:space="preserve">
+    <value>Change the font used across all of Chivas.</value>
+  </data>
+  <data name="Menu.Appearance.Page.ChooseFont" xml:space="preserve">
+    <value>Choose Font...</value>
+  </data>
+  <data name="Menu.Appearance.Page.PageZoomHeader" xml:space="preserve">
+    <value>Page zoom</value>
+  </data>
+  <data name="Menu.Appearance.Page.PageZoomDesc" xml:space="preserve">
+    <value>Zooms the settings pages like a browser. Ctrl+Scroll for hotkey</value>
+  </data>
+  <data name="Menu.Appearance.Page.SidebarHeader" xml:space="preserve">
+    <value>Sidebar layout</value>
+  </data>
+  <data name="Menu.Appearance.Page.SidebarDesc" xml:space="preserve">
+    <value>Rename, choose icons or custom images, show, hide, and reorder sidebar pages.</value>
+  </data>
+  <data name="Menu.Appearance.Page.GridName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Menu.Appearance.Page.GridIcon" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="Menu.Appearance.Page.GridSection" xml:space="preserve">
+    <value>Section</value>
+  </data>
+  <data name="Menu.Appearance.Page.GridShow" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Menu.Appearance.Page.GridMove" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="Menu.Appearance.Page.ChangeIconTip" xml:space="preserve">
+    <value>Change sidebar icon</value>
+  </data>
+  <data name="Menu.Appearance.Page.ChangeVisibilityTip" xml:space="preserve">
+    <value>Change sidebar visibility</value>
+  </data>
+  <data name="Menu.Appearance.Page.MoveUpTip" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="Menu.Appearance.Page.MoveDownTip" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="Menu.Appearance.Page.HomeNote" xml:space="preserve">
+    <value>Home and Appearance stay visible so customization is always reachable.</value>
+  </data>
+  <data name="Menu.Appearance.Page.ResetSidebar" xml:space="preserve">
+    <value>Reset sidebar</value>
+  </data>
+  <data name="Menu.Appearance.Page.ThemeName" xml:space="preserve">
+    <value>Theme name</value>
+  </data>
+  <data name="Menu.Appearance.Page.SaveName" xml:space="preserve">
+    <value>Save name</value>
+  </data>
+  <data name="Menu.Appearance.Page.OpenEditor" xml:space="preserve">
+    <value>Open editor</value>
+  </data>
+  <data name="Menu.Appearance.Page.PreviewBtn" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="Menu.Appearance.Page.MoreActions" xml:space="preserve">
+    <value>More actions</value>
+  </data>
+  <data name="Menu.Appearance.Page.ViewFiles" xml:space="preserve">
+    <value>View files</value>
+  </data>
+  <data name="Menu.Appearance.Page.Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Menu.Appearance.Page.SelectThemeHint" xml:space="preserve">
+    <value>Select a theme from the list, or create a new one.</value>
+  </data>
+  <data name="Menu.Appearance.Page.LauncherExtras" xml:space="preserve">
+    <value>Optional launcher extras</value>
+  </data>
+  <data name="Menu.Appearance.Page.LauncherExtrasDesc" xml:space="preserve">
+    <value>Add a background or startup sound. These extras do not apply to custom launchers or themes created in Theme Creator.</value>
+  </data>
+  <data name="Menu.Appearance.Page.BgHeader" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="Menu.Appearance.Page.BgDesc" xml:space="preserve">
+    <value>Choose an image for the launcher background.</value>
+  </data>
+  <data name="Menu.Appearance.Page.ChooseImage" xml:space="preserve">
+    <value>Choose image</value>
+  </data>
+  <data name="Menu.Appearance.Page.RemoveBgBtn" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Menu.Appearance.Page.StartupSound" xml:space="preserve">
+    <value>Startup sound</value>
+  </data>
+  <data name="Menu.Appearance.Page.StartupSoundDesc" xml:space="preserve">
+    <value>Choose audio to play when the launcher opens.</value>
+  </data>
+  <data name="Menu.Appearance.Page.ChooseAudio" xml:space="preserve">
+    <value>Choose audio</value>
+  </data>
+  <data name="Menu.Appearance.Page.TabBootstrapper" xml:space="preserve">
+    <value>Bootstrapper</value>
+  </data>
+  <data name="Menu.Appearance.Page.LauncherStyle" xml:space="preserve">
+    <value>Launcher style</value>
+  </data>
+  <data name="Menu.Appearance.Page.LauncherStyleDesc" xml:space="preserve">
+    <value>Choose a built in launcher or use one of your own themes.</value>
+  </data>
+  <data name="Menu.Appearance.Page.LauncherSize" xml:space="preserve">
+    <value>Launcher size</value>
+  </data>
+  <data name="Menu.Appearance.Page.LauncherSizeDesc" xml:space="preserve">
+    <value>Change the overall size and spacing of the launcher.</value>
+  </data>
+  <data name="Menu.Appearance.Page.ThemeCreator" xml:space="preserve">
+    <value>Theme creator</value>
+  </data>
+  <data name="Menu.Appearance.Page.ThemeCreatorDesc" xml:space="preserve">
+    <value>Create and manage the theme used by your custom launcher.</value>
+  </data>
+  <data name="Menu.Appearance.Page.NewTheme" xml:space="preserve">
+    <value>New theme</value>
+  </data>
+  <data name="Menu.Appearance.Page.DeleteTheme" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Menu.Appearance.Page.TabIcons" xml:space="preserve">
+    <value>Icons</value>
+  </data>
+  <data name="Menu.Appearance.Page.StudioIcon" xml:space="preserve">
+    <value>Studio icon</value>
+  </data>
+  <data name="Menu.Appearance.Page.StudioIconDesc" xml:space="preserve">
+    <value>The icon shown on the bootstrapper when launching Roblox Studio.</value>
+  </data>
+  <data name="Menu.Appearance.Page.Customization" xml:space="preserve">
+    <value>Customization</value>
+  </data>
+  <data name="Menu.Appearance.Page.ScaleCompact" xml:space="preserve">
+    <value>Compact</value>
+  </data>
+  <data name="Menu.Appearance.Page.ScaleNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Menu.Appearance.Page.ScaleLarge" xml:space="preserve">
+    <value>Large</value>
+  </data>
+  <data name="Menu.Appearance.Code.FontInvalid" xml:space="preserve">
+    <value>Custom Font Invalid</value>
+  </data>
+  <data name="Menu.Appearance.Code.LoadFontFail" xml:space="preserve">
+    <value>Could not load font: {0}</value>
+  </data>
+  <data name="Menu.Appearance.Code.ThemeNameEmpty" xml:space="preserve">
+    <value>Name cannot be empty.</value>
+  </data>
+  <data name="Menu.Appearance.Code.ThemeNameDot" xml:space="preserve">
+    <value>Windows does not allow names that end in a period or space.</value>
+  </data>
+  <data name="Menu.Appearance.Code.ThemeExists" xml:space="preserve">
+    <value>A theme with that name already exists.</value>
+  </data>
+  <data name="Menu.Appearance.Code.ThemeNoFiles" xml:space="preserve">
+    <value>That theme has no files yet.</value>
+  </data>
+  <data name="Menu.Appearance.Code.ThemeFolderGone" xml:space="preserve">
+    <value>That theme folder no longer exists.</value>
+  </data>
+  <data name="Menu.Appearance.Code.ThemeExportFail" xml:space="preserve">
+    <value>Could not export the theme: {0}</value>
+  </data>
+  <data name="Menu.Deploy.Page.TabGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Menu.Deploy.Page.TabAdvanced" xml:space="preserve">
+    <value>Advanced General</value>
+  </data>
+  <data name="Menu.Deploy.Page.GeneralInfo" xml:space="preserve">
+    <value>Features here are highly customizable but intended for advanced users.</value>
+  </data>
+  <data name="Menu.Deploy.Page.BgWindow" xml:space="preserve">
+    <value>Disable Background Window</value>
+  </data>
+  <data name="Menu.Deploy.Page.BgWindowDesc" xml:space="preserve">
+    <value>Disables Background Window when Launching Roblox</value>
+  </data>
+  <data name="Menu.Deploy.Page.CrashHandler" xml:space="preserve">
+    <value>Disable RobloxCrashHandler</value>
+  </data>
+  <data name="Menu.Deploy.Page.CrashHandlerDesc" xml:space="preserve">
+    <value>Closes RobloxCrashHandler after Roblox has safely finished starting</value>
+  </data>
+  <data name="Menu.Deploy.Page.TASX" xml:space="preserve">
+    <value>TASX optimization</value>
+  </data>
+  <data name="Menu.Deploy.Page.TASXDesc" xml:space="preserve">
+    <value>Full speed while Roblox is focused, throttled while you are tabbed out.</value>
+  </data>
+  <data name="Menu.Deploy.Page.AdvancedGeneral" xml:space="preserve">
+    <value>Advanced General</value>
+  </data>
+  <data name="Menu.Deploy.Page.AdvancedInfo" xml:space="preserve">
+    <value>Memory cleanup and optimizations. Some may not work well on every device.</value>
+  </data>
+  <data name="Menu.Deploy.Page.Cleaner" xml:space="preserve">
+    <value>Cleaner</value>
+  </data>
+  <data name="Menu.Deploy.Page.CleanerDesc" xml:space="preserve">
+    <value>Chivas will remove old data to save on space</value>
+  </data>
+  <data name="Menu.Deploy.Page.WhenDelete" xml:space="preserve">
+    <value>When should the files get deleted</value>
+  </data>
+  <data name="Menu.Deploy.Page.WhenDeleteDesc" xml:space="preserve">
+    <value>Files older than the set amount will be deleted.</value>
+  </data>
+  <data name="Menu.Deploy.Page.Cache" xml:space="preserve">
+    <value>Cache</value>
+  </data>
+  <data name="Menu.Deploy.Page.CacheDesc" xml:space="preserve">
+    <value>When should the set amount be deleted.</value>
+  </data>
+  <data name="Menu.Deploy.Page.Logs" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="Menu.Deploy.Page.LogsDesc" xml:space="preserve">
+    <value>Old log files will be deleted.</value>
+  </data>
+  <data name="Menu.Deploy.Page.ChivasLogs" xml:space="preserve">
+    <value>Chivas logs</value>
+  </data>
+  <data name="Menu.Deploy.Page.ChivasLogsDesc" xml:space="preserve">
+    <value>Chivas logs will be deleted.</value>
+  </data>
+  <data name="Menu.Deploy.Page.CleanCache" xml:space="preserve">
+    <value>Clean Roblox cache</value>
+  </data>
+  <data name="Menu.Deploy.Page.CleanCacheDesc" xml:space="preserve">
+    <value>Deletes all files in Roblox's cache directories to free up disk space. Games will temporarily load slower after this!</value>
+  </data>
+  <data name="Menu.Deploy.Page.CleanBtn" xml:space="preserve">
+    <value>Clean</value>
+  </data>
+  <data name="Menu.Deploy.Page.ResourceControls" xml:space="preserve">
+    <value>Resource controls</value>
+  </data>
+  <data name="Menu.Deploy.Page.ResourceControlsDesc" xml:space="preserve">
+    <value>Safe scheduling and memory controls for Roblox</value>
+  </data>
+  <data name="Menu.Deploy.Page.CpuLimit" xml:space="preserve">
+    <value>Roblox CPU limit</value>
+  </data>
+  <data name="Menu.Deploy.Page.TrimMemory" xml:space="preserve">
+    <value>Trim memory when Roblox is unfocused</value>
+  </data>
+  <data name="Menu.Deploy.Page.TrimMemoryDesc" xml:space="preserve">
+    <value>After Roblox remains unfocused, unused working set is released. It does not trim memory while you are playing.</value>
+  </data>
+  <data name="Menu.Deploy.Page.Prioritize" xml:space="preserve">
+    <value>Prioritize Roblox while focused</value>
+  </data>
+  <data name="Menu.Deploy.Page.PrioritizeLinux" xml:space="preserve">
+    <value>Gives Roblox a larger CPU share while it is in the foreground. A custom Roblox Priority choice takes precedence.</value>
+  </data>
+  <data name="Menu.Deploy.Page.PrioritizeWin" xml:space="preserve">
+    <value>Uses safe Above Normal scheduling while Roblox is in the foreground. A custom Roblox Priority choice takes precedence.</value>
+  </data>
+  <data name="Menu.Deploy.Page.Bypass" xml:space="preserve">
+    <value>Bypass Windows emulation overhead</value>
+  </data>
+  <data name="Menu.Deploy.Page.BypassDesc" xml:space="preserve">
+    <value>Strips compatibility and CPU emulation layers from the Roblox build, drops any compatibility layer Chivas inherited, and stops Windows from power throttling Roblox. Your elevation and fullscreen optimisation choices are kept, and everything is restored when you turn this off.</value>
+  </data>
+  <data name="Menu.Deploy.Page.BgUse" xml:space="preserve">
+    <value>Background resource use</value>
+  </data>
+  <data name="Menu.Deploy.Page.BgUseDesc" xml:space="preserve">
+    <value>Keep Roblox and Chivas lighter when they are not active</value>
+  </data>
+  <data name="Menu.Deploy.Page.ReduceResources" xml:space="preserve">
+    <value>Reduce resources when Roblox is unfocused</value>
+  </data>
+  <data name="Menu.Deploy.Page.ReduceLinux" xml:space="preserve">
+    <value>Lowers Roblox's CPU share while another app is active, then restores it when you return.</value>
+  </data>
+  <data name="Menu.Deploy.Page.ReduceWin" xml:space="preserve">
+    <value>Lowers Roblox's Windows scheduling priority while another app is active, then restores it when you return.</value>
+  </data>
+  <data name="Menu.Deploy.Page.TabMatchmaker" xml:space="preserve">
+    <value>Chivas Matchmaker</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMEnable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMEnableDesc" xml:space="preserve">
+    <value>Pick my server for me</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMWhatToJoin" xml:space="preserve">
+    <value>What to join</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMWhatToJoinDesc" xml:space="preserve">
+    <value>How Chivas chooses between the servers it finds</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMWhichDC" xml:space="preserve">
+    <value>Which datacenter</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMWhichDCDesc" xml:space="preserve">
+    <value>Click a pin to pick a datacenter. Drag to pan, scroll to zoom, hover for details.</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMPreferredDC" xml:space="preserve">
+    <value>Preferred datacenter</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMPreferredDCDesc" xml:space="preserve">
+    <value>Chivas will always try this one first and only fall back when it has no room</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMDatacenters" xml:space="preserve">
+    <value>Datacenters</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMAllowAll" xml:space="preserve">
+    <value>Allow all</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMBlockNote" xml:space="preserve">
+    <value>Turn one off to never be placed there. If Roblox puts you in a blocked datacenter, Chivas moves you out.</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMSearchHint" xml:space="preserve">
+    <value>Search by city, region, or country</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMSkipped" xml:space="preserve">
+    <value>Skipped games</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMSkipNote" xml:space="preserve">
+    <value>Add those here and Chivas joins normally and never moves you.</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMGameSearchHint" xml:space="preserve">
+    <value>Search for a game by name, or paste a place id</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMSkipBtn" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMSkipTip" xml:space="preserve">
+    <value>Never let Chivas pick a server for this game</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMGridGame" xml:space="preserve">
+    <value>Game</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMGridPlaceId" xml:space="preserve">
+    <value>Place id</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMRemoveTip" xml:space="preserve">
+    <value>Let Chivas pick servers for this game again</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMAdvanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMAdvancedDesc" xml:space="preserve">
+    <value>The defaults are right for almost everyone</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMHowHard" xml:space="preserve">
+    <value>How hard to search</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMAuto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMReconnectLimit" xml:space="preserve">
+    <value>Reconnect limit</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMReconnectDesc" xml:space="preserve">
+    <value>Chivas stops trying after this many reconnects so it can never loop.</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMJoinAPI" xml:space="preserve">
+    <value>Join API</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMJoinAPIDesc" xml:space="preserve">
+    <value>Which Roblox join endpoint Chivas asks for server locations. Change only if joins stop working.</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMFullNormal" xml:space="preserve">
+    <value>Normal window</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMFullBorderless" xml:space="preserve">
+    <value>Borderless fullscreen</value>
+  </data>
+  <data name="Menu.Deploy.Page.MMFullExclusive" xml:space="preserve">
+    <value>Exclusive fullscreen</value>
+  </data>
+  <data name="Menu.Deploy.Page.TabRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Deploy.Page.RobloxFullscreen" xml:space="preserve">
+    <value>Fullscreen mode</value>
+  </data>
+  <data name="Menu.Deploy.Page.RobloxFullscreenDesc" xml:space="preserve">
+    <value>How the Roblox game window fills your screen</value>
+  </data>
+  <data name="Menu.Deploy.Page.ExclusiveTitle" xml:space="preserve">
+    <value>Overlays are hidden in exclusive fullscreen</value>
+  </data>
+  <data name="Menu.Deploy.Page.ExclusiveMsg" xml:space="preserve">
+    <value>Your Windows mouse cursor and every overlay are hidden</value>
+  </data>
+  <data name="Menu.Deploy.Page.RobloxTitleOpt" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Menu.Deploy.Page.RobloxTitleDesc" xml:space="preserve">
+    <value>Leave blank to keep the title Roblox sets</value>
+  </data>
+  <data name="Menu.Deploy.Page.AddGame" xml:space="preserve">
+    <value>Add the game name</value>
+  </data>
+  <data name="Menu.Deploy.Page.AddGameDesc" xml:space="preserve">
+    <value>Shows the experience you are playing in the title bar</value>
+  </data>
+  <data name="Menu.Deploy.Page.GameIcon" xml:space="preserve">
+    <value>Use the game icon</value>
+  </data>
+  <data name="Menu.Deploy.Page.GameIconDesc" xml:space="preserve">
+    <value>Shows the experience icon on the Roblox window and taskbar button</value>
+  </data>
+  <data name="Menu.Deploy.Page.ServerInfo" xml:space="preserve">
+    <value>Add the server info</value>
+  </data>
+  <data name="Menu.Deploy.Page.ServerInfoDesc" xml:space="preserve">
+    <value>Shows the server region and player count in the title bar</value>
+  </data>
+  <data name="Menu.Deploy.Page.Backdrop" xml:space="preserve">
+    <value>Window backdrop</value>
+  </data>
+  <data name="Menu.Deploy.Page.BackdropDesc" xml:space="preserve">
+    <value>Backdrop material to Roblox's window frame. Requires Windows 11</value>
+  </data>
+  <data name="Menu.Deploy.Page.LocFinding" xml:space="preserve">
+    <value>Finding your location...</value>
+  </data>
+  <data name="Menu.Deploy.Page.LocLearning" xml:space="preserve">
+    <value>Location found, learning which datacenters are near you.</value>
+  </data>
+  <data name="Menu.Deploy.Page.LocNearest" xml:space="preserve">
+    <value>Nearest known datacenter: {0}, about {1}ms</value>
+  </data>
+  <data name="Menu.Deploy.Page.LearnedStats" xml:space="preserve">
+    <value>{0} datacenters, {1} unique servers, {2} joins logged, {3} pinged</value>
+  </data>
+  <data name="Menu.Deploy.Page.BlockedNone" xml:space="preserve">
+    <value>No datacenters learned yet, they appear as you play.</value>
+  </data>
+  <data name="Menu.Deploy.Page.BlockedAll" xml:space="preserve">
+    <value>{0} datacenters known, all allowed.</value>
+  </data>
+  <data name="Menu.Deploy.Page.BlockedSome" xml:space="preserve">
+    <value>{0} datacenters known, {1} blocked.</value>
+  </data>
+  <data name="Menu.Deploy.Page.Searching" xml:space="preserve">
+    <value>Searching...</value>
+  </data>
+  <data name="Menu.Deploy.Page.NoGames" xml:space="preserve">
+    <value>No games found.</value>
+  </data>
+  <data name="Menu.Deploy.Page.SearchUnavailable" xml:space="preserve">
+    <value>Search is unavailable right now, paste a place id instead.</value>
+  </data>
+  <data name="Menu.Deploy.Page.ExcludedNone" xml:space="preserve">
+    <value>Chivas picks a server for every game.</value>
+  </data>
+  <data name="Menu.Deploy.Page.ExcludedOne" xml:space="preserve">
+    <value>1 game joins normally, Chivas never picks its server.</value>
+  </data>
+  <data name="Menu.Deploy.Page.ExcludedMany" xml:space="preserve">
+    <value>{0} games join normally, Chivas never picks their servers.</value>
+  </data>
+  <data name="Menu.LaunchMenu.Studio" xml:space="preserve">
+    <value>Studio</value>
+  </data>
+  <data name="Menu.LaunchMenu.GitHubDesc" xml:space="preserve">
+    <value>Releases, source and issues.</value>
+  </data>
+  <data name="Menu.About.Tagline" xml:space="preserve">
+    <value>A desktop client for Roblox.</value>
+  </data>
+  <data name="Menu.LaunchMenu.Hint" xml:space="preserve">
+    <value>Pick what to open: Roblox, Settings, Studio or GitHub.</value>
+  </data>
+  <data name="Menu.Sidebar.GroupPrincipal" xml:space="preserve">
+    <value>Principal</value>
+  </data>
+  <data name="Menu.Sidebar.GroupPersonalizacion" xml:space="preserve">
+    <value>Personalización</value>
+  </data>
+  <data name="Menu.Sidebar.GroupAvanzada" xml:space="preserve">
+    <value>Configuración avanzada</value>
+  </data>
+  <data name="Menu.Sidebar.GroupHerramientas" xml:space="preserve">
+    <value>Herramientas</value>
+  </data>
+  <data name="Menu.Sidebar.GroupSistema" xml:space="preserve">
+    <value>Sistema</value>
+  </data>
+  <data name="Menu.Home.Page.OpenStudio" xml:space="preserve">
+    <value>Open Studio</value>
+  </data>
+  <data name="Menu.Home.Page.LatestNews" xml:space="preserve">
+    <value>Latest Roblox News</value>
+  </data>
+  <data name="Menu.Home.Page.ExploreNews" xml:space="preserve">
+    <value>Explore all news</value>
+  </data>
+  <data name="Menu.Home.Page.NewCatalog" xml:space="preserve">
+    <value>New on the Catalog</value>
+  </data>
+  <data name="Menu.Home.Page.LoadingCatalog" xml:space="preserve">
+    <value>Loading new catalog items...</value>
+  </data>
+  <data name="Menu.Home.Page.NoCatalog" xml:space="preserve">
+    <value>No new catalog items right now.</value>
+  </data>
+  <data name="Menu.Home.Page.Limited" xml:space="preserve">
+    <value>Limited</value>
+  </data>
+  <data name="Menu.Home.Page.ContinuePlaying" xml:space="preserve">
+    <value>Continue Playing</value>
+  </data>
+  <data name="Menu.Home.Page.NoHistory" xml:space="preserve">
+    <value>No history yet</value>
+  </data>
+  <data name="Menu.Home.Page.NoHistoryDesc" xml:space="preserve">
+    <value>Games you play will show up here so you can jump back in.</value>
+  </data>
+  <data name="Menu.Home.Page.NoMatches" xml:space="preserve">
+    <value>No matches</value>
+  </data>
+  <data name="Menu.Home.Page.NoMatchesDesc" xml:space="preserve">
+    <value>Nothing in your history matches that search.</value>
+  </data>
+  <data name="Menu.Home.Page.Joined" xml:space="preserve">
+    <value>Joined: </value>
+  </data>
+  <data name="Menu.Home.Page.RecentExperiences" xml:space="preserve">
+    <value>My Recent Experiences</value>
+  </data>
+  <data name="Menu.Home.Page.MyExperiences" xml:space="preserve">
+    <value>My Experiences</value>
+  </data>
+  <data name="Menu.Home.Page.MyExperiencesDesc" xml:space="preserve">
+    <value>Every experience on your account, newest changes first.</value>
+  </data>
+  <data name="Menu.Home.Page.RecentFiles" xml:space="preserve">
+    <value>Recent Files</value>
+  </data>
+  <data name="Menu.Home.Page.OpenTemplate" xml:space="preserve">
+    <value>Open a Template</value>
+  </data>
+  <data name="Menu.Home.Page.TemplateDesc" xml:space="preserve">
+    <value>See what's possible on Roblox in popular genres with ready made experiences, or start from scratch.</value>
+  </data>
+  <data name="Menu.Home.Page.Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Menu.Home.Page.MoreOptions" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="Menu.Home.Page.LaunchStudio" xml:space="preserve">
+    <value>Launch Roblox Studio</value>
+  </data>
+  <data name="Menu.Home.Page.SeeAnnouncements" xml:space="preserve">
+    <value>See every Roblox announcement</value>
+  </data>
+  <data name="Menu.Home.Page.ViewGamePage" xml:space="preserve">
+    <value>View game page</value>
+  </data>
+  <data name="Menu.Home.Page.CopyGameLink" xml:space="preserve">
+    <value>Copy game link</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.Title" xml:space="preserve">
+    <value>Game shortcut</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.TitleDesc" xml:space="preserve">
+    <value>Launch a game now or create a reusable desktop shortcut</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.Destination" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.DestinationDesc" xml:space="preserve">
+    <value>Use the place ID from the Roblox game URL.</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.GameId" xml:space="preserve">
+    <value>Game ID</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.GameIdHint" xml:space="preserve">
+    <value>Example: 1818</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.PrivateServer" xml:space="preserve">
+    <value>Private server</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.PrivateServerDesc" xml:space="preserve">
+    <value>Use a private server share link or access code</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.ShareLink" xml:space="preserve">
+    <value>Share link or access code</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.ShareLinkHint" xml:space="preserve">
+    <value>Paste the complete private server link</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.InstanceId" xml:space="preserve">
+    <value>Server instance ID</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.InstanceIdDesc" xml:space="preserve">
+    <value>Optional public server instance</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.LaunchGame" xml:space="preserve">
+    <value>Launch game</value>
+  </data>
+  <data name="Menu.Shortcuts.Page.CreateShortcut" xml:space="preserve">
+    <value>Create desktop shortcut</value>
+  </data>
+  <data name="Menu.Global.Page.Subtitle" xml:space="preserve">
+    <value>These are Roblox's own in game settings</value>
+  </data>
+  <data name="Menu.Global.Page.SettingsFile" xml:space="preserve">
+    <value>Settings File</value>
+  </data>
+  <data name="Menu.Global.Page.Interface" xml:space="preserve">
+    <value>Interface</value>
+  </data>
+  <data name="Menu.Global.Page.Graphics" xml:space="preserve">
+    <value>Graphics</value>
+  </data>
+  <data name="Menu.Global.Page.Audio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="Menu.Global.Page.Input" xml:space="preserve">
+    <value>Input and Controls</value>
+  </data>
+  <data name="Menu.Global.Page.Network" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="Menu.Global.Page.VR" xml:space="preserve">
+    <value>Virtual Reality</value>
+  </data>
+  <data name="Menu.Global.Page.Advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="Menu.Global.Page.Small" xml:space="preserve">
+    <value>Small</value>
+  </data>
+  <data name="Menu.Global.Page.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Menu.Global.Page.Large" xml:space="preserve">
+    <value>Large</value>
+  </data>
+  <data name="Menu.Global.Page.Automatic" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+  <data name="Menu.Global.Page.Lowest1" xml:space="preserve">
+    <value>1 (Lowest)</value>
+  </data>
+  <data name="Menu.Global.Page.Highest10" xml:space="preserve">
+    <value>10 (Highest)</value>
+  </data>
+  <data name="Menu.Global.Page.Comfort" xml:space="preserve">
+    <value>Comfort</value>
+  </data>
+  <data name="Menu.Global.Page.Intense" xml:space="preserve">
+    <value>Intense</value>
+  </data>
+  <data name="Menu.Global.Page.Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Menu.Global.Page.LockFile" xml:space="preserve">
+    <value>Lock settings file</value>
+  </data>
+  <data name="Menu.Global.Page.UITransparency" xml:space="preserve">
+    <value>UI Transparency</value>
+  </data>
+  <data name="Menu.Global.Page.TextSize" xml:space="preserve">
+    <value>Text Size</value>
+  </data>
+  <data name="Menu.Global.Page.ReducedMotion" xml:space="preserve">
+    <value>Reduced Motion</value>
+  </data>
+  <data name="Menu.Global.Page.HUD" xml:space="preserve">
+    <value>HUD Visibility</value>
+  </data>
+  <data name="Menu.Global.Page.ChatVisibility" xml:space="preserve">
+    <value>Chat Visibility</value>
+  </data>
+  <data name="Menu.Global.Page.PlayerNames" xml:space="preserve">
+    <value>Player Names Visible</value>
+  </data>
+  <data name="Menu.Global.Page.Badge" xml:space="preserve">
+    <value>Badge Visible</value>
+  </data>
+  <data name="Menu.Global.Page.FramerateCap" xml:space="preserve">
+    <value>Framerate Cap</value>
+  </data>
+  <data name="Menu.Global.Page.GraphicsQuality" xml:space="preserve">
+    <value>Graphics Quality</value>
+  </data>
+  <data name="Menu.Global.Page.Fullscreen" xml:space="preserve">
+    <value>Fullscreen</value>
+  </data>
+  <data name="Menu.Global.Page.MasterVolume" xml:space="preserve">
+    <value>Master Volume</value>
+  </data>
+  <data name="Menu.Global.Page.VoiceVolume" xml:space="preserve">
+    <value>Voice Chat Volume</value>
+  </data>
+  <data name="Menu.Global.Page.MouseSens" xml:space="preserve">
+    <value>Mouse Sensitivity</value>
+  </data>
+  <data name="Menu.Global.Page.InvertY" xml:space="preserve">
+    <value>Invert Y Axis</value>
+  </data>
+  <data name="Menu.Global.Page.GamepadSens" xml:space="preserve">
+    <value>Gamepad Sensitivity</value>
+  </data>
+  <data name="Menu.Global.Page.Vibration" xml:space="preserve">
+    <value>Enable Controller Vibration</value>
+  </data>
+  <data name="Menu.Global.Page.NetStats" xml:space="preserve">
+    <value>Network Debug Stats</value>
+  </data>
+  <data name="Menu.Global.Page.ChatTranslation" xml:space="preserve">
+    <value>Chat Translation</value>
+  </data>
+  <data name="Menu.Global.Page.EnableVR" xml:space="preserve">
+    <value>Enable VR</value>
+  </data>
+  <data name="Menu.Global.Page.VRComfort" xml:space="preserve">
+    <value>VR Comfort Setting</value>
+  </data>
+  <data name="Menu.Global.Page.Vignette" xml:space="preserve">
+    <value>Vignette in VR</value>
+  </data>
+  <data name="Menu.Global.Page.MicroProfiler" xml:space="preserve">
+    <value>Micro Profiler</value>
+  </data>
+  <data name="Menu.Global.Page.ScreenProfiler" xml:space="preserve">
+    <value>On Screen Profiler</value>
+  </data>
+  <data name="Menu.Global.Page.ResetDefaults" xml:space="preserve">
+    <value>Reset to Default Settings</value>
+  </data>
+  <data name="Menu.Global.Page.LockFileDesc" xml:space="preserve">
+    <value>Marks the Roblox settings file read only so Roblox cannot overwrite your changes</value>
+  </data>
+  <data name="Menu.Global.Page.UITransparencyDesc" xml:space="preserve">
+    <value>Set your preferred interface transparency.</value>
+  </data>
+  <data name="Menu.Global.Page.TextSizeDesc" xml:space="preserve">
+    <value>Controls the overall UI text size.</value>
+  </data>
+  <data name="Menu.Global.Page.ReducedMotionDesc" xml:space="preserve">
+    <value>Disable UI animations for accessibility.</value>
+  </data>
+  <data name="Menu.Global.Page.HUDDesc" xml:space="preserve">
+    <value>Show or hide the in game heads up display.</value>
+  </data>
+  <data name="Menu.Global.Page.ChatVisibilityDesc" xml:space="preserve">
+    <value>Show or hide the in game chat window.</value>
+  </data>
+  <data name="Menu.Global.Page.PlayerNamesDesc" xml:space="preserve">
+    <value>Show other player names.</value>
+  </data>
+  <data name="Menu.Global.Page.BadgeDesc" xml:space="preserve">
+    <value>Show badge notifications while playing.</value>
+  </data>
+  <data name="Menu.Global.Page.FramerateCapDesc" xml:space="preserve">
+    <value>Limit maximum FPS.</value>
+  </data>
+  <data name="Menu.Global.Page.GraphicsQualityDesc" xml:space="preserve">
+    <value>Choose Automatic, or set a fixed level. Higher levels look better and run slower.</value>
+  </data>
+  <data name="Menu.Global.Page.FullscreenDesc" xml:space="preserve">
+    <value>Toggle fullscreen mode.</value>
+  </data>
+  <data name="Menu.Global.Page.MasterVolumeDesc" xml:space="preserve">
+    <value>Overall in game volume.</value>
+  </data>
+  <data name="Menu.Global.Page.VoiceVolumeDesc" xml:space="preserve">
+    <value>Volume for voice communication.</value>
+  </data>
+  <data name="Menu.Global.Page.MouseSensDesc" xml:space="preserve">
+    <value>Adjust mouse sensitivity.</value>
+  </data>
+  <data name="Menu.Global.Page.InvertYDesc" xml:space="preserve">
+    <value>Reverse the vertical camera direction.</value>
+  </data>
+  <data name="Menu.Global.Page.GamepadSensDesc" xml:space="preserve">
+    <value>Adjust joystick sensitivity.</value>
+  </data>
+  <data name="Menu.Global.Page.VibrationDesc" xml:space="preserve">
+    <value>Toggle haptic feedback on controllers.</value>
+  </data>
+  <data name="Menu.Global.Page.NetStatsDesc" xml:space="preserve">
+    <value>Show network ping and packet stats.</value>
+  </data>
+  <data name="Menu.Global.Page.ChatTranslationDesc" xml:space="preserve">
+    <value>Automatically translate chat messages.</value>
+  </data>
+  <data name="Menu.Global.Page.EnableVRDesc" xml:space="preserve">
+    <value>Toggle virtual reality mode.</value>
+  </data>
+  <data name="Menu.Global.Page.VRComfortDesc" xml:space="preserve">
+    <value>Controls camera movement in VR.</value>
+  </data>
+  <data name="Menu.Global.Page.VignetteDesc" xml:space="preserve">
+    <value>Enable vignette for motion sickness reduction.</value>
+  </data>
+  <data name="Menu.Global.Page.MicroProfilerDesc" xml:space="preserve">
+    <value>Enable Roblox microprofiler server.</value>
+  </data>
+  <data name="Menu.Global.Page.ScreenProfilerDesc" xml:space="preserve">
+    <value>Show FPS and performance overlay.</value>
+  </data>
+  <data name="Menu.Global.Page.ResetDefaultsDesc" xml:space="preserve">
+    <value>Restore all preferences to default.</value>
+  </data>
+  <data name="Menu.Integrations.Page.Activity" xml:space="preserve">
+    <value>Activity</value>
+  </data>
+  <data name="Menu.Integrations.Page.Discord" xml:space="preserve">
+    <value>Discord</value>
+  </data>
+  <data name="Menu.Integrations.Page.PlayingRoblox" xml:space="preserve">
+    <value>Playing Roblox</value>
+  </data>
+  <data name="Menu.Integrations.Page.Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="Menu.Integrations.Page.Roblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Integrations.Page.RPCAdvanced" xml:space="preserve">
+    <value>RPC Advanced</value>
+  </data>
+  <data name="Menu.Integrations.Page.RPCAdvancedDesc" xml:space="preserve">
+    <value>Choose what Discord shows.</value>
+  </data>
+  <data name="Menu.Integrations.Page.CustomGameName" xml:space="preserve">
+    <value>Custom game name</value>
+  </data>
+  <data name="Menu.Integrations.Page.CustomImageLink" xml:space="preserve">
+    <value>Custom image link</value>
+  </data>
+  <data name="Menu.Integrations.Page.SnapTap" xml:space="preserve">
+    <value>Snap Tap settings</value>
+  </data>
+  <data name="Menu.Integrations.Page.SnapTapDesc" xml:space="preserve">
+    <value>Choose which keys are paired and which one wins.</value>
+  </data>
+  <data name="Menu.Integrations.Page.SnapTapKeys" xml:space="preserve">
+    <value>A D, W S</value>
+  </data>
+  <data name="Menu.Integrations.Page.SnapTapLinux" xml:space="preserve">
+    <value>On Linux, Snap Tap takes over the keyboard only while Sober is focused and hands it back when you switch away. Sober starts on X11 while Snap Tap is on so Chivas can tell when it is focused.</value>
+  </data>
+  <data name="Menu.Integrations.Page.StartupTray" xml:space="preserve">
+    <value>Startup and tray</value>
+  </data>
+  <data name="Menu.Integrations.Page.StartupTrayDesc" xml:space="preserve">
+    <value>Choose how Roblox starts and stays available.</value>
+  </data>
+  <data name="Menu.Integrations.Page.Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="Menu.Integrations.Page.Music" xml:space="preserve">
+    <value>Music</value>
+  </data>
+  <data name="Menu.Integrations.Page.LaunchDelay" xml:space="preserve">
+    <value>Launch Delay</value>
+  </data>
+  <data name="Menu.Integrations.Page.PlaceId" xml:space="preserve">
+    <value>Place ID</value>
+  </data>
+  <data name="Menu.Integrations.Page.PlaceIdHint" xml:space="preserve">
+    <value>e.g. 286090429</value>
+  </data>
+  <data name="Menu.Integrations.Page.View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Menu.Integrations.Page.GameName" xml:space="preserve">
+    <value>Game name</value>
+  </data>
+  <data name="Menu.Integrations.Page.GameIcon" xml:space="preserve">
+    <value>Game icon</value>
+  </data>
+  <data name="Menu.Integrations.Page.Creator" xml:space="preserve">
+    <value>Creator</value>
+  </data>
+  <data name="Menu.Integrations.Page.ServerType" xml:space="preserve">
+    <value>Server type</value>
+  </data>
+  <data name="Menu.Integrations.Page.ServerLocation" xml:space="preserve">
+    <value>Server location</value>
+  </data>
+  <data name="Menu.Integrations.Page.BetaTag" xml:space="preserve">
+    <value>Beta tag</value>
+  </data>
+  <data name="Menu.Integrations.Page.FastFlagCount" xml:space="preserve">
+    <value>FastFlag count</value>
+  </data>
+  <data name="Menu.Integrations.Page.GrantAccess" xml:space="preserve">
+    <value>Grant access</value>
+  </data>
+  <data name="Menu.Integrations.Page.AddToSteam" xml:space="preserve">
+    <value>Add to Steam</value>
+  </data>
+  <data name="Menu.Integrations.Page.Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Menu.Integrations.Page.PreLaunch" xml:space="preserve">
+    <value>Pre Roblox Launch</value>
+  </data>
+  <data name="Menu.Integrations.Page.RunMinimized" xml:space="preserve">
+    <value>Run Minimized</value>
+  </data>
+  <data name="Menu.Integrations.Page.RunAsAdmin" xml:space="preserve">
+    <value>Run As Administrator</value>
+  </data>
+  <data name="Menu.Integrations.Page.OnlyForGame" xml:space="preserve">
+    <value>Only for a specific game</value>
+  </data>
+  <data name="Menu.Integrations.Page.CloseOnLeave" xml:space="preserve">
+    <value>Close when leaving that game</value>
+  </data>
+  <data name="Menu.Integrations.Page.JoinNotify" xml:space="preserve">
+    <value>Join-Game Notification</value>
+  </data>
+  <data name="Menu.Integrations.Page.CustomRPC" xml:space="preserve">
+    <value>Custom RPC</value>
+  </data>
+  <data name="Menu.Integrations.Page.QuietUnfocused" xml:space="preserve">
+    <value>Quiet when unfocused</value>
+  </data>
+  <data name="Menu.Integrations.Page.HeadsetLoudness" xml:space="preserve">
+    <value>Headset loudness</value>
+  </data>
+  <data name="Menu.Integrations.Page.TelemetryBlocker" xml:space="preserve">
+    <value>Telemetry blocker</value>
+  </data>
+  <data name="Menu.Integrations.Page.FPSUnlocker" xml:space="preserve">
+    <value>FPS unlocker</value>
+  </data>
+  <data name="Menu.Integrations.Page.SnapTapItem" xml:space="preserve">
+    <value>Snap Tap</value>
+  </data>
+  <data name="Menu.Integrations.Page.KeyboardAccess" xml:space="preserve">
+    <value>Keyboard access</value>
+  </data>
+  <data name="Menu.Integrations.Page.Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="Menu.Integrations.Page.KeyGroups" xml:space="preserve">
+    <value>Key groups</value>
+  </data>
+  <data name="Menu.Integrations.Page.SystemTray" xml:space="preserve">
+    <value>System tray</value>
+  </data>
+  <data name="Menu.Integrations.Page.LaunchOnStartup" xml:space="preserve">
+    <value>Launch on startup</value>
+  </data>
+  <data name="Menu.Integrations.Page.SteamLibrary" xml:space="preserve">
+    <value>Steam library</value>
+  </data>
+  <data name="Menu.Integrations.Page.AccountSwitcher" xml:space="preserve">
+    <value>Account switcher</value>
+  </data>
+  <data name="Menu.Integrations.Page.GameHistory" xml:space="preserve">
+    <value>Game history</value>
+  </data>
+  <data name="Menu.Integrations.Page.ViewMusicPlayer" xml:space="preserve">
+    <value>View Music Player</value>
+  </data>
+  <data name="Menu.Integrations.Page.MusicDesc" xml:space="preserve">
+    <value>View and listen to your music, or manage from the tray menu.</value>
+  </data>
+  <data name="Menu.Releases.Page.SearchHint" xml:space="preserve">
+    <value>Search Releases...</value>
+  </data>
+  <data name="Menu.Releases.Page.Prerelease" xml:space="preserve">
+    <value>Pre-release</value>
+  </data>
+  <data name="Menu.Releases.Page.Draft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="Menu.Releases.Page.ViewGitHub" xml:space="preserve">
+    <value>View on GitHub</value>
+  </data>
+  <data name="Menu.Releases.Page.Releases" xml:space="preserve">
+    <value>Releases</value>
+  </data>
+  <data name="Menu.Help.Page.Subtitle" xml:space="preserve">
+    <value>Provides info on FFlags - Features.</value>
+  </data>
+  <data name="Menu.Help.Page.CommonIssues" xml:space="preserve">
+    <value>Common FFlag Issues</value>
+  </data>
+  <data name="Menu.Help.Page.BootstrapperIssues" xml:space="preserve">
+    <value>Bootstrapper Issues</value>
+  </data>
+  <data name="Menu.Help.Page.Features" xml:space="preserve">
+    <value>Features</value>
+  </data>
+  <data name="Menu.Library.Page.Home" xml:space="preserve">
+    <value>Library Home</value>
+  </data>
+  <data name="Menu.Library.Page.SearchGames" xml:space="preserve">
+    <value>Search games</value>
+  </data>
+  <data name="Menu.Library.Page.AddByPlaceId" xml:space="preserve">
+    <value>Add by PlaceId or link</value>
+  </data>
+  <data name="Menu.Library.Page.EmptyDesc" xml:space="preserve">
+    <value>Your library is empty. Play a game through Chivas or add one by PlaceId from the sidebar.</value>
+  </data>
+  <data name="Menu.Library.Page.Events" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="Menu.Library.Page.WhatsNew" xml:space="preserve">
+    <value>What's New</value>
+  </data>
+  <data name="Menu.Library.Page.RecentGames" xml:space="preserve">
+    <value>Recent Games</value>
+  </data>
+  <data name="Menu.Library.Page.LastPlayed" xml:space="preserve">
+    <value>LAST PLAYED</value>
+  </data>
+  <data name="Menu.Library.Page.PlayTime" xml:space="preserve">
+    <value>PLAY TIME</value>
+  </data>
+  <data name="Menu.Library.Page.PlayingNow" xml:space="preserve">
+    <value>PLAYING NOW</value>
+  </data>
+  <data name="Menu.Library.Page.Rating" xml:space="preserve">
+    <value>RATING</value>
+  </data>
+  <data name="Menu.Library.Page.About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Menu.Library.Page.Creator" xml:space="preserve">
+    <value>Creator</value>
+  </data>
+  <data name="Menu.Library.Page.Genre" xml:space="preserve">
+    <value>Genre</value>
+  </data>
+  <data name="Menu.Library.Page.MaxPlayers" xml:space="preserve">
+    <value>Max players</value>
+  </data>
+  <data name="Menu.Library.Page.Visits" xml:space="preserve">
+    <value>Visits</value>
+  </data>
+  <data name="Menu.Library.Page.Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="Menu.Library.Page.Updated" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="Menu.Library.Page.Store" xml:space="preserve">
+    <value>Store</value>
+  </data>
+  <data name="Menu.Library.Page.ViewEvent" xml:space="preserve">
+    <value>View event</value>
+  </data>
+  <data name="Menu.Library.Page.Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="Menu.Library.Page.Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Menu.Library.Page.RemoveFromLibrary" xml:space="preserve">
+    <value>Remove from library</value>
+  </data>
+  <data name="Menu.Library.Page.RefreshLibrary" xml:space="preserve">
+    <value>Refresh library</value>
+  </data>
+  <data name="Menu.Library.Page.AddToLibrary" xml:space="preserve">
+    <value>Add this game to your library</value>
+  </data>
+  <data name="Menu.Library.Page.DragResize" xml:space="preserve">
+    <value>Drag to resize, double click to reset</value>
+  </data>
+  <data name="Menu.Library.Page.RemoveGame" xml:space="preserve">
+    <value>Remove this game from your library</value>
+  </data>
+  <data name="Menu.Library.Page.OpenGamepass" xml:space="preserve">
+    <value>Open this gamepass on roblox.com</value>
+  </data>
+  <data name="Menu.Downloads.Page.Installed" xml:space="preserve">
+    <value>Installed</value>
+  </data>
+  <data name="Menu.Downloads.Page.Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Menu.Downloads.Page.SearchInstalls" xml:space="preserve">
+    <value>Search your installs</value>
+  </data>
+  <data name="Menu.Downloads.Page.Roblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Downloads.Page.ClassicClients" xml:space="preserve">
+    <value>Classic clients</value>
+  </data>
+  <data name="Menu.Downloads.Page.PickInstall" xml:space="preserve">
+    <value>Pick an install on the left to see its details.</value>
+  </data>
+  <data name="Menu.Downloads.Page.Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Menu.Downloads.Page.Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Menu.Downloads.Page.Addons" xml:space="preserve">
+    <value>Addons</value>
+  </data>
+  <data name="Menu.Downloads.Page.Everything" xml:space="preserve">
+    <value>Everything</value>
+  </data>
+  <data name="Menu.Downloads.Page.Classic" xml:space="preserve">
+    <value>Classic</value>
+  </data>
+  <data name="Menu.Downloads.Page.InstallFolder" xml:space="preserve">
+    <value>Install folder</value>
+  </data>
+  <data name="Menu.Downloads.Page.Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Menu.Downloads.Page.FleasionTip" xml:space="preserve">
+    <value>Fleasion, open in Extensions</value>
+  </data>
+  <data name="Menu.Downloads.Page.RiShadeTip" xml:space="preserve">
+    <value>RiShade, open in Extensions</value>
+  </data>
+  <data name="Menu.Downloads.Page.RojoTip" xml:space="preserve">
+    <value>Rojo, open in Extensions</value>
+  </data>
+  <data name="Menu.Downloads.Page.ChangeLocation" xml:space="preserve">
+    <value>Change install location</value>
+  </data>
+  <data name="Menu.Downloads.Page.OpenFolder" xml:space="preserve">
+    <value>Open install folder</value>
+  </data>
+  <data name="Menu.Downloads.Page.VerifyFiles" xml:space="preserve">
+    <value>Verify files</value>
+  </data>
+  <data name="Menu.Downloads.Page.Uninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="Menu.Integrations.Page.ViewMusicPlayerDesc" xml:space="preserve">
+    <value>Displays the game you have joined and its server location in the top-right corner.</value>
+  </data>
+  <data name="Menu.Integrations.Page.CustomRPCDesc" xml:space="preserve">
+    <value>Make/Edit a custom RPC for Discord.</value>
+  </data>
+  <data name="Menu.Integrations.Page.QuietUnfocusedDesc" xml:space="preserve">
+    <value>Lower Roblox volume while its window is inactive.</value>
+  </data>
+  <data name="Menu.Integrations.Page.HeadsetDesc" xml:space="preserve">
+    <value>Balance loud and quiet Roblox audio.</value>
+  </data>
+  <data name="Menu.Integrations.Page.TelemetryDesc" xml:space="preserve">
+    <value>Block Roblox telemetry. Administrator access is needed once.</value>
+  </data>
+  <data name="Menu.Integrations.Page.FPSDesc" xml:space="preserve">
+    <value>Remove the 240 FPS limit. Unavailable while Frame Generation is enabled.</value>
+  </data>
+  <data name="Menu.Integrations.Page.SnapTapWin" xml:space="preserve">
+    <value>When two opposite keys are held, the last one pressed wins instantly.</value>
+  </data>
+  <data name="Menu.Integrations.Page.KeyGroupsDesc" xml:space="preserve">
+    <value>What happens while two keys from the same group are held.</value>
+  </data>
+  <data name="Menu.Integrations.Page.KeyGroupsHint" xml:space="preserve">
+    <value>Separate groups with commas and keys with spaces.</value>
+  </data>
+  <data name="Menu.Integrations.Page.TrayDesc" xml:space="preserve">
+    <value>Minimize Roblox to the system tray.</value>
+  </data>
+  <data name="Menu.Integrations.Page.StartupDesc" xml:space="preserve">
+    <value>Launch Roblox when you sign in to Windows.</value>
+  </data>
+  <data name="Menu.Integrations.Page.AccountsDesc" xml:space="preserve">
+    <value>Create, back up, and switch Roblox accounts.</value>
+  </data>
+  <data name="Menu.Integrations.Page.HistoryDesc" xml:space="preserve">
+    <value>View games you recently played.</value>
+  </data>
+  <data name="Menu.Integrations.Page.ServerVisibility" xml:space="preserve">
+    <value>Public, private or reserved</value>
+  </data>
+  <data name="Menu.Integrations.Page.BetaTagDesc" xml:space="preserve">
+    <value>Turns markers like [BETA] or WIP in the game name into a clean tag</value>
+  </data>
+  <data name="Menu.Integrations.Page.GameNameDesc" xml:space="preserve">
+    <value>Replaces the game name. Game name must be on.</value>
+  </data>
+  <data name="Menu.Integrations.Page.GameIconDesc" xml:space="preserve">
+    <value>Replaces the game icon.</value>
+  </data>
+  <data name="Menu.Integrations.Page.IdleText" xml:space="preserve">
+    <value>Shown when you are not in a game</value>
+  </data>
+  <data name="Menu.Downloads.Page.Map" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="Menu.Help.Page.LinkGrayAvatars" xml:space="preserve">
+    <value>Gray Avatars</value>
+  </data>
+  <data name="Menu.Help.Page.LinkBlurry" xml:space="preserve">
+    <value>Blurry Icons Textures</value>
+  </data>
+  <data name="Menu.Help.Page.LinkLaggyAnim" xml:space="preserve">
+    <value>Laggy Animation</value>
+  </data>
+  <data name="Menu.Help.Page.LinkStutters" xml:space="preserve">
+    <value>Frame Stutters</value>
+  </data>
+  <data name="Menu.Help.Page.LinkLighting" xml:space="preserve">
+    <value>Lighting Problems</value>
+  </data>
+  <data name="Menu.Help.Page.LinkGraySky" xml:space="preserve">
+    <value>Gray Sky</value>
+  </data>
+  <data name="Menu.Help.Page.LinkBlackTextures" xml:space="preserve">
+    <value>Black Textures</value>
+  </data>
+  <data name="Menu.Help.Page.LinkRainbow" xml:space="preserve">
+    <value>Rainbow UI Textures</value>
+  </data>
+  <data name="Menu.Help.Page.LinkLoading" xml:space="preserve">
+    <value>Loading Issues</value>
+  </data>
+  <data name="Menu.Help.Page.LinkFPSCap" xml:space="preserve">
+    <value>FPS Capped When Uncapped</value>
+  </data>
+  <data name="Menu.Help.Page.LinkQuality" xml:space="preserve">
+    <value>Quality Level Not Changing</value>
+  </data>
+  <data name="Menu.Help.Page.LinkBlackSky" xml:space="preserve">
+    <value>Black Sky</value>
+  </data>
+  <data name="Menu.Help.Page.LinkCrashing" xml:space="preserve">
+    <value>Roblox Crashing</value>
+  </data>
+  <data name="Menu.Help.Page.LinkWhiteSky" xml:space="preserve">
+    <value>White Sky and White Screen</value>
+  </data>
+  <data name="Menu.Help.Page.LinkCameraCrash" xml:space="preserve">
+    <value>Crash on Fast Camera Turn</value>
+  </data>
+  <data name="Menu.Help.Page.LinkRPC" xml:space="preserve">
+    <value>Discord Rich-Presence Not Working</value>
+  </data>
+  <data name="Menu.Help.Page.LinkSetup" xml:space="preserve">
+    <value>Setup Failed</value>
+  </data>
+  <data name="Menu.Help.Page.LinkConnectivity" xml:space="preserve">
+    <value>Connectivity Issue</value>
+  </data>
+  <data name="Menu.Help.Page.LinkBuffering" xml:space="preserve">
+    <value>Recommended Buffering</value>
+  </data>
+  <data name="Menu.Help.Page.LinkRendering" xml:space="preserve">
+    <value>Rendering Modes</value>
+  </data>
+  <data name="Menu.Help.Page.LinkOverride" xml:space="preserve">
+    <value>Override Graphic Quality</value>
+  </data>
+  <data name="Menu.Help.Page.LinkTexSkip" xml:space="preserve">
+    <value>Texture Skipping</value>
+  </data>
+  <data name="Menu.Help.Page.LinkNoTitlebar" xml:space="preserve">
+    <value>Disable Full-Screen TitleBar</value>
+  </data>
+  <data name="Menu.Help.Page.LinkTelemetry" xml:space="preserve">
+    <value>Telemetry</value>
+  </data>
+  <data name="Menu.Help.Page.LinkLagSpikes" xml:space="preserve">
+    <value>ReduceLagSpikes</value>
+  </data>
+  <data name="Menu.Help.Page.LinkReplicator" xml:space="preserve">
+    <value>LargeReplicator</value>
+  </data>
+  <data name="Menu.Help.Page.LinkRCore" xml:space="preserve">
+    <value>RCore</value>
+  </data>
+  <data name="Menu.Help.Page.LinkPayload" xml:space="preserve">
+    <value>Payload Limit</value>
+  </data>
+  <data name="Menu.TopMenu.About" xml:space="preserve">
+    <value>About Chivas</value>
+  </data>
+  <data name="Menu.TopMenu.CheckUpdates" xml:space="preserve">
+    <value>Check for Updates</value>
+  </data>
+  <data name="Menu.TopMenu.ReleaseNotes" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="Menu.TopMenu.OpenLogs" xml:space="preserve">
+    <value>Open Logs Folder</value>
+  </data>
+  <data name="Menu.TopMenu.ChivasLogs" xml:space="preserve">
+    <value>Chivas Logs</value>
+  </data>
+  <data name="Menu.TopMenu.RobloxLogs" xml:space="preserve">
+    <value>Roblox Logs</value>
+  </data>
+  <data name="Menu.TopMenu.OpenAppFolder" xml:space="preserve">
+    <value>Open Application Folder</value>
+  </data>
+  <data name="Menu.TopMenu.Support" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="Menu.TopMenu.Restart" xml:space="preserve">
+    <value>Restart Chivas</value>
+  </data>
+  <data name="Menu.Extensions.Page.RojoBrowse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="Menu.Extensions.Page.RojoServeTip" xml:space="preserve">
+    <value>Start or stop sync</value>
+  </data>
+  <data name="Menu.Extensions.Page.OpenSourceTip" xml:space="preserve">
+    <value>Open the source page</value>
+  </data>
+  <data name="Menu.Extensions.Page.Browse" xml:space="preserve">
+    <value>Browse and manage extensions for Chivas and its community.</value>
+  </data>
+  <data name="Menu.Extensions.Page.SearchHint" xml:space="preserve">
+    <value>Search extensions</value>
+  </data>
+  <data name="Menu.Extensions.Page.TypeLabel" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Menu.Extensions.Page.StatusFilter" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Menu.Extensions.Page.StatusAll" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Menu.Extensions.Page.StatusEnabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="Menu.Extensions.Page.StatusDisabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Menu.Extensions.Page.TabAssets" xml:space="preserve">
+    <value>Chivas Assets</value>
+  </data>
+  <data name="Menu.Extensions.Page.DetailBack" xml:space="preserve">
+    <value>Back to extensions</value>
+  </data>
+  <data name="Menu.Extensions.Page.DescTab" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Menu.Extensions.Page.VersionsTab" xml:space="preserve">
+    <value>Versions</value>
+  </data>
+  <data name="Menu.Extensions.Page.RojoTools" xml:space="preserve">
+    <value>Project tools</value>
+  </data>
+  <data name="Menu.Extensions.Page.RojoFolder" xml:space="preserve">
+    <value>Project folder</value>
+  </data>
+  <data name="Menu.Extensions.Page.RojoNew" xml:space="preserve">
+    <value>New project</value>
+  </data>
+  <data name="Menu.Extensions.Page.RojoServeStart" xml:space="preserve">
+    <value>Start sync</value>
+  </data>
+  <data name="Menu.Extensions.Page.RojoServeStop" xml:space="preserve">
+    <value>Stop sync</value>
+  </data>
+  <data name="Menu.Extensions.Page.RojoBuild" xml:space="preserve">
+    <value>Build place</value>
+  </data>
+  <data name="Menu.Extensions.Page.RojoPlugin" xml:space="preserve">
+    <value>Install Studio plugin</value>
+  </data>
+  <data name="Menu.Extensions.Page.RojoOpenFolder" xml:space="preserve">
+    <value>Open folder</value>
+  </data>
+  <data name="Menu.Extensions.Page.OpenGitHub" xml:space="preserve">
+    <value>Open on GitHub</value>
+  </data>
+  <data name="Menu.Extensions.Page.WorksWith" xml:space="preserve">
+    <value>Works with</value>
+  </data>
+  <data name="Menu.Extensions.Page.VersionLbl" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Menu.Extensions.Page.UpdatedLbl" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="Menu.Extensions.Page.TagsLbl" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="Menu.Extensions.Page.CreatorsLbl" xml:space="preserve">
+    <value>Creators</value>
+  </data>
+  <data name="Menu.Extensions.Page.EntryEnable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Menu.Extensions.Page.EntryDisable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="Menu.Extensions.Page.EntryEnabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="Menu.Extensions.Page.EntryDisabled" xml:space="preserve">
+    <value>Not enabled</value>
+  </data>
+  <data name="Menu.Extensions.Page.EntryChecking" xml:space="preserve">
+    <value>Checking version</value>
+  </data>
+  <data name="Menu.Extensions.Page.EntryNoVersion" xml:space="preserve">
+    <value>No version for this content</value>
+  </data>
+  <data name="Menu.Extensions.Page.EntryNoReleases" xml:space="preserve">
+    <value>No releases yet</value>
+  </data>
+  <data name="Menu.Extensions.Page.EntryOpen" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Menu.Extensions.Page.DetailView" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Menu.Dialog.ExceptionBackup" xml:space="preserve">
+    <value>Report on backup</value>
+  </data>
+  <data name="Menu.Dialog.ExceptionCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Menu.Settings.Page.InstallLocation" xml:space="preserve">
+    <value>Install Location</value>
+  </data>
+  <data name="Menu.Settings.Page.CpuLimit" xml:space="preserve">
+    <value>Chivas CPU limit</value>
+  </data>
+  <data name="Menu.Settings.Page.Prerelease" xml:space="preserve">
+    <value>Include pre-release versions</value>
+  </data>
+  <data name="Menu.Settings.Page.CheckUpdates" xml:space="preserve">
+    <value>Check for Updates</value>
+  </data>
+  <data name="Menu.Settings.Page.GlobalSettings" xml:space="preserve">
+    <value>Global Settings</value>
+  </data>
+  <data name="Menu.Settings.Page.LaunchWithout" xml:space="preserve">
+    <value>Launch Roblox without Chivas</value>
+  </data>
+  <data name="Menu.Settings.Page.DisplayResolution" xml:space="preserve">
+    <value>Display and Resolution</value>
+  </data>
+  <data name="Menu.Settings.Page.ResolutionChanger" xml:space="preserve">
+    <value>Resolution Changer</value>
+  </data>
+  <data name="Menu.Settings.Page.ResolutionInGame" xml:space="preserve">
+    <value>Resolution Changer (In Game)</value>
+  </data>
+  <data name="Menu.Settings.Page.AppSettings" xml:space="preserve">
+    <value>App Settings</value>
+  </data>
+  <data name="Menu.Settings.Page.HwAccel" xml:space="preserve">
+    <value>Hardware acceleration</value>
+  </data>
+  <data name="Menu.Settings.Page.AppNotifications" xml:space="preserve">
+    <value>App Notifications</value>
+  </data>
+  <data name="Menu.Settings.Page.ChivasRPC" xml:space="preserve">
+    <value>Chivas RPC</value>
+  </data>
+  <data name="Menu.Settings.Page.DlBuffer" xml:space="preserve">
+    <value>Download Buffer Size (KB)</value>
+  </data>
+  <data name="Menu.Settings.Page.ConcurrentDl" xml:space="preserve">
+    <value>Concurrent Downloads</value>
+  </data>
+  <data name="Menu.Settings.Page.Segments" xml:space="preserve">
+    <value>Segments Per File</value>
+  </data>
+  <data name="Menu.Settings.Page.StaticDir" xml:space="preserve">
+    <value>Static directory</value>
+  </data>
+  <data name="Menu.Settings.Page.Compress" xml:space="preserve">
+    <value>Compress Roblox installs</value>
+  </data>
+  <data name="Menu.Settings.Page.Efficiency" xml:space="preserve">
+    <value>Efficiency mode</value>
+  </data>
+  <data name="Menu.Settings.Page.RobloxPriority" xml:space="preserve">
+    <value>Roblox Priority</value>
+  </data>
+  <data name="Menu.Settings.Page.RobloxUpdates" xml:space="preserve">
+    <value>Roblox updates</value>
+  </data>
+  <data name="Menu.Settings.Page.RendererBackend" xml:space="preserve">
+    <value>Renderer backend</value>
+  </data>
+  <data name="Menu.Settings.Page.MoveLocationDesc" xml:space="preserve">
+    <value>Move where Chivas is installed. The app restarts automatically when done.</value>
+  </data>
+  <data name="Menu.Settings.Page.CpuLimitDesc" xml:space="preserve">
+    <value>Limits Chivas's own processor affinity. Leave it at the maximum unless another active app needs reserved cores.</value>
+  </data>
+  <data name="Menu.Settings.Page.PrereleaseDesc" xml:space="preserve">
+    <value>Updates to test builds as soon as they are published. These are less tested than normal releases and can break, so leave this off unless you want early builds.</value>
+  </data>
+  <data name="Menu.Settings.Page.CheckUpdatesDesc" xml:space="preserve">
+    <value>Check for any available Chivas updates.</value>
+  </data>
+  <data name="Menu.Settings.Page.GlobalSettingsDesc" xml:space="preserve">
+    <value>Applies your current settings to every bootstrapper installed.</value>
+  </data>
+  <data name="Menu.Settings.Page.LaunchWithoutDesc" xml:space="preserve">
+    <value>Joining a game from your browser opens Roblox directly, and launching from Chivas closes it once Roblox starts. Overlays and every other in game Chivas feature stop working.</value>
+  </data>
+  <data name="Menu.Settings.Page.ResolutionDesc" xml:space="preserve">
+    <value>Changes the resolution of the selected monitor.</value>
+  </data>
+  <data name="Menu.Settings.Page.ResolutionInGameDesc" xml:space="preserve">
+    <value>Applies to the selected monitor while you are in a Roblox game, then restores your previous resolution when you leave.</value>
+  </data>
+  <data name="Menu.Settings.Page.HwAccelDesc" xml:space="preserve">
+    <value>Uses the GPU to render Chivas. Turn this off for compatibility or lower video memory usage.</value>
+  </data>
+  <data name="Menu.Settings.Page.AppNotifDesc" xml:space="preserve">
+    <value>Displays Chivas notifications, joined servers, and more.</value>
+  </data>
+  <data name="Menu.Settings.Page.ChivasRPCDesc" xml:space="preserve">
+    <value>Displays Chivas discord RPC.</value>
+  </data>
+  <data name="Menu.Settings.Page.DlBufferDesc" xml:space="preserve">
+    <value>Larger buffers can speed up downloads on fast connections</value>
+  </data>
+  <data name="Menu.Settings.Page.ConcurrentDlDesc" xml:space="preserve">
+    <value>How many packages download at the same time. Higher is faster but uses more bandwidth</value>
+  </data>
+  <data name="Menu.Settings.Page.SegmentsDesc" xml:space="preserve">
+    <value>Splits each package into parallel chunks for faster downloading</value>
+  </data>
+  <data name="Menu.Settings.Page.StaticDirDesc" xml:space="preserve">
+    <value>Switch from version-xxx to BinaryType based install directories.</value>
+  </data>
+  <data name="Menu.Settings.Page.CompressDesc" xml:space="preserve">
+    <value>Packs Roblox into a compressed archive while they are closed, about 40% smaller on disk. Only the one you launch is unpacked first, which takes a second or two.</value>
+  </data>
+  <data name="Menu.Settings.Page.RobloxUpdatesDesc" xml:space="preserve">
+    <value>When disabled, Roblox won't update to newer versions.</value>
+  </data>
+  <data name="Menu.Settings.Page.RendererDesc" xml:space="preserve">
+    <value>Chooses the graphics backend Chivas draws itself with. Automatic picks the fastest one your system supports. Changing this takes effect the next time Chivas starts.</value>
+  </data>
+  <data name="Menu.Settings.Page.BrowseBtn" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="Menu.Settings.Page.MoveBtn" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="Menu.Settings.Page.ApplyBtn" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Menu.Settings.Page.IdentifyBtn" xml:space="preserve">
+    <value>Identify</value>
+  </data>
+  <data name="Menu.Settings.Page.PlaceIdOnly" xml:space="preserve">
+    <value>Only apply for a specific PlaceId</value>
+  </data>
+  <data name="Menu.Settings.Page.ClearBtn" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Menu.Settings.Page.FactoryReset" xml:space="preserve">
+    <value>Factory reset</value>
+  </data>
+  <data name="Menu.Settings.Page.LogsBtn" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="Menu.Settings.Page.UninstallBtn" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="Menu.Settings.Page.DeliveryNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Menu.Settings.Page.DeliveryEarly" xml:space="preserve">
+    <value>Early (Opt In)</value>
+  </data>
+  <data name="Menu.Settings.Page.DeliveryLate" xml:space="preserve">
+    <value>Late (Opt Out)</value>
+  </data>
+  <data name="Menu.Settings.Page.AllocMemory" xml:space="preserve">
+    <value>Allocated Memory</value>
+  </data>
+  <data name="Menu.Settings.Page.AllocMemoryDesc" xml:space="preserve">
+    <value>How much memory Roblox is allowed to use</value>
+  </data>
+  <data name="Menu.Settings.Page.UpdateDelivery" xml:space="preserve">
+    <value>Game Update Delivery</value>
+  </data>
+  <data name="Menu.Settings.Page.UpdateDeliverySel" xml:space="preserve">
+    <value>Select when you'd like to receive Roblox game updates</value>
+  </data>
+  <data name="Menu.Settings.Page.UpdateDeliveryNormal" xml:space="preserve">
+    <value>You get each Roblox update on your next launch after it is released</value>
+  </data>
+  <data name="Menu.Settings.Page.UpdateDeliveryEarly" xml:space="preserve">
+    <value>Checks Roblox's own version server first, so a new update is picked up the moment it goes live instead of waiting for the cached copy</value>
+  </data>
+  <data name="Menu.Settings.Page.UpdateDeliveryLate" xml:space="preserve">
+    <value>Keeps the version you have for 3 days after each Roblox update so early bugs get fixed first, then updates on its own. A missing or broken install always updates right away</value>
+  </data>
+  <data name="Menu.Settings.Page.ChannelTip" xml:space="preserve">
+    <value>Enter deployment channel (e.g., production, zlive, live)</value>
+  </data>
+  <data name="Menu.Chrome.SettingsChanged" xml:space="preserve">
+    <value>Settings changed</value>
+  </data>
+  <data name="Menu.Chrome.RestartToApply" xml:space="preserve">
+    <value>Restart Chivas to apply this change.</value>
+  </data>
+  <data name="Menu.Chrome.Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Menu.Chrome.SearchHint" xml:space="preserve">
+    <value>Search pages and settings</value>
+  </data>
+  <data name="Menu.Chrome.NoResults" xml:space="preserve">
+    <value>No results</value>
+  </data>
+  <data name="Menu.Chrome.TryDifferent" xml:space="preserve">
+    <value>Try a different word or check the spelling</value>
+  </data>
+  <data name="Menu.Chrome.ToMove" xml:space="preserve">
+    <value>to move</value>
+  </data>
+  <data name="Menu.Chrome.ToOpen" xml:space="preserve">
+    <value>to open</value>
+  </data>
+  <data name="Menu.Chrome.ToClose" xml:space="preserve">
+    <value>to close</value>
+  </data>
+  <data name="Menu.Chrome.Notifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="Menu.Chrome.CaughtUp" xml:space="preserve">
+    <value>You're all caught up</value>
+  </data>
+  <data name="Menu.Chrome.NotifDesc" xml:space="preserve">
+    <value>Crashes, errors and important updates from Chivas show up here.</value>
+  </data>
+  <data name="Menu.Chrome.RestartNow" xml:space="preserve">
+    <value>Restart now</value>
+  </data>
+  <data name="Menu.Chrome.Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Menu.Chrome.SavedMsg" xml:space="preserve">
+    <value>Changes have been saved.</value>
+  </data>
+  <data name="Menu.Chrome.Dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="Menu.Chrome.MarkRead" xml:space="preserve">
+    <value>Mark all as read</value>
+  </data>
+  <data name="Menu.Chrome.ClearAll" xml:space="preserve">
+    <value>Clear all</value>
+  </data>
+  <data name="Menu.Chrome.OpenLog" xml:space="preserve">
+    <value>Open the log for this entry</value>
+  </data>
+  <data name="Menu.Chrome.Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Menu.Chrome.Forward" xml:space="preserve">
+    <value>Forward</value>
+  </data>
+  <data name="Menu.Chrome.CollapseSidebar" xml:space="preserve">
+    <value>Collapse or expand the sidebar</value>
+  </data>
+  <data name="Menu.Chrome.ResizeHint" xml:space="preserve">
+    <value>Drag to resize, double click to reset</value>
+  </data>
+  <data name="Menu.Chrome.ZoomOut" xml:space="preserve">
+    <value>Zoom out</value>
+  </data>
+  <data name="Menu.Chrome.ZoomIn" xml:space="preserve">
+    <value>Zoom in</value>
+  </data>
+  <data name="Menu.Chrome.SavedLaunchedTitle" xml:space="preserve">
+    <value>Chivas Saved And Launched Roblox!</value>
+  </data>
+  <data name="Menu.Chrome.NotChanged" xml:space="preserve">
+    <value>Setting not changed</value>
+  </data>
+  <data name="Menu.Dialogs.Code.NotInstalled" xml:space="preserve">
+    <value>Roblox is not installed yet. Launch it once through Chivas, after that it opens without Chivas.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ResolutionFail" xml:space="preserve">
+    <value>Failed to change resolution: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.KeepResolution" xml:space="preserve">
+    <value>Keep this resolution? It will revert automatically in 15 seconds if you do not confirm.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.AlreadyInstalled" xml:space="preserve">
+    <value>Chivas is already installed at that location.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.MoveConfirm" xml:space="preserve">
+    <value>Chivas will be moved to:
+{0}
+
+It will restart automatically when done. Close Roblox first if it is running.
+
+Continue?</value>
+  </data>
+  <data name="Menu.Dialogs.Code.LoginSync" xml:space="preserve">
+    <value>Chivas can't find your Roblox login yet, so the matchmaker can't sync.
+
+Click Continue to launch Roblox and log in - it will sync automatically afterwards.
+Click Cancel to leave the matchmaker turned off.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.CloseForClean" xml:space="preserve">
+    <value>Close Roblox before cleaning the cache.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.NothingToClean" xml:space="preserve">
+    <value>There's nothing to clean.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.CleanedOk" xml:space="preserve">
+    <value>Successfully cleaned the Roblox cache.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.SaveFail" xml:space="preserve">
+    <value>Settings could not be saved. Check the logs and try again.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.SavePartialFail" xml:space="preserve">
+    <value>Some settings could not be saved. Check the logs and try again.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.WaitOp" xml:space="preserve">
+    <value>Wait for the current operation to finish.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.WaitOpLocation" xml:space="preserve">
+    <value>Wait for the current operation to finish before changing the install location.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.WIPConfirm" xml:space="preserve">
+    <value>These are a WIP and may not work all entirely yet and may produce errors, I will still continue to work on these fixes.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.BadClientFolder" xml:space="preserve">
+    <value>That folder does not look like an ChivasClient installation. It must contain ChivasClient.WebServer.exe and a data\clients folder.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ChooseInstallTitle" xml:space="preserve">
+    <value>Choose where to install {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.GraphDownloading" xml:space="preserve">
+    <value>Downloading {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.GraphIdle" xml:space="preserve">
+    <value>No active download</value>
+  </data>
+  <data name="Menu.Dialogs.Code.LocateClient" xml:space="preserve">
+    <value>Locate your ChivasClient folder</value>
+  </data>
+  <data name="Menu.Dialogs.Code.RojoDlFail" xml:space="preserve">
+    <value>Could not download Rojo:
+{0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.RojoUninstFail" xml:space="preserve">
+    <value>Could not uninstall Rojo: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.RojoEnableFirst" xml:space="preserve">
+    <value>Enable Rojo first so it can download.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.RojoChooseFolder" xml:space="preserve">
+    <value>Choose a project folder first.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.RojoFolderFail" xml:space="preserve">
+    <value>Could not open the folder picker: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.RojoCreated" xml:space="preserve">
+    <value>Rojo project created in:
+{0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.RojoServeFail" xml:space="preserve">
+    <value>Could not start rojo serve.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.RojoBuilt" xml:space="preserve">
+    <value>Built place file:
+{0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.RojoPluginInstalled" xml:space="preserve">
+    <value>The Rojo Studio plugin was installed. Open Studio, then click Connect on the Rojo toolbar.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.RojoPluginFail" xml:space="preserve">
+    <value>Could not install the Rojo Studio plugin:
+{0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.RojoPluginFail2" xml:space="preserve">
+    <value>Rojo plugin install failed: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ApiStillRunning" xml:space="preserve">
+    <value>RobloxAPIDumpTool.exe is still running. Close it and try again.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ApiDlFail" xml:space="preserve">
+    <value>Could not download the Roblox API Dump Tool:
+{0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ApiRemoveFail" xml:space="preserve">
+    <value>Could not remove the Roblox API Dump Tool folder automatically. Opening it for manual deletion.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ApiUninstFail" xml:space="preserve">
+    <value>Could not uninstall the Roblox API Dump Tool: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.FleasionRunning" xml:space="preserve">
+    <value>Fleasion.exe is still running. Close it and try again.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.FleasionDlFail" xml:space="preserve">
+    <value>Could not download Fleasion:
+{0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.FleasionRemoveFail" xml:space="preserve">
+    <value>Could not remove the Fleasion folder automatically. Opening it for manual deletion.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.FleasionUninstFail" xml:space="preserve">
+    <value>Could not uninstall Fleasion: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.RojoChooseFolderTitle" xml:space="preserve">
+    <value>Choose a Rojo project folder</value>
+  </data>
+  <data name="Menu.Dialogs.Code.FPSHigh" xml:space="preserve">
+    <value>Going above 240 FPS is not recommended, as this may cause latency issues.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.FPSLow" xml:space="preserve">
+    <value>Going below -64000000 is not recommended for Performance.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.CertFail" xml:space="preserve">
+    <value>AssetWarp could not install its local certificate: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.PreloadConfirm" xml:space="preserve">
+    <value>Preloading makes some content load more slowly at first to reduce stuttering. You will most likely notice more input lag. Enable preloading anyway?</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ModIdCopyFail" xml:space="preserve">
+    <value>The mod identifier could not be copied:
+{0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.CrosshairCurSaved" xml:space="preserve">
+    <value>Crosshair CUR saved to:
+{0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.CrosshairGenFail" xml:space="preserve">
+    <value>Failed to generate cursor:
+{0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.CrosshairPngSaved" xml:space="preserve">
+    <value>Crosshair PNG saved to:
+{0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.PngSaveFail" xml:space="preserve">
+    <value>Failed to save PNG:
+{0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ReplaceOk" xml:space="preserve">
+    <value>Successfully replaced {0} in your Mods folder!</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ReplaceFail" xml:space="preserve">
+    <value>Failed to replace file: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ExportedOk" xml:space="preserve">
+    <value>Exported to {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ExportFail" xml:space="preserve">
+    <value>Export failed: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.DeleteConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete {0}?</value>
+  </data>
+  <data name="Menu.Dialogs.Code.DeleteFail" xml:space="preserve">
+    <value>Error deleting file: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.CursorImportTitle" xml:space="preserve">
+    <value>Import a cursor set</value>
+  </data>
+  <data name="Menu.Dialogs.Code.CursorExportTitle" xml:space="preserve">
+    <value>Export cursor set</value>
+  </data>
+  <data name="Menu.Dialogs.Code.DeathSoundTitle" xml:space="preserve">
+    <value>Select a Custom Death Sound</value>
+  </data>
+  <data name="Menu.Dialogs.Code.HomepageBgTitle" xml:space="preserve">
+    <value>Choose homepage background</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ReplaceTitle" xml:space="preserve">
+    <value>Select replacement for {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ExportTitle" xml:space="preserve">
+    <value>Export {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ManagedEmptyInit" xml:space="preserve">
+    <value>Your managed mod library is empty</value>
+  </data>
+  <data name="Menu.Dialogs.Code.SnapTapKeys" xml:space="preserve">
+    <value>Enter at least two keys per group, for example: A D, W S</value>
+  </data>
+  <data name="Menu.Dialogs.Code.SteamDesktop" xml:space="preserve">
+    <value>Switch to Desktop Mode first. Steam has to close for a moment while Chivas updates its library, and Game Mode cannot run without Steam.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.SteamClose" xml:space="preserve">
+    <value>Steam has to close for a moment while Chivas adds Roblox and Chivas to your library. Close Steam now and open it again afterwards?</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ShortcutLaunchFail" xml:space="preserve">
+    <value>Failed to launch the game.
+
+Error: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ShortcutCreateFail" xml:space="preserve">
+    <value>Failed to create shortcut.
+
+Chivas could not write to the desktop folder.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ShortcutCreated" xml:space="preserve">
+    <value>Shortcut created:
+{0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ShortcutCreateFail2" xml:space="preserve">
+    <value>Failed to create shortcut.
+
+Error: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ShortcutBadLink" xml:space="preserve">
+    <value>Enter a valid private server share link, or provide both a Game ID and access code.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ShortcutBadId" xml:space="preserve">
+    <value>Enter a valid numeric Game ID.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ShortcutBadInstance" xml:space="preserve">
+    <value>Enter a valid server instance ID.</value>
+  </data>
+  <data name="Menu.Dialogs.Code.NewsLoading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Menu.Dialogs.Code.NewsUpdatedNone" xml:space="preserve">
+    <value>Last updated: {0} (no new items)</value>
+  </data>
+  <data name="Menu.Dialogs.Code.NewsUpdated" xml:space="preserve">
+    <value>Last updated: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.NewsFailTitle" xml:space="preserve">
+    <value>Failed to load news</value>
+  </data>
+  <data name="Menu.Dialogs.Code.NewsUntitled" xml:space="preserve">
+    <value>Untitled</value>
+  </data>
+  <data name="Menu.Dialogs.Code.BgFileTitle" xml:space="preserve">
+    <value>Select Background File</value>
+  </data>
+  <data name="Menu.Dialogs.Code.StartupSoundTitle" xml:space="preserve">
+    <value>Select a Startup Sound</value>
+  </data>
+  <data name="Menu.Dialogs.Code.BgImageTitle" xml:space="preserve">
+    <value>Select a Background Image</value>
+  </data>
+  <data name="Menu.Dialogs.Code.ShortcutLoadFail" xml:space="preserve">
+    <value>Failed to load saved settings.
+
+Error: {0}</value>
+  </data>
+  <data name="Menu.Dialogs.Code.NoDeathSound" xml:space="preserve">
+    <value>No custom death sound found to remove.</value>
+  </data>
+
+  <data name="Menu.Dialogs.Code.NewsFailBody" xml:space="preserve">
+    <value>Chivas news could not be reached right now. Check your internet connection and try again.</value>
+  </data>
+
+  <data name="Menu.Dialogs.Code.NewsLastChecked" xml:space="preserve">
+    <value>Last checked: {0}</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.Title" xml:space="preserve">
+    <value>Extensions</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.StatInstalled" xml:space="preserve">
+    <value>Installed</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.StatInstalledSub" xml:space="preserve">
+    <value>Active extensions</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.StatDisabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.StatDisabledSub" xml:space="preserve">
+    <value>Inactive extensions</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.StatTotal" xml:space="preserve">
+    <value>Total</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.StatTotalSub" xml:space="preserve">
+    <value>Total extensions</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.SortLabel" xml:space="preserve">
+    <value>Sort:</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.SortDefault" xml:space="preserve">
+    <value>Default</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.SortNameAsc" xml:space="preserve">
+    <value>Name A-Z</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.SortNameDesc" xml:space="preserve">
+    <value>Name Z-A</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.SortEnabledFirst" xml:space="preserve">
+    <value>Enabled first</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.ViewGridTip" xml:space="preserve">
+    <value>Grid view</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.ViewListTip" xml:space="preserve">
+    <value>List view</value>
+  </data>
+
+  <data name="Menu.Extensions.Page.MenuOpenSource" xml:space="preserve">
+    <value>Open source</value>
+  </data>
+
+  <data name="Menu.Appearance.Page.TopTabsHeader" xml:space="preserve">
+    <value>Top section bar</value>
+  </data>
+
+  <data name="Menu.Appearance.Page.TopTabsDesc" xml:space="preserve">
+    <value>Show section icons in the header. Turn it off to return to the classic sidebar.</value>
+  </data>
+
+  <data name="Menu.About.LinksHeader" xml:space="preserve">
+    <value>LINKS</value>
+  </data>
+
+  <data name="Menu.About.LinkGithubTitle" xml:space="preserve">
+    <value>GitHub</value>
+  </data>
+
+  <data name="Menu.About.LinkGithubDesc" xml:space="preserve">
+    <value>View source code</value>
+  </data>
+
+  <data name="Menu.About.LinkHelpTitle" xml:space="preserve">
+    <value>Help and information</value>
+  </data>
+
+  <data name="Menu.About.LinkHelpDesc" xml:space="preserve">
+    <value>Documentation and guides</value>
+  </data>
+
+  <data name="Menu.About.LinkReportTitle" xml:space="preserve">
+    <value>Report a problem</value>
+  </data>
+
+  <data name="Menu.About.LinkReportDesc" xml:space="preserve">
+    <value>Send feedback or report a bug</value>
+  </data>
+
+  <data name="Menu.About.LinkDiscordTitle" xml:space="preserve">
+    <value>Discord server</value>
+  </data>
+
+  <data name="Menu.About.LinkDiscordDesc" xml:space="preserve">
+    <value>Join the community</value>
+  </data>
+
+  <data name="Menu.About.CreatorHeader" xml:space="preserve">
+    <value>CREATOR</value>
+  </data>
+
+  <data name="Menu.About.CreatorRole" xml:space="preserve">
+    <value>Creator &amp; Developer</value>
+  </data>
+
+  <data name="Menu.About.ViewProfile" xml:space="preserve">
+    <value>View profile</value>
+  </data>
+
+  <data name="Menu.About.AppInfoHeader" xml:space="preserve">
+    <value>APP INFORMATION</value>
+  </data>
+
+  <data name="Menu.About.VersionLabel" xml:space="preserve">
+    <value>VERSION</value>
+  </data>
+
+  <data name="Menu.About.LastUpdatedLabel" xml:space="preserve">
+    <value>LAST UPDATED</value>
+  </data>
+
+  <data name="Menu.About.ThirdPartyTitle" xml:space="preserve">
+    <value>Third-Party Notices</value>
+  </data>
+
+  <data name="Menu.About.ThirdPartyDesc" xml:space="preserve">
+    <value>Third-party licenses and components used in Chivas.</value>
+  </data>
+
+  <data name="Menu.About.MadeWithPrefix" xml:space="preserve">
+    <value>Made with passion by </value>
+  </data>
+
+  <data name="Menu.About.MadeWithSuffix" xml:space="preserve">
+    <value> and the community.</value>
+  </data>
+
+  <data name="Menu.Sidebar.Fleasion" xml:space="preserve">
+    <value>Fleasion</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.Title" xml:space="preserve">
+    <value>Fleasion</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.Subtitle" xml:space="preserve">
+    <value>Live sound and texture replacers.</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.EnableMaster" xml:space="preserve">
+    <value>Enable Fleasion</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.OpenButton" xml:space="preserve">
+    <value>Open Fleasion</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.DisabledNote" xml:space="preserve">
+    <value>Turn Fleasion on to use these. It sets itself up and launches alone.</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.ChooseFile" xml:space="preserve">
+    <value>Choose file</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.NoFile" xml:space="preserve">
+    <value>No file</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.KindAudioDesc" xml:space="preserve">
+    <value>Replaces the in-game sound.</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.KindImageDesc" xml:space="preserve">
+    <value>Replaces the in-game texture.</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.KindPackDesc" xml:space="preserve">
+    <value>Texture pack replacer.</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.FnKill" xml:space="preserve">
+    <value>Kill sound</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.FnCrosshair" xml:space="preserve">
+    <value>Crosshair</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.FnMiss" xml:space="preserve">
+    <value>Miss sound</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.FnStab" xml:space="preserve">
+    <value>Slash sound</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.FnWin" xml:space="preserve">
+    <value>Win sound</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.FnKatana" xml:space="preserve">
+    <value>Katana</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.FnArma" xml:space="preserve">
+    <value>Weapon model</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.FnVengal" xml:space="preserve">
+    <value>Vengal skin</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.FnFly" xml:space="preserve">
+    <value>Flyswatter</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.FnBop" xml:space="preserve">
+    <value>Bop skin</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.FnBasics" xml:space="preserve">
+    <value>Basicsai skin</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.FnNotxt" xml:space="preserve">
+    <value>Clean textures</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.NativeEngine" xml:space="preserve">
+    <value>Native engine (beta)</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.NativeEngineDesc" xml:space="preserve">
+    <value>Replacements run inside ChivaStrap, no Fleasion needed.</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.NativeAdmin" xml:space="preserve">
+    <value>Administrator is required to enable the native engine (port 443 and hosts file).</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.NativeStatus" xml:space="preserve">
+    <value>Engine</value>
+  </data>
+
+
+  <data name="Menu.Fleasion.Page.NativeReady" xml:space="preserve">
+    <value>• ready — activates in-game</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.NativeRunning" xml:space="preserve">
+    <value>• running</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.StripWarning" xml:space="preserve">
+    <value>⚠ Mesh/texture stripping is on in Asset Warp (FastFlags). That removes game models: turn it off if your avatar does not load.</value>
+  </data>
+
+  <data name="Menu.Fleasion.Page.ClearCache" xml:space="preserve">
+    <value>Clear cache</value>
+  </data>
+  <data name="Menu.Fleasion.Page.Maintenance" xml:space="preserve">
+    <value>Esta opcion esta en mantenimiento &#x0A;att: Enano :3</value>
+  </data>
+  <data name="Menu.Fleasion.Page.NativeParked" xml:space="preserve">
+    <value>The native engine is paused: replacements run through the Fleasion app proxy.</value>
+  </data>
+
 </root>

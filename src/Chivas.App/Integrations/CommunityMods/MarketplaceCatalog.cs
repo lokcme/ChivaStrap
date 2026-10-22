@@ -14,19 +14,19 @@ namespace Chivas.Integrations.CommunityMods;
 
 public static class MarketplaceCatalog
 {
-	public const string SourceName = "Kliko's Mods";
+	public const string SourceName = "ChivaStrap Mods";
 
-	public const string SourceUrl = "https://github.com/klikos-modloader/marketplace";
+	public const string SourceUrl = "https://github.com/lokcme/ChivaStrapMods";
 
-	public const string DownloadPrefix = "https://github.com/klikos-modloader/marketplace/raw/refs/heads/main/";
+	public const string DownloadPrefix = "https://github.com/lokcme/ChivaStrapMods/raw/refs/heads/main/";
 
-	public const string RawPrefix = "https://raw.githubusercontent.com/klikos-modloader/marketplace/main/";
+	public const string RawPrefix = "https://raw.githubusercontent.com/lokcme/ChivaStrapMods/main/";
 
-	public const string RawRefsPrefix = "https://raw.githubusercontent.com/klikos-modloader/marketplace/refs/heads/main/";
+	public const string RawRefsPrefix = "https://raw.githubusercontent.com/lokcme/ChivaStrapMods/refs/heads/main/";
 
 	private const string IndexUrl = RawPrefix + "index.json";
 
-	private const string TreeUrl = "https://api.github.com/repos/klikos-modloader/marketplace/git/trees/main?recursive=1";
+	private const string TreeUrl = "https://api.github.com/repos/lokcme/ChivaStrapMods/git/trees/main?recursive=1";
 
 	private const string LogIdent = "MarketplaceCatalog";
 

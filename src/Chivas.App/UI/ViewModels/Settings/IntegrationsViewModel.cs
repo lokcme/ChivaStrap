@@ -261,7 +261,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 				: Chivas.KeyRouting.OpposingKeyResolver.FormatGroups(groups);
 			if (groups.Count == 0)
 			{
-				Frontend.ShowMessageBox("Enter at least two keys per group, for example: A D, W S", MessageBoxImage.Warning);
+				Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_SnapTapKeys, MessageBoxImage.Warning);
 			}
 			if (App.Settings.Prop.SnapTapKeys != normalized)
 			{
@@ -817,13 +817,13 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 			return;
 		if (Chivas.Platform.Linux.LinuxSteamOS.Current.IsGameMode)
 		{
-			Frontend.ShowMessageBox("Switch to Desktop Mode first. Steam has to close for a moment while Chivas updates its library, and Game Mode cannot run without Steam.", MessageBoxImage.Information);
+			Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_SteamDesktop, MessageBoxImage.Information);
 			return;
 		}
 		bool closeSteam = false;
 		if (Chivas.Platform.Linux.LinuxSteamLibrary.IsSteamRunning())
 		{
-			MessageBoxResult answer = Frontend.ShowMessageBox("Steam has to close for a moment while Chivas adds Roblox and Chivas to your library. Close Steam now and open it again afterwards?", MessageBoxImage.Question, MessageBoxButton.YesNo);
+			MessageBoxResult answer = Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_SteamClose, MessageBoxImage.Question, MessageBoxButton.YesNo);
 			if (answer != MessageBoxResult.Yes)
 				return;
 			closeSteam = true;

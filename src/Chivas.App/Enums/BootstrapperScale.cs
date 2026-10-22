@@ -4,10 +4,10 @@ namespace Chivas.Enums;
 
 public enum BootstrapperScale
 {
-	[EnumName(StaticName = "Compact")]
+	[EnumName(FromTranslation = "Menu.Appearance.Page.ScaleCompact")]
 	Compact,
-	[EnumName(StaticName = "Normal")]
+	[EnumName(FromTranslation = "Menu.Appearance.Page.ScaleNormal")]
 	Normal,
-	[EnumName(StaticName = "Large")]
+	[EnumName(FromTranslation = "Menu.Appearance.Page.ScaleLarge")]
 	Large
 }

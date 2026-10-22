@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -104,16 +104,40 @@ namespace Chivas.UI.Elements.Settings.Pages
             AnyProgressChanged?.Invoke(title, fraction, show);
         }
 
+        private static ExtensionViewModel? _current;
+
+        public static ExtensionViewModel EnsureCurrent()
+        {
+            return _current ??= new ExtensionViewModel();
+        }
+
+        /// <summary>
+        /// While the Fleasion app is the selected delivery engine, turning the
+        /// master toggle off must only stop managing it, never wipe its binary:
+        /// uninstalling the engine the rules depend on silently breaks every
+        /// replacement on the page.
+        /// </summary>
+        private static bool CanUninstallFleasion()
+        {
+            return !Chivas.UI.ViewModels.Settings.FleasionViewModel.UseFleasionProxyOnly;
+        }
+
         public ExtensionViewModel()
         {
+            _current ??= this;
             OnProgressChanged += RelayProgress;
-            if (App.Settings.Prop.Fleasion)
+            if (App.Settings.Prop.Fleasion && !App.Settings.Prop.FleasionNativeEngineEnabled)
             {
                 string exePath = Path.Combine(fleasionDir, "Fleasion.exe");
                 if (!File.Exists(exePath))
                     _ = DownloadFleasionAsync();
+                else if (!IsFleasionRunning())
+                {
+                    SeedFleasionConfig();
+                    LaunchFleasionSilent();
+                }
             }
-            else
+            else if (CanUninstallFleasion())
             {
                 _ = UninstallFleasionAsync();
             }
@@ -126,6 +150,115 @@ namespace Chivas.UI.Elements.Settings.Pages
         {
             TypeAll, TypeExtensions, TypeStudio
         };
+
+        public ObservableCollection<string> ExtensionStatuses { get; } = new ObservableCollection<string>
+        {
+            Chivas.Resources.Strings.Menu_Extensions_Page_StatusAll,
+            Chivas.Resources.Strings.Menu_Extensions_Page_StatusEnabled,
+            Chivas.Resources.Strings.Menu_Extensions_Page_StatusDisabled
+        };
+
+        public ObservableCollection<string> ExtensionSortOptions { get; } = new ObservableCollection<string>
+        {
+            Chivas.Resources.Strings.Menu_Extensions_Page_SortDefault,
+            Chivas.Resources.Strings.Menu_Extensions_Page_SortNameAsc,
+            Chivas.Resources.Strings.Menu_Extensions_Page_SortNameDesc,
+            Chivas.Resources.Strings.Menu_Extensions_Page_SortEnabledFirst
+        };
+
+        private string _selectedExtensionSort = "";
+
+        public string SelectedExtensionSort
+        {
+            get => string.IsNullOrEmpty(_selectedExtensionSort) ? ExtensionSortOptions[0] : _selectedExtensionSort;
+            set
+            {
+                string next = value ?? ExtensionSortOptions[0];
+                if (_selectedExtensionSort == next)
+                    return;
+                _selectedExtensionSort = next;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isGridView = true;
+
+        public bool IsGridView
+        {
+            get => _isGridView;
+            set
+            {
+                if (_isGridView == value)
+                    return;
+                _isGridView = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _statEnabledCount;
+
+        public int StatEnabledCount
+        {
+            get => _statEnabledCount;
+            private set
+            {
+                if (_statEnabledCount == value)
+                    return;
+                _statEnabledCount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _statDisabledCount;
+
+        public int StatDisabledCount
+        {
+            get => _statDisabledCount;
+            private set
+            {
+                if (_statDisabledCount == value)
+                    return;
+                _statDisabledCount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _statTotalCount;
+
+        public int StatTotalCount
+        {
+            get => _statTotalCount;
+            private set
+            {
+                if (_statTotalCount == value)
+                    return;
+                _statTotalCount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public void UpdateStats(int total, int enabled)
+        {
+            StatTotalCount = total;
+            StatEnabledCount = enabled;
+            StatDisabledCount = Math.Max(0, total - enabled);
+        }
+
+        private string _selectedExtensionStatus = "";
+
+        public string SelectedExtensionStatus
+        {
+            get => string.IsNullOrEmpty(_selectedExtensionStatus) ? ExtensionStatuses[0] : _selectedExtensionStatus;
+            set
+            {
+                string next = value ?? ExtensionStatuses[0];
+                if (_selectedExtensionStatus == next)
+                    return;
+                _selectedExtensionStatus = next;
+                OnPropertyChanged();
+                RaiseVisibilities();
+            }
+        }
 
         public string SelectedExtensionType
         {
@@ -280,7 +413,7 @@ namespace Chivas.UI.Elements.Settings.Pages
             }
         }
 
-        public string RojoServeLabel => Chivas.Integrations.Rojo.RojoManager.IsServing ? "Stop sync" : "Start sync";
+        public string RojoServeLabel => Chivas.Integrations.Rojo.RojoManager.IsServing ? Chivas.Resources.Strings.Menu_Extensions_Page_RojoServeStop : Chivas.Resources.Strings.Menu_Extensions_Page_RojoServeStart;
 
         private async Task DebounceRojoAsync()
         {
@@ -334,7 +467,7 @@ namespace Chivas.UI.Elements.Settings.Pages
             }
             catch (Exception ex)
             {
-                Frontend.ShowMessageBox("Could not download Rojo:\n" + ex.Message, MessageBoxImage.Error);
+                Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_RojoDlFail, ex.Message), MessageBoxImage.Error);
                 RevertRojoToggle();
             }
             finally
@@ -365,7 +498,7 @@ namespace Chivas.UI.Elements.Settings.Pages
             }
             catch (Exception ex)
             {
-                Frontend.ShowMessageBox("Could not uninstall Rojo: " + ex.Message, MessageBoxImage.Error);
+                Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_RojoUninstFail, ex.Message), MessageBoxImage.Error);
             }
             finally
             {
@@ -379,12 +512,12 @@ namespace Chivas.UI.Elements.Settings.Pages
         {
             if (!Chivas.Integrations.Rojo.RojoManager.IsInstalled)
             {
-                Frontend.ShowMessageBox("Enable Rojo first so it can download.", MessageBoxImage.Warning);
+                Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_RojoEnableFirst, MessageBoxImage.Warning);
                 return false;
             }
             if (string.IsNullOrWhiteSpace(RojoProjectPath) || !Directory.Exists(RojoProjectPath))
             {
-                Frontend.ShowMessageBox("Choose a project folder first.", MessageBoxImage.Warning);
+                Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_RojoChooseFolder, MessageBoxImage.Warning);
                 return false;
             }
             return true;
@@ -394,7 +527,7 @@ namespace Chivas.UI.Elements.Settings.Pages
         {
             try
             {
-                var dialog = new Microsoft.Win32.OpenFolderDialog { Title = "Choose a Rojo project folder" };
+                var dialog = new Microsoft.Win32.OpenFolderDialog { Title = Strings.Menu_Dialogs_Code_RojoChooseFolderTitle };
                 if (!string.IsNullOrWhiteSpace(RojoProjectPath) && Directory.Exists(RojoProjectPath))
                     dialog.InitialDirectory = RojoProjectPath;
                 if (dialog.ShowDialog() == true)
@@ -402,7 +535,7 @@ namespace Chivas.UI.Elements.Settings.Pages
             }
             catch (Exception ex)
             {
-                Frontend.ShowMessageBox("Could not open the folder picker: " + ex.Message, MessageBoxImage.Error);
+                Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_RojoFolderFail, ex.Message), MessageBoxImage.Error);
             }
         }
 
@@ -417,7 +550,7 @@ namespace Chivas.UI.Elements.Settings.Pages
                 var (ok, output) = await Chivas.Integrations.Rojo.RojoManager.RunAsync("init", RojoProjectPath, ct);
                 OnProgressChanged?.Invoke("", -1.0, false);
                 if (ok)
-                    Frontend.ShowMessageBox("Rojo project created in:\n" + RojoProjectPath, MessageBoxImage.Information);
+                    Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_RojoCreated, RojoProjectPath), MessageBoxImage.Information);
                 else
                     Frontend.ShowMessageBox("rojo init did not complete:\n" + output, MessageBoxImage.Warning);
             }
@@ -447,7 +580,7 @@ namespace Chivas.UI.Elements.Settings.Pages
                 return;
             bool started = Chivas.Integrations.Rojo.RojoManager.StartServe(RojoProjectPath);
             if (!started)
-                Frontend.ShowMessageBox("Could not start rojo serve.", MessageBoxImage.Error);
+                Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_RojoServeFail, MessageBoxImage.Error);
             OnPropertyChanged(nameof(RojoServeLabel));
         }
 
@@ -463,7 +596,7 @@ namespace Chivas.UI.Elements.Settings.Pages
                 var (ok, output) = await Chivas.Integrations.Rojo.RojoManager.RunAsync($"build -o \"{outFile}\"", RojoProjectPath, ct);
                 OnProgressChanged?.Invoke("", -1.0, false);
                 if (ok)
-                    Frontend.ShowMessageBox("Built place file:\n" + outFile, MessageBoxImage.Information);
+                    Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_RojoBuilt, outFile), MessageBoxImage.Information);
                 else
                     Frontend.ShowMessageBox("rojo build did not complete:\n" + output, MessageBoxImage.Warning);
             }
@@ -485,7 +618,7 @@ namespace Chivas.UI.Elements.Settings.Pages
         {
             if (!Chivas.Integrations.Rojo.RojoManager.IsInstalled)
             {
-                Frontend.ShowMessageBox("Enable Rojo first so it can download.", MessageBoxImage.Warning);
+                Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_RojoEnableFirst, MessageBoxImage.Warning);
                 return;
             }
             var (cts, ct) = BeginOperation();
@@ -495,16 +628,16 @@ namespace Chivas.UI.Elements.Settings.Pages
                 var (ok, output) = await Chivas.Integrations.Rojo.RojoManager.RunAsync("plugin install", RojoProjectPath, ct);
                 OnProgressChanged?.Invoke("", -1.0, false);
                 if (ok)
-                    Frontend.ShowMessageBox("The Rojo Studio plugin was installed. Open Studio, then click Connect on the Rojo toolbar.", MessageBoxImage.Information);
+                    Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_RojoPluginInstalled, MessageBoxImage.Information);
                 else
-                    Frontend.ShowMessageBox("Could not install the Rojo Studio plugin:\n" + output, MessageBoxImage.Warning);
+                    Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_RojoPluginFail, output), MessageBoxImage.Warning);
             }
             catch (OperationCanceledException)
             {
             }
             catch (Exception ex)
             {
-                Frontend.ShowMessageBox("Rojo plugin install failed: " + ex.Message, MessageBoxImage.Error);
+                Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_RojoPluginFail2, ex.Message), MessageBoxImage.Error);
             }
             finally
             {
@@ -518,7 +651,7 @@ namespace Chivas.UI.Elements.Settings.Pages
             if (!string.IsNullOrWhiteSpace(RojoProjectPath) && Directory.Exists(RojoProjectPath))
                 OpenFolder(RojoProjectPath);
             else
-                Frontend.ShowMessageBox("Choose a project folder first.", MessageBoxImage.Warning);
+                Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_RojoChooseFolder, MessageBoxImage.Warning);
         }
 
         public bool apidumpenabler
@@ -578,7 +711,7 @@ namespace Chivas.UI.Elements.Settings.Pages
 
                     if (File.Exists(outputPath) && IsFileLocked(outputPath))
                     {
-                        Frontend.ShowMessageBox("RobloxAPIDumpTool.exe is still running. Close it and try again.", MessageBoxImage.Warning);
+                        Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_ApiStillRunning, MessageBoxImage.Warning);
                         return;
                     }
 
@@ -602,7 +735,7 @@ namespace Chivas.UI.Elements.Settings.Pages
             }
             catch (Exception ex)
             {
-                Frontend.ShowMessageBox("Could not download the Roblox API Dump Tool:\n" + ex.Message, MessageBoxImage.Error);
+                Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_ApiDlFail, ex.Message), MessageBoxImage.Error);
             }
             finally
             {
@@ -642,7 +775,7 @@ namespace Chivas.UI.Elements.Settings.Pages
 
                     if (!deleted && Directory.Exists(apiDumpDir))
                     {
-                        Frontend.ShowMessageBox("Could not remove the Roblox API Dump Tool folder automatically. Opening it for manual deletion.", MessageBoxImage.Warning);
+                        Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_ApiRemoveFail, MessageBoxImage.Warning);
                         OpenFolder(apiDumpDir);
                     }
                 }
@@ -656,7 +789,7 @@ namespace Chivas.UI.Elements.Settings.Pages
             }
             catch (Exception ex)
             {
-                Frontend.ShowMessageBox("Could not uninstall the Roblox API Dump Tool: " + ex.Message, MessageBoxImage.Error);
+                Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_ApiUninstFail, ex.Message), MessageBoxImage.Error);
             }
             finally
             {
@@ -767,24 +900,36 @@ namespace Chivas.UI.Elements.Settings.Pages
             return true;
         }
 
-        private static async Task<(IReadOnlyList<string> Urls, string Digest)> ResolveFleasionUrlsAsync(CancellationToken ct)
+        private const string FleasionApiFork = "https://api.github.com/repos/lokcme/Fleasion/releases/latest";
+
+        private const string FleasionApiUpstream = "https://api.github.com/repos/fleasion/Fleasion/releases/latest";
+
+        private static async Task<(IReadOnlyList<string> Urls, string Digest)> ResolveFleasionUrlsFromAsync(string apiUrl, CancellationToken ct)
         {
             var urls = new List<string>();
             string digest = "";
             try
             {
-                using JsonDocument doc = JsonDocument.Parse(await Chivas.Utility.Http.GetStringBoundedAsync(client, "https://api.github.com/repos/fleasion/Fleasion/releases/latest", token: ct));
+                using JsonDocument doc = JsonDocument.Parse(await Chivas.Utility.Http.GetStringBoundedAsync(client, apiUrl, token: ct));
                 foreach (JsonElement asset in doc.RootElement.GetProperty("assets").EnumerateArray())
                 {
                     string name = asset.GetProperty("name").GetString() ?? "";
                     if (name.Equals("Fleasion.exe", StringComparison.OrdinalIgnoreCase) || name.EndsWith("-Windows.exe", StringComparison.OrdinalIgnoreCase))
                     {
                         string? url = asset.GetProperty("browser_download_url").GetString();
+                        if (string.IsNullOrEmpty(url))
+                        {
+                            continue;
+                        }
                         string assetDigest = asset.TryGetProperty("digest", out JsonElement digestElement) ? digestElement.GetString() ?? "" : "";
-                        if (!string.IsNullOrEmpty(url) && assetDigest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase) && assetDigest.Length == 71)
+                        if (assetDigest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase) && assetDigest.Length == 71)
                         {
                             urls.Add(url);
                             digest = assetDigest.Substring(7);
+                        }
+                        else if (apiUrl == FleasionApiFork)
+                        {
+                            urls.Add(url);
                         }
                     }
                 }
@@ -797,6 +942,16 @@ namespace Chivas.UI.Elements.Settings.Pages
             {
             }
             return (urls.Distinct().ToList(), digest);
+        }
+
+        private static async Task<(IReadOnlyList<string> Urls, string Digest)> ResolveFleasionUrlsAsync(CancellationToken ct)
+        {
+            var fork = await ResolveFleasionUrlsFromAsync(FleasionApiFork, ct);
+            if (fork.Urls.Count > 0)
+            {
+                return fork;
+            }
+            return await ResolveFleasionUrlsFromAsync(FleasionApiUpstream, ct);
         }
 
         private static async Task<(IReadOnlyList<string> Urls, string Digest)> ResolveApiDumpUrlsAsync(CancellationToken ct)
@@ -836,6 +991,180 @@ namespace Chivas.UI.Elements.Settings.Pages
             return (urls.Distinct().ToList(), digest);
         }
 
+        private static List<Process> GetFleasionProcesses()
+        {
+            List<Process> found = new List<Process>();
+            Process[] all;
+            try
+            {
+                all = Process.GetProcesses();
+            }
+            catch
+            {
+                return found;
+            }
+            foreach (Process proc in all)
+            {
+                bool match = false;
+                try
+                {
+                    string name = proc.ProcessName;
+                    match = name.Equals("Fleasion", StringComparison.OrdinalIgnoreCase)
+                        || name.StartsWith("Fleasion-", StringComparison.OrdinalIgnoreCase);
+                }
+                catch
+                {
+                    match = false;
+                }
+                if (match)
+                {
+                    found.Add(proc);
+                }
+                else
+                {
+                    try
+                    {
+                        proc.Dispose();
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            return found;
+        }
+
+        public static bool IsFleasionRunning()
+        {
+            List<Process> found = GetFleasionProcesses();
+            try
+            {
+                return found.Count > 0;
+            }
+            finally
+            {
+                foreach (Process proc in found)
+                {
+                    try
+                    {
+                        proc.Dispose();
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+        }
+
+        public static async Task KillFleasionAsync(CancellationToken ct)
+        {
+            foreach (Process proc in GetFleasionProcesses())
+            {
+                try
+                {
+                    proc.Kill();
+                    await proc.WaitForExitAsync(ct);
+                }
+                catch (OperationCanceledException)
+                {
+                    proc.Dispose();
+                    throw;
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    proc.Dispose();
+                }
+            }
+        }
+
+        public static void SeedFleasionConfig()
+        {
+            try
+            {
+                string dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "FleasionNT");
+                Directory.CreateDirectory(dir);
+                string path = Path.Combine(dir, "settings.json");
+                Dictionary<string, object?>? data = null;
+                if (File.Exists(path))
+                {
+                    try
+                    {
+                        data = JsonSerializer.Deserialize<Dictionary<string, object?>>(File.ReadAllText(path));
+                    }
+                    catch
+                    {
+                        data = null;
+                    }
+                }
+                data ??= new Dictionary<string, object?>();
+                data["first_time_setup_complete"] = true;
+                data["open_dashboard_on_launch"] = false;
+                data["proxy_features_enabled"] = true;
+                data["proxy_mode"] = "env";
+                List<string> enabled = new List<string>();
+                if (data.TryGetValue("enabled_configs", out object? existing) && existing is JsonElement array && array.ValueKind == JsonValueKind.Array)
+                {
+                    foreach (JsonElement el in array.EnumerateArray())
+                    {
+                        if (el.ValueKind == JsonValueKind.String && el.GetString() is string name && name.Length > 0 && !enabled.Contains(name))
+                        {
+                            enabled.Add(name);
+                        }
+                    }
+                }
+                if (!enabled.Contains("Default"))
+                {
+                    enabled.Insert(0, "Default");
+                }
+                if (!enabled.Contains("ChivaStrap"))
+                {
+                    enabled.Add("ChivaStrap");
+                }
+                data["enabled_configs"] = enabled;
+                File.WriteAllText(path, JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine("ExtensionViewModel::SeedFleasion", ex.Message);
+            }
+        }
+
+        public static bool LaunchFleasionSilent()
+        {
+            try
+            {
+                if (App.Settings.Prop.FleasionNativeEngineEnabled)
+                {
+                    return true;
+                }
+                string exe = Path.Combine(Paths.Fleasion, "Fleasion.exe");
+                if (!File.Exists(exe))
+                {
+                    return false;
+                }
+                if (IsFleasionRunning())
+                {
+                    return true;
+                }
+                ProcessStartInfo psi = new ProcessStartInfo(exe, "--no-dashboard")
+                {
+                    UseShellExecute = false,
+                    WorkingDirectory = Paths.Fleasion
+                };
+                psi.Environment["FLEASION_NO_FILE_LOG"] = "1";
+                Process.Start(psi);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine("ExtensionViewModel::LaunchFleasion", ex.Message);
+                return false;
+            }
+        }
+
         private async Task DownloadFleasionAsync()
         {
             var (cts, ct) = BeginOperation();
@@ -848,21 +1177,23 @@ namespace Chivas.UI.Elements.Settings.Pages
                     Directory.CreateDirectory(fleasionDir);
                     string outputPath = Path.Combine(fleasionDir, "Fleasion.exe");
 
-                    await KillProcessAsync("Fleasion", ct);
+                    await KillFleasionAsync(ct);
 
                     if (File.Exists(outputPath) && IsFileLocked(outputPath))
                     {
-                        Frontend.ShowMessageBox("Fleasion.exe is still running. Close it and try again.", MessageBoxImage.Warning);
+                        Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_FleasionRunning, MessageBoxImage.Warning);
                         return;
                     }
 
                     var download = await ResolveFleasionUrlsAsync(ct);
-                    if (download.Urls.Count == 0 || string.IsNullOrEmpty(download.Digest))
+                    if (download.Urls.Count == 0)
                         throw new InvalidDataException("Fleasion has no verified executable release");
                     bool ok = await DownloadToFileAsync(download.Urls, outputPath, "Downloading Fleasion", ct, download.Digest);
                     if (ok)
                     {
                         OnProgressChanged?.Invoke("Fleasion ready", 1.0, true);
+                        SeedFleasionConfig();
+                        LaunchFleasionSilent();
                         await Task.Delay(700, ct);
                     }
                 }
@@ -878,7 +1209,7 @@ namespace Chivas.UI.Elements.Settings.Pages
             }
             catch (Exception ex)
             {
-                Frontend.ShowMessageBox("Could not download Fleasion:\n" + ex.Message, MessageBoxImage.Error);
+                Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_FleasionDlFail, ex.Message), MessageBoxImage.Error);
             }
             finally
             {
@@ -899,7 +1230,7 @@ namespace Chivas.UI.Elements.Settings.Pages
                         return;
 
                     OnProgressChanged?.Invoke("Removing Fleasion", -1.0, true);
-                    await KillProcessAsync("Fleasion", ct);
+                    await KillFleasionAsync(ct);
 
                     bool deleted = false;
                     for (int i = 0; i < 5; i++)
@@ -918,7 +1249,7 @@ namespace Chivas.UI.Elements.Settings.Pages
 
                     if (!deleted && Directory.Exists(fleasionDir))
                     {
-                        Frontend.ShowMessageBox("Could not remove the Fleasion folder automatically. Opening it for manual deletion.", MessageBoxImage.Warning);
+                        Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_FleasionRemoveFail, MessageBoxImage.Warning);
                         OpenFolder(fleasionDir);
                     }
                 }
@@ -932,7 +1263,7 @@ namespace Chivas.UI.Elements.Settings.Pages
             }
             catch (Exception ex)
             {
-                Frontend.ShowMessageBox("Could not uninstall Fleasion: " + ex.Message, MessageBoxImage.Error);
+                Frontend.ShowMessageBox(string.Format(Strings.Menu_Dialogs_Code_FleasionUninstFail, ex.Message), MessageBoxImage.Error);
             }
             finally
             {

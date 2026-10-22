@@ -23,21 +23,25 @@ public static class AssetProxyServer
 {
     private static readonly System.Buffers.SearchValues<char> s_myChars = System.Buffers.SearchValues.Create(" ()<>@,;:\\\"/[]?={}\t");
 
+	public static bool IsProxyConfigurationEnabled =>
+		App.Settings.Prop.AssetWarpEnabled || App.Settings.Prop.FleasionNativeEngineEnabled;
+
     public static bool IsRequired =>
 		(Chivas.Utility.Platform.IsWindows || Chivas.Utility.Platform.IsLinux) &&
 		!App.Settings.Prop.LaunchWithoutChivas &&
-		App.Settings.Prop.AssetWarpEnabled &&
+		IsProxyConfigurationEnabled &&
 		App.Settings.Prop.AssetWarpCertificateApproved &&
+		(TextureStripper.HasConfiguredRules ||
+		(App.Settings.Prop.AssetWarpEnabled &&
 		(App.Settings.Prop.AssetWarpDisableAllTextures ||
 		App.Settings.Prop.AssetWarpDisableAllDecals ||
 		App.Settings.Prop.AssetWarpDisableAllImages ||
 		App.Settings.Prop.AssetWarpDisableAllAnimations ||
 		App.Settings.Prop.AssetWarpDisableAllMeshes ||
-		TextureStripper.HasConfiguredRules ||
 		App.Settings.Prop.AssetWarpPreloadEnabled ||
 		PresenceSpoofer.IsEnabled() ||
 		UsernameSpoofer.IsEnabled() ||
-		RobuxSpoofer.IsEnabled);
+		RobuxSpoofer.IsEnabled)));
 
 	private sealed class HttpHead
 	{
@@ -403,12 +407,21 @@ public static class AssetProxyServer
 			_ownershipLock = ownership;
 
 		List<string> hostList = [];
-		if (TextureStripper.IsEnabled || TextureStripper.HasConfiguredRules || App.Settings.Prop.AssetWarpPreloadEnabled)
+		// Asset *bytes* are served by the CDN hosts, not by the batch host:
+		// Roblox asks assetdelivery for metadata and then pulls the file from
+		// fts/contentdelivery. Routing only the batch host therefore intercepts
+		// the metadata and never the asset, so no replacement can ever happen.
+		//
+		// Those two were previously routed only when AssetWarpPreloadEnabled
+		// was on, which meant replacement rules could be configured, enabled
+		// and saved while nothing was ever routed through the proxy for them.
+		// They now follow the same condition as the batch host.
+		bool needsAssetRules = TextureStripper.IsEnabled
+			|| TextureStripper.HasConfiguredRules
+			|| App.Settings.Prop.AssetWarpPreloadEnabled;
+		if (needsAssetRules)
 		{
 			hostList.Add(TextureStripper.BatchHost);
-		}
-		if (App.Settings.Prop.AssetWarpPreloadEnabled)
-		{
 			hostList.AddRange(BaseHosts);
 		}
 		UsernameSpoofState usernameState = UsernameSpoofer.CurrentState;
@@ -671,7 +684,7 @@ public static class AssetProxyServer
 	public static void ReconcileRuntimeState()
 	{
 		TextureStripper.InvalidateRuntimeState();
-		if (!App.Settings.Prop.AssetWarpEnabled)
+		if (!IsProxyConfigurationEnabled)
 		{
 			App.FastFlags.ApplyPreloadFlags();
 			QueueRuntimeReconcile(false);
@@ -725,7 +738,7 @@ public static class AssetProxyServer
 			{
 				await Task.Delay(250, next.Token).ConfigureAwait(false);
 				StopInternal();
-				if (!App.Settings.Prop.AssetWarpEnabled || !App.Settings.Prop.AssetWarpCertificateApproved)
+				if (!IsProxyConfigurationEnabled || !App.Settings.Prop.AssetWarpCertificateApproved)
 					CleanupStaleState();
 				if (restart && IsRequired && (!Chivas.Utility.Platform.IsWindows || ProcessElevation.IsAdministrator()))
 					await StartAsync(next.Token).ConfigureAwait(false);
@@ -829,7 +842,7 @@ public static class AssetProxyServer
 					App.Settings.Prop.AssetWarpEnabled = false;
 					App.Settings.Save();
 				}
-				AssetProxyCA.RemoveOutdatedCertificates(App.Settings.Prop.AssetWarpEnabled && App.Settings.Prop.AssetWarpCertificateApproved);
+				AssetProxyCA.RemoveOutdatedCertificates(IsProxyConfigurationEnabled && App.Settings.Prop.AssetWarpCertificateApproved);
 				return;
 			}
 
@@ -846,7 +859,7 @@ public static class AssetProxyServer
 				App.Settings.Prop.AssetWarpEnabled = false;
 				App.Settings.Save();
 			}
-			AssetProxyCA.RemoveOutdatedCertificates(App.Settings.Prop.AssetWarpEnabled && App.Settings.Prop.AssetWarpCertificateApproved);
+			AssetProxyCA.RemoveOutdatedCertificates(IsProxyConfigurationEnabled && App.Settings.Prop.AssetWarpCertificateApproved);
 		}
 	}
 
@@ -994,6 +1007,7 @@ public static class AssetProxyServer
 					MessageBody requestBody = await ReadMessageBodyAsync(local, request, false, method, ct).ConfigureAwait(false);
 					if (TextureStripper.TryGetLocalAsset(host, path, out AssetWarpRoute? localAsset) && localAsset != null)
 					{
+						App.Logger?.WriteLine("AssetProxy", "Serving local asset: " + localAsset.Value);
 						await ServeRouteAsync(localTls, method, request.Get("Range"), localAsset, ct).ConfigureAwait(false);
 						if (ShouldClose(request))
 						{

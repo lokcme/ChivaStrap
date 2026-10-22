@@ -765,6 +765,7 @@ public class Bootstrapper
 			{
 				App.FastFlags.MigratePlayerLoggingPreset();
 				App.FastFlags.ApplyPreloadFlags();
+				App.FastFlags.ApplyCaCompatFlags();
 				App.FastFlags.SaveDeferred();
 			}
 			if (_safeMode)
@@ -1538,7 +1539,7 @@ public class Bootstrapper
             {
 				AssetProxyServer.Stop();
             }
-            else if (!App.Settings.Prop.AssetWarpEnabled)
+            else if (!AssetProxyServer.IsRequired)
             {
 				AssetProxyServer.Stop();
             }
@@ -1552,6 +1553,11 @@ public class Bootstrapper
                 await StartAssetProxyIfEnabled(ct);
             if (!_safeMode && AssetProxyRouting.ConsumeCacheCleared())
                 await RestoreStoragePatchesAsync(ct);
+            // AssetWarpRouting may clear Roblox's flag cache while preparing
+            // the proxy. Re-apply the Fleasion native TLS compatibility flag
+            // after that cleanup and immediately before Roblox starts.
+            if (_launchMode == LaunchMode.Player)
+                App.FastFlags.ApplyCaCompatFlags();
             if (_launchMode == LaunchMode.Player && (!App.Settings.Prop.AssetWarpEnabled || !App.Settings.Prop.AssetWarpPreloadEnabled))
             {
 				App.FastFlags.RemoveInstalledPreloadFlags(Path.Combine(AppData.Directory, "ClientSettings", "ClientAppSettings.json"));
@@ -2270,7 +2276,7 @@ public class Bootstrapper
 
     private static void LaunchFleasion(string logIdent)
     {
-        if (App.Settings.Prop?.Fleasion != true)
+        if (App.Settings.Prop?.Fleasion != true || App.Settings.Prop.FleasionNativeEngineEnabled)
         {
             return;
         }

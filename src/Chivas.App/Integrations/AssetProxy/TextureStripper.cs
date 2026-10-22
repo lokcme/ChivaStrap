@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading;
@@ -74,7 +75,13 @@ public static class TextureStripper
 		App.Settings.Prop.AssetWarpDisableAllAnimations ||
 		App.Settings.Prop.AssetWarpDisableAllMeshes);
 
-	public static bool HasConfiguredRules => App.Settings.Prop.AssetWarpEnabled && RulesPresent;
+	// Fleasion's native engine uses the same local proxy, but has a separate
+	// setting from AssetWarp. Its replacement rules must therefore work when
+	// AssetWarp itself is switched off.
+	public static bool ReplacementEngineEnabled =>
+		App.Settings.Prop.AssetWarpEnabled || App.Settings.Prop.FleasionNativeEngineEnabled;
+
+	public static bool HasConfiguredRules => ReplacementEngineEnabled && RulesPresent;
 
 	public static bool RulesPresent
 	{
@@ -100,6 +107,7 @@ public static class TextureStripper
 			var settings = App.Settings.Prop;
 			return string.Join("|",
 				settings.AssetWarpEnabled,
+				settings.FleasionNativeEngineEnabled,
 				settings.AssetWarpDisableAllTextures,
 				settings.AssetWarpDisableAllDecals,
 				settings.AssetWarpDisableAllImages,
@@ -111,15 +119,85 @@ public static class TextureStripper
 
 	public static bool IsBatchRequest(string host, string path)
 	{
-		return App.Settings.Prop.AssetWarpEnabled &&
+		return ReplacementEngineEnabled &&
 			host.Equals(BatchHost, StringComparison.OrdinalIgnoreCase) &&
 			path.Contains("/v1/assets/batch", StringComparison.OrdinalIgnoreCase);
+	}
+
+	private static bool IsNumericKey(string key)
+	{
+		if (key.Length == 0 || key.Length > 20)
+		{
+			return false;
+		}
+		foreach (char c in key)
+		{
+			if (c < '0' || c > '9')
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static bool MightMatchRules(byte[] body, RuleSet rules)
+	{
+		var settings = App.Settings.Prop;
+		if (settings.AssetWarpEnabled && (settings.AssetWarpDisableAllTextures || settings.AssetWarpDisableAllDecals || settings.AssetWarpDisableAllImages
+			|| settings.AssetWarpDisableAllAnimations || settings.AssetWarpDisableAllMeshes))
+		{
+			return true;
+		}
+		List<byte[]>? needles = null;
+		foreach (string key in rules.IdReplacements.Keys)
+		{
+			if (!IsNumericKey(key))
+			{
+				return true;
+			}
+			(needles ??= new List<byte[]>()).Add(Encoding.ASCII.GetBytes(key));
+		}
+		foreach (string key in rules.Routes.Keys)
+		{
+			if (!IsNumericKey(key))
+			{
+				return true;
+			}
+			(needles ??= new List<byte[]>()).Add(Encoding.ASCII.GetBytes(key));
+		}
+		foreach (string key in rules.Removals)
+		{
+			if (!IsNumericKey(key))
+			{
+				return true;
+			}
+			(needles ??= new List<byte[]>()).Add(Encoding.ASCII.GetBytes(key));
+		}
+		if (needles == null || needles.Count == 0)
+		{
+			return false;
+		}
+		ReadOnlySpan<byte> span = body;
+		foreach (byte[] needle in needles)
+		{
+			if (span.IndexOf(needle) >= 0)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	internal static byte[] PrepareBatchRequest(byte[] body, long placeId, out AssetBatchContext? context)
 	{
 		context = null;
 		if (body.Length == 0)
+		{
+			return body;
+		}
+
+		RuleSet rules = GetRules();
+		if (!MightMatchRules(body, rules))
 		{
 			return body;
 		}
@@ -138,8 +216,6 @@ public static class TextureStripper
 		{
 			return body;
 		}
-
-		RuleSet rules = GetRules();
 		AssetBatchContext batch = new() { PlaceId = placeId };
 		JsonArray output = [];
 		bool modified = false;
@@ -282,7 +358,7 @@ public static class TextureStripper
 	private static bool TryGetDirectAssetRoute(string path, out AssetWarpRoute? route)
 	{
 		route = null;
-		if (!App.Settings.Prop.AssetWarpEnabled
+		if (!ReplacementEngineEnabled
 			|| !path.StartsWith("/v1/asset", StringComparison.OrdinalIgnoreCase)
 			|| path.StartsWith("/v1/assets", StringComparison.OrdinalIgnoreCase))
 		{
@@ -399,7 +475,7 @@ public static class TextureStripper
 		{
 			return true;
 		}
-		return AssetTypeRemovalPolicy.ShouldRemove(
+		return App.Settings.Prop.AssetWarpEnabled && AssetTypeRemovalPolicy.ShouldRemove(
 			typeId,
 			typeName,
 			App.Settings.Prop.AssetWarpDisableAllTextures,
@@ -460,16 +536,35 @@ public static class TextureStripper
 
 	private static List<string> GetRuleFiles()
 	{
-		Directory.CreateDirectory(Paths.AssetProxy);
-		string configDirectory = Path.Combine(Paths.AssetProxy, "Configs");
-		Directory.CreateDirectory(configDirectory);
-		List<string> files = [.. Directory.EnumerateFiles(configDirectory, "*.json", SearchOption.TopDirectoryOnly).OrderBy(path => path, StringComparer.OrdinalIgnoreCase).Take(MaxRuleFiles)];
-		string direct = Path.Combine(Paths.AssetProxy, "Replacements.json");
-		if (File.Exists(direct))
+		List<string> files = [];
+		if (App.Settings.Prop.AssetWarpEnabled)
 		{
-			files.Add(direct);
+			Directory.CreateDirectory(Paths.AssetProxy);
+			string configDirectory = Path.Combine(Paths.AssetProxy, "Configs");
+			Directory.CreateDirectory(configDirectory);
+			files.AddRange(Directory.EnumerateFiles(configDirectory, "*.json", SearchOption.TopDirectoryOnly)
+				.OrderBy(path => path, StringComparer.OrdinalIgnoreCase));
+			string direct = Path.Combine(Paths.AssetProxy, "Replacements.json");
+			if (File.Exists(direct))
+			{
+				files.Add(direct);
+			}
 		}
-		return files;
+
+		if (App.Settings.Prop.FleasionNativeEngineEnabled)
+		{
+			string fleasionDirectory = Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"FleasionNT",
+				"configs");
+			if (Directory.Exists(fleasionDirectory))
+			{
+				files.AddRange(Directory.EnumerateFiles(fleasionDirectory, "*.json", SearchOption.TopDirectoryOnly)
+					.OrderBy(path => path, StringComparer.OrdinalIgnoreCase));
+			}
+		}
+
+		return files.Distinct(StringComparer.OrdinalIgnoreCase).Take(MaxRuleFiles).ToList();
 	}
 
 	internal static bool HasVerifiedReplacement(string path, Func<JsonElement, string?, bool>? matchesSource = null)

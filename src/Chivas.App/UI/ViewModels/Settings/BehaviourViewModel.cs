@@ -21,6 +21,8 @@ using Chivas.Enums;
 using Chivas.Extensions;
 using Chivas.Integrations;
 using Chivas.Models.Persistable;
+using Chivas.Resources;
+using Chivas.Resources;
 
 namespace Chivas.UI.ViewModels.Settings;
 
@@ -323,7 +325,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 			if (value && !RobloxCookie.Exists)
 			{
-				if (Frontend.ShowMessageBox("Chivas can't find your Roblox login yet, so the matchmaker can't sync.\n\nClick Continue to launch Roblox and log in - it will sync automatically afterwards.\nClick Cancel to leave the matchmaker turned off.", MessageBoxImage.Exclamation, MessageBoxButton.OKCancel, MessageBoxResult.OK) == MessageBoxResult.OK)
+				if (Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_LoginSync, MessageBoxImage.Exclamation, MessageBoxButton.OKCancel, MessageBoxResult.OK) == MessageBoxResult.OK)
 				{
 					App.Settings.Prop.ChivasMatchmakerEnabled = true;
 					OnPropertyChanged(nameof(ChivasMatchmakerEnabled));
@@ -414,11 +416,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		get
 		{
 			if (_userGeoForPreferred == null)
-				return "Finding your location...";
+				return Strings.Menu_Deploy_Page_LocFinding;
 			DatacenterItem? nearest = Datacenters.Where(d => d.DistanceKm >= 0.0).OrderBy(d => d.DistanceKm).FirstOrDefault();
 			if (nearest == null)
-				return "Location found, learning which datacenters are near you.";
-			return $"Nearest known datacenter: {nearest.Location}, about {Chivas.Integrations.ChivasMatchmaker.EstimatePingMs(nearest.DistanceKm)}ms";
+				return Strings.Menu_Deploy_Page_LocLearning;
+			return string.Format(Strings.Menu_Deploy_Page_LocNearest, nearest.Location, Chivas.Integrations.ChivasMatchmaker.EstimatePingMs(nearest.DistanceKm));
 		}
 	}
 
@@ -706,7 +708,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			try
 			{
 				var (value, value2, value3, value4) = ServerFetchStore.GetStats();
-				return $"{value} datacenters, {value2} unique servers, {value3} joins logged, {value4} pinged";
+				return string.Format(Strings.Menu_Deploy_Page_LearnedStats, value, value2, value3, value4);
 			}
 			catch
 			{
@@ -1255,7 +1257,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		try
 		{
 			await Task.Delay(350, cts.Token).ConfigureAwait(true);
-			GameSearchStatus = "Searching...";
+			GameSearchStatus = Strings.Menu_Deploy_Page_Searching;
 
 			List<ExcludedGameItem> found = await FindGamesAsync(query, cts.Token).ConfigureAwait(true);
 			if (cts.Token.IsCancellationRequested)
@@ -1266,7 +1268,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				GameSearchResults.Add(item);
 
 			OnPropertyChanged(nameof(HasGameSearchResults));
-			GameSearchStatus = found.Count == 0 ? "No games found." : "";
+			GameSearchStatus = found.Count == 0 ? Strings.Menu_Deploy_Page_NoGames : "";
 
 			if (found.Count > 0)
 				await ApplyExcludedGameIconsAsync([.. found], string.Join(",", found.Select(g => g.PlaceId.ToString(CultureInfo.InvariantCulture)))).ConfigureAwait(true);
@@ -1277,7 +1279,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		catch (Exception ex)
 		{
 			App.Logger?.WriteLine("BehaviourViewModel::RunGameSearch", "Game search failed: " + ex.Message);
-			GameSearchStatus = "Search is unavailable right now, paste a place id instead.";
+			GameSearchStatus = Strings.Menu_Deploy_Page_SearchUnavailable;
 		}
 		finally
 		{
@@ -1401,10 +1403,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 	}
 
 	public string ExcludedGamesSummary => ExcludedGames.Count == 0
-		? "Chivas picks a server for every game."
+		? Strings.Menu_Deploy_Page_ExcludedNone
 		: (ExcludedGames.Count == 1
-			? "1 game joins normally, Chivas never picks its server."
-			: $"{ExcludedGames.Count} games join normally, Chivas never picks their servers.");
+			? Strings.Menu_Deploy_Page_ExcludedOne
+			: string.Format(Strings.Menu_Deploy_Page_ExcludedMany, ExcludedGames.Count));
 
 	public bool HasExcludedGames => ExcludedGames.Count > 0;
 
@@ -1547,7 +1549,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		if (list.Count != 0 || linux && Chivas.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow())
 		{
-			Frontend.ShowMessageBox("Close Roblox before cleaning the cache.", MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_CloseForClean, MessageBoxImage.Hand);
 			return;
 		}
 		string soberRoot = Path.Combine(Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".var", "app", "org.vinegarhq.Sober");
@@ -1574,7 +1576,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		bool hasDb = File.Exists(dbFile);
 		if (dirs.Count == 0 && !hasDb)
 		{
-			Frontend.ShowMessageBox("There's nothing to clean.", MessageBoxImage.Asterisk);
+			Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_NothingToClean, MessageBoxImage.Asterisk);
 			return;
 		}
 		int num = await Task.Run(delegate
@@ -1607,7 +1609,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		else
 		{
-			Frontend.ShowMessageBox("Successfully cleaned the Roblox cache.", MessageBoxImage.Asterisk);
+			Frontend.ShowMessageBox(Strings.Menu_Dialogs_Code_CleanedOk, MessageBoxImage.Asterisk);
 		}
 	}
 
@@ -1741,10 +1743,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		{
 			int blocked = Datacenters.Count(d => d.IsBlocked);
 			if (Datacenters.Count == 0)
-				return "No datacenters learned yet, they appear as you play.";
+				return Strings.Menu_Deploy_Page_BlockedNone;
 			return blocked == 0
-				? $"{Datacenters.Count} datacenters known, all allowed."
-				: $"{Datacenters.Count} datacenters known, {blocked} blocked.";
+				? string.Format(Strings.Menu_Deploy_Page_BlockedAll, Datacenters.Count)
+				: string.Format(Strings.Menu_Deploy_Page_BlockedSome, Datacenters.Count, blocked);
 		}
 	}
 
@@ -2257,9 +2259,9 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	private static readonly ObservableCollection<FullscreenModeItem> _fullscreenModes = new()
 	{
-		new FullscreenModeItem { Value = 0, Display = "Normal window" },
-		new FullscreenModeItem { Value = 1, Display = "Borderless fullscreen" },
-		new FullscreenModeItem { Value = 2, Display = "Exclusive fullscreen" }
+		new FullscreenModeItem { Value = 0, Display = Strings.Menu_Deploy_Page_MMFullNormal },
+		new FullscreenModeItem { Value = 1, Display = Strings.Menu_Deploy_Page_MMFullBorderless },
+		new FullscreenModeItem { Value = 2, Display = Strings.Menu_Deploy_Page_MMFullExclusive }
 	};
 
 	public ObservableCollection<FullscreenModeItem> FullscreenModes => _fullscreenModes;

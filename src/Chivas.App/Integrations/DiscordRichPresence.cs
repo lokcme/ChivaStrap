@@ -221,7 +221,7 @@ public partial class DiscordRichPresence : IDisposable
 			{
 				return;
 			}
-			DiscordRpcClient client = DiscordIpc.CreateClient("1005469189907173486", pipe);
+			DiscordRpcClient client = DiscordIpc.CreateClient("1005469189907173486", pipe, activityName: "Roblox | ChivaStrap");
 			client.OnReady += OnClientReady;
 			client.OnPresenceUpdate += OnClientPresenceUpdate;
 			client.OnError += OnClientError;
@@ -822,7 +822,7 @@ public partial class DiscordRichPresence : IDisposable
 					{
 						PublishIdlePresence(App.RpcLoadingImageUrl, string.Empty);
 					}
-					(smallImage, smallText) = await GetSmallImageAsync(data).ConfigureAwait(continueOnCapturedContext: false);
+					(smallImage, smallText) = await GetSmallImageAsync(data).ConfigureAwait(false);
 				}
 			}
 			catch
@@ -1071,11 +1071,13 @@ public partial class DiscordRichPresence : IDisposable
 		return (CleanName: string.IsNullOrWhiteSpace(working) ? gameName : working, Tag: tag);
 	}
 
+	private const string ChivasLogoImageUrl = "https://cdn.jsdelivr.net/gh/lokcme/ChivaStrap@main/src/Chivas.App/Chivas.png";
+
 	private async Task<(string key, string text)> GetSmallImageAsync(ActivityData activity)
 	{
 		if (!App.Settings.Prop.ShowAccountOnRichPresence)
 		{
-			return (key: "chivas", text: "Chivas");
+			return (key: Chivas.Utility.DiscordPresenceGuard.Key(ChivasLogoImageUrl), text: "Chivas");
 		}
 		if (!UserDetails.IsCached(activity.UserId))
 		{
