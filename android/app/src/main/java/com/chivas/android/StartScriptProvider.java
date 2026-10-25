@@ -1,4 +1,4 @@
-﻿package com.chivas.android;
+package com.chivas.android;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;

@@ -1,4 +1,4 @@
-﻿package com.chivas.android;
+package com.chivas.android;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
