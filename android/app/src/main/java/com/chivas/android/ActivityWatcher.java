@@ -1,4 +1,4 @@
-﻿package com.chivas.android;
+package com.chivas.android;
 
 public final class ActivityWatcher {
     static {

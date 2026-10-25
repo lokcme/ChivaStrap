@@ -1,4 +1,4 @@
-﻿package com.chivas.android;
+package com.chivas.android;
 
 import android.app.PendingIntent;
 import android.content.Context;

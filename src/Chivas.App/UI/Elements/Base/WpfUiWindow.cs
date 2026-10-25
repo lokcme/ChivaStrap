@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Markup;
+using System.Windows.Media;
 using Chivas.Enums;
 using Chivas.Extensions;
 using Chivas.UI;
@@ -50,10 +51,15 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 		Chivas.UI.AppFont.Apply(this);
 		Chivas.UI.RoundedWindowChrome.Prepare(this);
 		Chivas.UI.LinuxWindowMode.Attach(this);
-		ApplyTheme();
+		ApplyThemeCore();
 	}
 
-	public void ApplyTheme()
+	public virtual void ApplyTheme()
+	{
+		ApplyThemeCore();
+	}
+
+	private void ApplyThemeCore()
 	{
 		Chivas.Enums.Theme final = App.Settings.Prop.Theme2.GetFinal();
 		bool flag = final == Chivas.Enums.Theme.Custom;
@@ -92,7 +98,78 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 				_lastAppliedTheme = final;
 			}
 		}
+		RefreshThemeSurfaceBrushes();
 		WindowBackdrop.ApplyThemeToAllOpenWindows();
+	}
+
+	private static void RefreshThemeSurfaceBrushes()
+	{
+		Application? application = Application.Current;
+		if (application == null)
+		{
+			return;
+		}
+
+		Color primary = ResolveThemeColor(application, "WindowBackgroundColorPrimary", Color.FromRgb(32, 32, 32));
+		Color secondary = ResolveThemeColor(application, "WindowBackgroundColorSecondary", primary);
+		Color controlStroke = ResolveThemeColor(application, "ControlStrokeColorDefault", Color.FromArgb(24, 255, 255, 255));
+		Color controlFill = ResolveThemeColor(application, "ControlFillColorSecondary", Color.FromArgb(21, 255, 255, 255));
+		Color inputFill = ResolveThemeColor(application, "ControlFillColorInputActive", Color.FromArgb(179, 30, 30, 30));
+
+		LinearGradientBrush cardSurface = new LinearGradientBrush
+		{
+			StartPoint = new Point(0, 0),
+			EndPoint = new Point(1, 1)
+		};
+		cardSurface.GradientStops.Add(new GradientStop(Color.FromArgb(0x22, 255, 255, 255), 0));
+		cardSurface.GradientStops.Add(new GradientStop(secondary, 0.16));
+		cardSurface.GradientStops.Add(new GradientStop(primary, 0.72));
+		cardSurface.GradientStops.Add(new GradientStop(secondary, 1));
+		cardSurface.Freeze();
+
+		LinearGradientBrush buttonSurface = new LinearGradientBrush
+		{
+			StartPoint = new Point(0, 0),
+			EndPoint = new Point(0, 1)
+		};
+		buttonSurface.GradientStops.Add(new GradientStop(Color.FromArgb(0x20, 255, 255, 255), 0));
+		buttonSurface.GradientStops.Add(new GradientStop(secondary, 0.24));
+		buttonSurface.GradientStops.Add(new GradientStop(primary, 1));
+		buttonSurface.Freeze();
+
+		LinearGradientBrush buttonHover = new LinearGradientBrush
+		{
+			StartPoint = new Point(0, 0),
+			EndPoint = new Point(0, 1)
+		};
+		buttonHover.GradientStops.Add(new GradientStop(Color.FromArgb(0x38, 255, 255, 255), 0));
+		buttonHover.GradientStops.Add(new GradientStop(secondary, 0.24));
+		buttonHover.GradientStops.Add(new GradientStop(primary, 1));
+		buttonHover.Freeze();
+
+		application.Resources["GlassCardSurfaceBrush"] = cardSurface;
+		application.Resources["GlassButtonSurfaceBrush"] = buttonSurface;
+		application.Resources["GlassButtonHoverBrush"] = buttonHover;
+		application.Resources["GlassControlStrokeBrush"] = FreezeBrush(controlStroke);
+		application.Resources["GlassInputSurfaceBrush"] = FreezeBrush(inputFill);
+	}
+
+	private static Color ResolveThemeColor(Application application, string key, Color fallback)
+	{
+		object? resource = application.TryFindResource(key);
+		return resource switch
+		{
+			Color color => color,
+			SolidColorBrush brush => brush.Color,
+			_ => fallback
+		};
+	}
+
+	private static SolidColorBrush FreezeBrush(Color color)
+	{
+		SolidColorBrush brush = new SolidColorBrush(color);
+		brush.Freeze();
+		return brush;
 	}
 
 	private static ResourceDictionary? LoadCustomThemeDict()

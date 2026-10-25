@@ -1,4 +1,4 @@
-﻿package com.chivas.android;
+package com.chivas.android;
 
 import java.io.IOException;
 import java.io.InputStream;

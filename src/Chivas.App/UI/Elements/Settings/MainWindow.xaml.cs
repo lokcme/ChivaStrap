@@ -500,11 +500,92 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    public new void ApplyTheme()
+    public override void ApplyTheme()
     {
         base.ApplyTheme();
+        RefreshThemeBrushes();
         Chivas.UI.WindowBackdrop.ApplyMainWindow(this);
         Resources["LauncherMenuBrush"] = Chivas.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
+    }
+
+    private void RefreshThemeBrushes()
+    {
+        Color primary = ResolveThemeColor("WindowBackgroundColorPrimary", Color.FromRgb(32, 32, 32));
+        Color secondary = ResolveThemeColor("WindowBackgroundColorSecondary", primary);
+        Color tertiary = ResolveThemeColor("WindowBackgroundColorThird", ResolveThemeColor("WindowBackgroundColorTertiary", primary));
+        Color accent = ResolveThemeColor("GlassAccentColor", Color.FromRgb(56, 151, 232));
+        Color stroke = ResolveThemeColor("ControlStrokeColorDefault", Color.FromArgb(24, 255, 255, 255));
+        Color fill = ResolveThemeColor("ControlFillColorSecondary", Color.FromArgb(21, 255, 255, 255));
+        Color textPrimary = ResolveThemeColor("TextFillColorPrimary", Colors.White);
+        Color textSecondary = ResolveThemeColor("TextFillColorSecondary", Colors.White);
+        Color textTertiary = ResolveThemeColor("TextFillColorTertiary", Colors.White);
+
+        Resources["GlassBarBrush"] = CreateThemeBrush(secondary);
+        Resources["GlassSidebarBrush"] = CreateThemeBrush(primary);
+        Resources["GlassPanelBrush"] = CreateThemeBrush(primary);
+        Resources["GlassPanelStrongBrush"] = CreateThemeBrush(secondary);
+        Resources["GlassCardBrush"] = CreateThemeBrush(secondary);
+        Resources["GlassStrokeBrush"] = CreateThemeBrush(stroke);
+        Resources["GlassHighlightBrush"] = CreateThemeBrush(fill);
+        Resources["GlassNavPillBrush"] = CreateThemeGradient(
+            (Color.FromArgb(0x24, 255, 255, 255), 0), (secondary, 0.18), (primary, 0.72), (Color.FromArgb(0x18, 255, 255, 255), 1));
+        Resources["GlassNavActiveBrush"] = CreateThemeBrush(accent, 0.24);
+        Resources["GlassNavLensStrokeBrush"] = CreateThemeBrush(accent, 0.58);
+        Resources["GlassNavActiveTextBrush"] = CreateThemeBrush(accent);
+        Resources["GlassPanelGradientBrush"] = CreateThemeGradient((primary, 0), (secondary, 0.45), (tertiary, 1));
+        Resources["GlassAccentGradientBrush"] = CreateThemeGradient((accent, 0), (accent, 0.68), (Colors.White, 1));
+        Resources["LauncherMenuHoverBrush"] = CreateThemeBrush(fill);
+        Resources["LauncherMenuBorderBrush"] = CreateThemeBrush(stroke);
+        Resources["LauncherTextPrimaryBrush"] = CreateThemeBrush(textPrimary);
+        Resources["LauncherTextSecondaryBrush"] = CreateThemeBrush(textSecondary);
+        Resources["LauncherTextTertiaryBrush"] = CreateThemeBrush(textTertiary);
+
+        bool isLight = primary.R * 0.299 + primary.G * 0.587 + primary.B * 0.114 > 150;
+        Resources["LauncherDividerBrush"] = CreateThemeBrush(isLight ? Color.FromArgb(0x20, 0, 0, 0) : Color.FromArgb(0x24, 255, 255, 255));
+        Resources["LauncherControlBrush"] = CreateThemeBrush(isLight ? Color.FromArgb(0x0A, 0, 0, 0) : Color.FromArgb(0x20, 255, 255, 255));
+        Resources["LauncherControlHoverBrush"] = CreateThemeBrush(isLight ? Color.FromArgb(0x14, 0, 0, 0) : Color.FromArgb(0x38, 255, 255, 255));
+        Resources["LauncherControlPressedBrush"] = CreateThemeBrush(isLight ? Color.FromArgb(0x20, 0, 0, 0) : Color.FromArgb(0x4A, 255, 255, 255));
+
+        if (RobloxAccountButton != null)
+        {
+            RobloxAccountButton.Background = CreateThemeBrush(primary);
+            RobloxAccountButton.BorderBrush = CreateThemeBrush(stroke);
+        }
+    }
+
+    private Color ResolveThemeColor(string key, Color fallback)
+    {
+        object? resource = TryFindResource(key);
+        if (resource == null)
+            resource = Application.Current?.TryFindResource(key);
+
+        return resource switch
+        {
+            Color color => color,
+            SolidColorBrush brush => brush.Color,
+            _ => fallback
+        };
+    }
+
+    private static SolidColorBrush CreateThemeBrush(Color color, double opacity = 1)
+    {
+        SolidColorBrush brush = new SolidColorBrush(color) { Opacity = opacity };
+        brush.Freeze();
+        return brush;
+    }
+
+    private static LinearGradientBrush CreateThemeGradient(params (Color Color, double Offset)[] stops)
+    {
+        LinearGradientBrush brush = new LinearGradientBrush
+        {
+            StartPoint = new Point(0, 0),
+            EndPoint = new Point(1, 1)
+        };
+        foreach ((Color color, double offset) in stops)
+            brush.GradientStops.Add(new GradientStop(color, offset));
+
+        brush.Freeze();
+        return brush;
     }
 
     protected override void OnSourceInitialized(EventArgs e)
@@ -4166,6 +4247,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         long loadedStarted = System.Diagnostics.Stopwatch.GetTimestamp();
         InitializeNavigation();
+        RefreshThemeBrushes();
         ApplyUiZoom();
         LoadSidebarWidth();
         ApplyLinuxWindowSize();
